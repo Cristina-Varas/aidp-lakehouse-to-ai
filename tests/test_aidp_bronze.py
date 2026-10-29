@@ -10,7 +10,8 @@ import unittest
 
 from aidp_lakehouse.aidp_bronze import (
     BronzeConfig, CSV_COLUMNS, ENTITIES, columns, catalog_ddl, ensure_catalog,
-    inspect_table, reader_options, register_bronze, table_ddl, validate_control_documents,
+    inspect_table, reader_options, register_bronze, require_standard_catalog,
+    table_ddl, validate_control_documents,
 )
 from aidp_lakehouse.generator import Config, generate
 
@@ -26,6 +27,33 @@ class Frame:
 
     def collect(self):
         return self.rows
+
+
+OBSERVED_CATALOG_ROWS = [
+    {"attribute": "name", "attribute_value": "lakehouse_demo"},
+    {"attribute": "type", "attribute_value": "INTERNAL"},
+    {"attribute": "catalog_details", "attribute_value": '{"catalogType":"INTERNAL"}'},
+]
+
+
+class ObservedCatalogAidp:
+    """Existing metadata with the user's exact DESCRIBE column names and values."""
+    def __init__(self, rows=None):
+        self.rows = OBSERVED_CATALOG_ROWS if rows is None else rows
+        self.statements = []
+        self.catalog = {"name": "lakehouse_demo", "type": "INTERNAL", "description": "Existing catalog"}
+        self.schemas = {name: {"description": "Existing schema"} for name in ("bronze", "silver", "gold")}
+
+    def sql(self, statement):
+        self.statements.append(statement)
+        if statement.startswith("DESCRIBE CATALOG"):
+            return Frame(self.rows)
+        if statement == "CREATE CATALOG IF NOT EXISTS lakehouse_demo":
+            return Frame([])  # Catalog already exists: no change.
+        if statement.startswith("CREATE SCHEMA IF NOT EXISTS lakehouse_demo."):
+            self.schemas.setdefault(statement.rsplit(".", 1)[1], {})
+            return Frame([])
+        raise AssertionError("Unexpected or destructive SQL")
 
 
 class FakeAidp:
@@ -58,6 +86,66 @@ class FakeAidp:
 
 
 class AidpBronzeTests(unittest.TestCase):
+    def test_observed_internal_attribute_rows_are_standard(self):
+        spark = ObservedCatalogAidp()
+        self.assertIs(require_standard_catalog(spark, BronzeConfig()), OBSERVED_CATALOG_ROWS)
+        # PySpark Row exposes named columns via asDict, not dictionary iteration.
+        spark.rows = [Row(row) for row in OBSERVED_CATALOG_ROWS]
+        require_standard_catalog(spark, BronzeConfig())
+
+    def test_catalog_type_and_attribute_normalization_preserves_supported_types(self):
+        for value in ("Standard Catalog", "STANDARD_CATALOG", " standard  catalog ",
+                      "standard", "CATALOG", "INTERNAL", " internal "):
+            with self.subTest(value=value):
+                require_standard_catalog(ObservedCatalogAidp([
+                    {" ATTRIBUTE ": " Catalog_Type ", " ATTRIBUTE_VALUE ": value},
+                ]), BronzeConfig())
+                require_standard_catalog(ObservedCatalogAidp([(" Catalog Type ", value)]), BronzeConfig())
+        require_standard_catalog(ObservedCatalogAidp([
+            {"attribute": "TYPE", "attribute_value": "Standard Catalog"},
+            {"attribute": "catalog-details", "attribute_value": '{"catalogType":"internal"}'},
+        ]), BronzeConfig())
+        require_standard_catalog(ObservedCatalogAidp([
+            {"attribute": "catalog_details", "attribute_value": '{"catalogType":"INTERNAL"}'},
+        ]), BronzeConfig())
+
+    def test_catalog_external_unknown_missing_and_conflicting_types_fail_closed(self):
+        cases = [[], [("name", "lakehouse_demo")]]
+        for value in (None, "", " ", "UNKNOWN", "EXTERNAL", "External Catalog", "ORACLE_ADW"):
+            cases.append([{"attribute": "type", "attribute_value": value}])
+            cases.append([
+                {"attribute": "type", "attribute_value": "INTERNAL"},
+                {"attribute": "catalog_details", "attribute_value": json.dumps({"catalogType": value})},
+            ])
+        for left, right in (("INTERNAL", "EXTERNAL"), ("EXTERNAL", "INTERNAL"), ("UNKNOWN", "INTERNAL")):
+            cases.append([("type", left), ("catalog_type", right)])
+            cases.append([{"attribute": "type", "attribute_value": value} for value in (left, right)])
+            cases.append([{"attribute": "catalog_details", "attribute_value":
+                           '{"catalogType":"' + left + '","catalogType":"' + right + '"}'}])
+        for value in ("not json", "null", "[]", "{}", '{"name":"lakehouse_demo"}'):
+            cases.append([
+                {"attribute": "type", "attribute_value": "INTERNAL"},
+                {"attribute": "catalog_details", "attribute_value": value},
+            ])
+        for rows in cases:
+            with self.subTest(rows=rows):
+                spark = ObservedCatalogAidp(rows)
+                with self.assertRaises(ValueError):
+                    ensure_catalog(spark, BronzeConfig())
+                self.assertFalse(any(s.startswith("CREATE SCHEMA") for s in spark.statements))
+
+    def test_setup_rerun_preserves_existing_internal_catalog_and_schemas(self):
+        import copy
+        spark = ObservedCatalogAidp()
+        before = copy.deepcopy((spark.catalog, spark.schemas))
+        for _ in range(2):
+            ensure_catalog(spark, BronzeConfig())
+        self.assertEqual((spark.catalog, spark.schemas), before)
+        creates = [s for s in spark.statements if s.startswith("CREATE")]
+        self.assertEqual(len(creates), 8)
+        self.assertTrue(all("IF NOT EXISTS" in s for s in creates))
+        self.assertEqual(sum(s.startswith("DESCRIBE CATALOG") for s in spark.statements), 2)
+
     def test_ddl_scope_and_raw_contract(self):
         cfg = BronzeConfig()
         self.assertEqual(catalog_ddl(cfg), [

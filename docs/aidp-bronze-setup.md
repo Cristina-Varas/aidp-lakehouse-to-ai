@@ -127,16 +127,16 @@ Importing `.ipynb` files alone does not install `aidp_lakehouse`. Build the base
 wheel locally, without generated data or credentials:
 
 ```sh
-.venv/bin/python -m pip wheel . --no-deps --wheel-dir /private/tmp/aidp-lakehouse-wheel
+.venv/bin/python -m pip wheel . --no-deps --wheel-dir dist/
 ```
 
-Upload `aidp_lakehouse_to_ai-0.1.0-py3-none-any.whl` to a workspace location
+Upload `dist/aidp_lakehouse_to_ai-0.1.1-py3-none-any.whl` to a workspace location
 accessible from the notebook driver. Install it in the attached compute's Python
 environment using the workspace's supported library mechanism or an initial
 Python installation cell, with your actual workspace path:
 
 ```python
-%pip install --no-deps --force-reinstall /Workspace/<folder>/aidp_lakehouse_to_ai-0.1.0-py3-none-any.whl
+%pip install --no-deps --force-reinstall /Workspace/<folder>/aidp_lakehouse_to_ai-0.1.1-py3-none-any.whl
 ```
 
 The base package has no third-party runtime dependencies. AIDP supplies Spark;
@@ -259,7 +259,7 @@ continue to pass. Fake AIDP objects exercise orchestration guards only; they do
 not parse AIDP SQL or prove deployed provider behavior. No local Spark/AIDP query
 execution is claimed.
 
-The complete existing 30,000-history source run was also checked against the raw
+The original 0.1.0 validation checked the complete existing 30,000-history source run against the raw
 column contract: all three CSV headers/counts and all 94,572 JSON event shapes
 match the definitions. The base wheel was built successfully at
 `/private/tmp/aidp-lakehouse-wheel/aidp_lakehouse_to_ai-0.1.0-py3-none-any.whl`;
@@ -273,3 +273,45 @@ run notebook 00 followed by 01, and retain the real outputs proving definitions,
 locations, counts and samples. Until then, catalog creation and Bronze
 queryability remain **runtime verification pending**. Checked-in notebooks have
 no fabricated outputs or execution counts.
+
+## 9. Version 0.1.1 — observed INTERNAL catalog metadata
+
+The user supplied actual `DESCRIBE CATALOG lakehouse_demo` output with columns
+`attribute` and `attribute_value`. The top-level `type` was `INTERNAL`; the
+`catalog_details` JSON independently reported `catalogType: INTERNAL`. Version
+0.1.1 recognizes this observed representation as Standard without removing
+catalog validation. Attribute labels and type values are normalized for case,
+whitespace, underscores, hyphens and camel-case names. Named dictionary/PySpark
+rows and the previously supported positional metadata rows are accepted.
+
+Every supplied type must be a recognized Standard representation (`INTERNAL`,
+`Standard Catalog`, `Standard`, or `Catalog` after normalization). Top-level
+type fields and JSON catalog details are checked together; repeated attributes
+and duplicated JSON type keys cannot hide a conflict. External, unknown, empty,
+missing or conflicting types cause a stop before schema creation. Invalid or
+type-less catalog-details JSON is also rejected. Existing table validation still
+uses the shared metadata reader and retains its original safety checks.
+
+Local regression tests use the exact reported column/row format and simulate two
+setup runs over an existing INTERNAL catalog and existing Bronze/Silver/Gold
+schemas. Their metadata remains unchanged; all creation statements still use
+`IF NOT EXISTS`. These are local simulations, not live AIDP verification.
+
+Build and validate the new release with:
+
+```sh
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python -m pip wheel . --no-deps --wheel-dir dist/
+```
+
+Use the **0.1.1** wheel rather than the older 0.1.0 file, force-reinstall it in
+the attached AIDP environment, restart the Python session if required, and rerun
+notebook 00 from the beginning. `dist/` remains Git-ignored. The observed output
+was provided by the user; no live AIDP execution is claimed for this fix.
+
+The full suite passed **26 tests**. The built 0.1.1 wheel was also imported
+directly in an isolated Python process: its version and helper bytes matched
+the release source, the observed INTERNAL rows passed, two simulated setup runs
+used only guarded creates, and conflicting types stopped before schema creation.
+Wheel SHA-256:
+`88d64f2f39ed7aac8261dc1e1dd44cedf1dd8161cc1fc65bf3e790f7e20563a6`.

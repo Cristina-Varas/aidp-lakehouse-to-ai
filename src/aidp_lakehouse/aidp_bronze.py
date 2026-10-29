@@ -130,16 +130,56 @@ def table_ddl(config: BronzeConfig, entity: str) -> str:
             f"USING {provider}\nOPTIONS (\n  {options}\n)\nLOCATION {literal(config.location(entity))}")
 
 
+def _metadata_name(value) -> str:
+    text = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", str(value).strip())
+    return re.sub(r"[\s_-]+", " ", text).casefold()
+
+
+def _metadata_items(rows):
+    """Keep every type assertion, including duplicate attributes, for validation."""
+    for row in rows:
+        named = row.asDict() if hasattr(row, "asDict") else row
+        if isinstance(named, dict):
+            named = {_metadata_name(key): value for key, value in named.items()}
+            if "attribute" in named and "attribute value" in named:
+                yield _metadata_name(named["attribute"]), named["attribute value"]
+            elif "col name" in named and "data type" in named:
+                yield _metadata_name(named["col name"]), named["data type"]
+            else:
+                raise ValueError("Unrecognized DESCRIBE metadata columns")
+        elif len(row) >= 2 and row[0] is not None:
+            yield _metadata_name(row[0]), row[1]
+
+
 def _details(rows) -> dict[str, str]:
-    return {str(row[0]).strip().lower(): str(row[1]).strip() for row in rows
-            if len(row) >= 2 and row[0] is not None and row[1] is not None}
+    return {name: str(value).strip() for name, value in _metadata_items(rows) if value is not None}
 
 
 def require_standard_catalog(spark, config: BronzeConfig):
     rows = spark.sql(f"DESCRIBE CATALOG {config.catalog}").collect()
-    detail = _details(rows)
-    kind = detail.get("type", detail.get("catalog type", "")).lower().replace("_", " ")
-    if kind not in ("standard catalog", "standard", "catalog"):
+    kinds = []
+    for name, value in _metadata_items(rows):
+        if name in ("type", "catalog type"):
+            kinds.append(value)
+        elif name == "catalog details":
+            try:
+                details = json.loads(value)
+            except (TypeError, ValueError):
+                raise ValueError("Catalog details are invalid; cannot confirm Standard catalog") from None
+            if not isinstance(details, dict):
+                raise ValueError("Catalog details must be an object; cannot confirm Standard catalog")
+            # Preserve duplicate JSON type keys so none can hide a conflict.
+            pairs = json.loads(value, object_pairs_hook=list)
+            detail_kinds = [item for key, item in pairs if _metadata_name(key) in ("type", "catalog type")]
+            if not detail_kinds:
+                raise ValueError("Catalog details have no type; cannot confirm Standard catalog")
+            kinds.extend(detail_kinds)
+    standard_types = {"standard catalog", "standard", "catalog", "internal"}
+    # INTERNAL is the Standard-catalog value observed in this AIDP runtime.
+    # Every reported type must agree semantically: never let a valid field mask
+    # an external, unknown, missing or conflicting field elsewhere in metadata.
+    if not kinds or any(not isinstance(kind, str) or _metadata_name(kind) not in standard_types
+                        for kind in kinds):
         raise ValueError("Catalog is not confirmed Standard; stop and inspect it in Master Catalog")
     return rows
 
