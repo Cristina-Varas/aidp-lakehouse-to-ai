@@ -7,10 +7,11 @@ from pathlib import Path
 import tempfile
 from types import SimpleNamespace
 import unittest
+from unittest.mock import Mock, call
 
 from aidp_lakehouse.aidp_bronze import (
     BronzeConfig, CSV_COLUMNS, ENTITIES, columns, catalog_ddl, ensure_catalog,
-    inspect_table, reader_options, register_bronze, require_standard_catalog,
+    inspect_table, read_control_documents, reader_options, register_bronze, require_standard_catalog,
     table_ddl, validate_control_documents,
 )
 from aidp_lakehouse.generator import Config, generate
@@ -86,6 +87,107 @@ class FakeAidp:
 
 
 class AidpBronzeTests(unittest.TestCase):
+    def test_control_json_uses_direct_wholetext_argument(self):
+        cfg = BronzeConfig()
+        names = [cfg.file_uri(entity).rsplit("/", 1)[1] for entity in ENTITIES]
+        manifest = dict(batch_id="initial", config=dict(reference_date="2026-10-28", seed=42),
+                        defects=[], extracted_at="2026-10-28T00:00:00Z",
+                        row_counts={name: 10 for name in names}, sha256={name: "a" * 64 for name in names})
+        metadata = dict(batch_id="initial", extracted_at=manifest["extracted_at"],
+                        files={name: dict(rows=10, sha256="a" * 64) for name in names})
+        documents = {cfg.control_uri("manifest.json"): manifest,
+                     cfg.control_uri("ingestion_metadata.json"): metadata}
+        reader = Mock(spec=["text"])  # No .option() API: regression must use .text's keyword.
+
+        def text(uri, *, wholetext):
+            self.assertIs(wholetext, True)
+            return Frame([Row(value=json.dumps(documents[uri], indent=2))])
+
+        reader.text.side_effect = text
+        spark = SimpleNamespace(read=reader)
+        self.assertEqual(read_control_documents(spark, cfg), (manifest, metadata))
+        self.assertEqual(reader.text.call_args_list, [
+            call(cfg.control_uri("manifest.json"), wholetext=True),
+            call(cfg.control_uri("ingestion_metadata.json"), wholetext=True),
+        ])
+        reader.text.side_effect = None
+        reader.text.return_value = Frame([])
+        with self.assertRaisesRegex(ValueError, "one complete control document"):
+            read_control_documents(spark, cfg)
+
+    def test_reader_options_accept_observed_table_properties_and_storage_properties(self):
+        cfg = BronzeConfig()
+        cases = [
+            {"Storage Properties": "[mode=PERMISSIVE, multiLine=false, header=true, inferSchema=false]"},
+            {"Table Properties": "[mode=PERMISSIVE, option.mode=PERMISSIVE, multiLine=false, header=true, inferSchema=false]"},
+            {"Table Properties": "[option.mode=PERMISSIVE, option.multiLine=false, option.header=true, option.inferSchema=false]"},
+            {"Storage Properties": "[mode=permissive, multiLine=FALSE]",
+             "Table Properties": "[option.mode=PERMISSIVE, header=TRUE, inferSchema=false]"},
+        ]
+        for properties in cases:
+            with self.subTest(properties=properties):
+                spark = FakeAidp()
+                register_bronze(spark, cfg)
+                for entity in ENTITIES:
+                    spark.tables[entity].pop("storage properties")
+                    spark.tables[entity].update(properties)
+                spark.statements.clear()
+                result = register_bronze(spark, cfg)
+                self.assertTrue(all(row["action"] == "PRESERVED" for row in result))
+                self.assertFalse(any(sql.startswith("CREATE") for sql in spark.statements))
+
+    def test_reader_options_reject_conflicts_across_sections_aliases_and_duplicates(self):
+        cfg = BronzeConfig()
+        required = {"mode": "PERMISSIVE", "multiLine": "false", "header": "true", "inferSchema": "false"}
+        base = "[" + ", ".join(f"{key}={value}" for key, value in required.items()) + "]"
+        cases = []
+        for key, bad in dict(mode="DROPMALFORMED", multiLine="true", header="false", inferSchema="true").items():
+            # Both orderings must reject a disagreement, even when a good assertion is present.
+            for first, second in ((required[key], bad), (bad, required[key])):
+                cases.extend([
+                    [("Table Properties", base[:-1] + f", {key}={first}, option.{key}={second}]")],
+                    [("Storage Properties", base), ("Table Properties", f"[option.{key}={bad}]")],
+                    [("Table Properties", base), ("Table Properties", f"[{key}={bad}]")],
+                ])
+        # Conflicting non-required reader options must also be rejected.
+        cases.append([("Table Properties", base[:-1] + ", recursiveFileLookup=false, option.recursiveFileLookup=true]")])
+        for properties in cases:
+            with self.subTest(properties=properties):
+                spark = FakeAidp()
+                register_bronze(spark, cfg)
+                details = [(key, value) for key, value in spark.tables["orders"].items() if key != "storage properties"]
+                spark.sql = lambda sql: Frame(details + properties)
+                with self.assertRaisesRegex(ValueError, "Conflicting reader option"):
+                    inspect_table(spark, cfg, "orders")
+
+    def test_reader_properties_do_not_bypass_existing_table_checks(self):
+        cfg = BronzeConfig()
+        observed = "[mode=PERMISSIVE, option.mode=PERMISSIVE, multiLine=false, header=true, inferSchema=false]"
+        for key, bad in dict(type="MANAGED", provider="parquet", location=cfg.root_uri + "/orders/incremental/").items():
+            with self.subTest(key=key):
+                spark = FakeAidp()
+                register_bronze(spark, cfg)
+                spark.tables["orders"].pop("storage properties")
+                spark.tables["orders"].update({"Table Properties": observed, key: bad})
+                with self.assertRaisesRegex(ValueError, "type/provider/location differs"):
+                    inspect_table(spark, cfg, "orders")
+        spark = FakeAidp()
+        register_bronze(spark, cfg)
+        spark.tables["orders"].pop("storage properties")
+        spark.tables["orders"]["Table Properties"] = observed
+        original_table = spark.table
+        spark.table = lambda name: SimpleNamespace(schema=SimpleNamespace(fields=original_table(name).schema.fields[:-1]))
+        with self.assertRaisesRegex(ValueError, "column schema differs"):
+            inspect_table(spark, cfg, "orders")
+        for missing in ("mode", "multiLine", "header", "inferSchema"):
+            spark = FakeAidp()
+            register_bronze(spark, cfg)
+            spark.tables["orders"].pop("storage properties")
+            options = {key: value for key, value in reader_options("orders").items() if key != missing}
+            spark.tables["orders"]["Table Properties"] = "[" + ", ".join(f"{k}={v}" for k,v in options.items()) + "]"
+            with self.subTest(missing=missing), self.assertRaisesRegex(ValueError, "Cannot confirm"):
+                inspect_table(spark, cfg, "orders")
+
     def test_observed_internal_attribute_rows_are_standard(self):
         spark = ObservedCatalogAidp()
         self.assertIs(require_standard_catalog(spark, BronzeConfig()), OBSERVED_CATALOG_ROWS)

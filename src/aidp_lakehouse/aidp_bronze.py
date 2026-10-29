@@ -195,7 +195,7 @@ def ensure_catalog(spark, config: BronzeConfig) -> None:
 def read_control_documents(spark, config: BronzeConfig) -> tuple[dict, dict]:
     def read_one(name):
         # Read exactly the metadata object as text, never register a control table.
-        rows = spark.read.option("wholetext", "true").text(config.control_uri(name)).collect()
+        rows = spark.read.text(config.control_uri(name), wholetext=True).collect()
         if len(rows) != 1:
             raise ValueError("Expected one complete control document")
         return json.loads(rows[0]["value"])
@@ -218,8 +218,37 @@ def validate_control_documents(config: BronzeConfig, manifest: dict, metadata: d
             raise ValueError("Control row counts/checksums disagree")
 
 
+def _reader_metadata_options(rows) -> dict[str, str]:
+    """Combine property sections without allowing aliases or duplicates to hide conflicts."""
+    result = {}
+    insensitive_values = {
+        "mode", "encoding", "multiline", "header", "inferschema", "enforceschema",
+        "recursivefilelookup", "allowcomments", "allowsinglequotes",
+        "ignoreleadingwhitespace", "ignoretrailingwhitespace",
+    }
+    marker = re.compile(r"(?:^|,\s*)([A-Za-z_][A-Za-z0-9_.-]*)\s*=\s*")
+    for name, raw in _metadata_items(rows):
+        if name not in ("storage properties", "table properties") or raw is None:
+            continue
+        text = str(raw).strip()
+        if text.startswith("[") and text.endswith("]"):
+            text = text[1:-1]
+        matches = list(marker.finditer(text))
+        for index, match in enumerate(matches):
+            key = match.group(1).casefold().removeprefix("option.")
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+            value = text[match.end():end].strip()
+            if key in insensitive_values:
+                value = value.casefold()
+            if key in result and result[key] != value:
+                raise ValueError(f"Conflicting reader option {key}; preserve the table and inspect DESCRIBE output")
+            result[key] = value
+    return result
+
+
 def inspect_table(spark, config: BronzeConfig, entity: str) -> dict[str, str]:
-    detail = _details(spark.sql(f"DESCRIBE TABLE EXTENDED {config.table(entity)}").collect())
+    rows = spark.sql(f"DESCRIBE TABLE EXTENDED {config.table(entity)}").collect()
+    detail = _details(rows)
     expected_provider = "json" if entity == "events" else "csv"
     if (detail.get("type", "").upper() != "EXTERNAL" or
             detail.get("provider", "").lower() != expected_provider or
@@ -229,14 +258,14 @@ def inspect_table(spark, config: BronzeConfig, entity: str) -> dict[str, str]:
     actual = [(field.name, field.dataType.simpleString()) for field in schema.fields]
     if actual != columns(entity):
         raise ValueError(f"Existing {entity} raw column schema differs; preserved without modification")
-    # A conflicting DROPMALFORMED option would undermine raw Bronze semantics.
-    stored = detail.get("storage properties", "")
+    # Inspect both AIDP property locations and every plain/option.* assertion.
+    # A matching value must never hide DROPMALFORMED or another conflict.
+    stored = _reader_metadata_options(rows)
     required = {"mode": "PERMISSIVE", "multiLine": "false"}
     if entity != "events":
         required.update(header="true", inferSchema="false")
     for key, value in required.items():
-        pattern = r"(?:^|\[|,\s*)" + re.escape(key) + r"\s*=\s*" + re.escape(value) + r"(?=,|\]|$)"
-        if not re.search(pattern, stored, re.IGNORECASE):
+        if stored.get(key.casefold()) != value.casefold():
             raise ValueError(f"Cannot confirm {entity} reader option {key}; inspect DESCRIBE output, do not replace the table")
     return detail
 

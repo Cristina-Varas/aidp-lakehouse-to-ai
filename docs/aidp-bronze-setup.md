@@ -130,13 +130,13 @@ wheel locally, without generated data or credentials:
 .venv/bin/python -m pip wheel . --no-deps --wheel-dir dist/
 ```
 
-Upload `dist/aidp_lakehouse_to_ai-0.1.1-py3-none-any.whl` to a workspace location
+Upload `dist/aidp_lakehouse_to_ai-0.1.2-py3-none-any.whl` to a workspace location
 accessible from the notebook driver. Install it in the attached compute's Python
 environment using the workspace's supported library mechanism or an initial
 Python installation cell, with your actual workspace path:
 
 ```python
-%pip install --no-deps --force-reinstall /Workspace/<folder>/aidp_lakehouse_to_ai-0.1.1-py3-none-any.whl
+%pip install --no-deps --force-reinstall /Workspace/<folder>/aidp_lakehouse_to_ai-0.1.2-py3-none-any.whl
 ```
 
 The base package has no third-party runtime dependencies. AIDP supplies Spark;
@@ -315,3 +315,38 @@ the release source, the observed INTERNAL rows passed, two simulated setup runs
 used only guarded creates, and conflicting types stopped before schema creation.
 Wheel SHA-256:
 `88d64f2f39ed7aac8261dc1e1dd44cedf1dd8161cc1fc65bf3e790f7e20563a6`.
+
+## 10. Version 0.1.2 — whole-text controls and table reader properties
+
+This release consolidates two user-observed AIDP runtime compatibility fixes:
+
+- Read each exact control JSON object with
+  `spark.read.text(uri, wholetext=True)`, passing the Boolean keyword directly
+  rather than using `.option("wholetext", "true")`. Control identity, document
+  count, extraction time, manifest counts and checksum cross-checks are unchanged.
+- Inspect reader options exposed under either `Table Properties` or
+  `Storage Properties`, including both `mode` and `option.mode` representations.
+  Option keys and the case-insensitive Boolean/enum values are normalized.
+  Every occurrence is checked across both sections and duplicate metadata rows;
+  a matching value cannot hide a disagreement under an alias or a later value.
+
+The required settings remain `mode=PERMISSIVE`, `multiLine=false`, and, for CSV,
+`header=true` and `inferSchema=false`. Missing, wrong or conflicting values still
+stop validation. Conflicting values of other reported options are also rejected;
+case-sensitive reader values such as delimiters/column names are not folded.
+External table type, format/provider, exact location and raw schema validation
+remain in place, as does the INTERNAL/Standard catalog guard from 0.1.1.
+
+Regression tests cover multiline control JSON with the direct wholetext API,
+the observed table-property representation, Storage Properties compatibility,
+prefixed/plain aliases, duplicate/conflicting values, preservation on rerun,
+missing required settings, and rejection of changed type/provider/location/schema.
+These use local test doubles and the existing source-data tests; no live AIDP
+execution is claimed. Install the latest wheel from section 5 and restart the
+AIDP Python session before rerunning the notebooks.
+
+The complete local suite passed **30 tests**. Six targeted regressions also
+passed in an isolated process importing the helper directly from the built
+0.1.2 wheel. Packaged helper bytes match the repository source, and wheel
+metadata reports version 0.1.2. Artifact SHA-256:
+`712e2a3b17e7125bedcd75b941c3aac493996a8ab10bb178e63cfda18521be45`.
