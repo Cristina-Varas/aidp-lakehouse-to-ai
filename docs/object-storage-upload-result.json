@@ -1,0 +1,78 @@
+{
+  "dry_run": false,
+  "results": [
+    {
+      "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/customers/initial/customers.csv",
+      "status": "UPLOADED_AND_HEAD_VERIFIED"
+    },
+    {
+      "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/orders/initial/orders.csv",
+      "status": "UPLOADED_AND_HEAD_VERIFIED"
+    },
+    {
+      "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/deliveries/initial/deliveries.csv",
+      "status": "UPLOADED_AND_HEAD_VERIFIED"
+    },
+    {
+      "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/events/initial/events.jsonl",
+      "status": "UPLOADED_AND_HEAD_VERIFIED"
+    },
+    {
+      "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/_control/initial/manifest.json",
+      "status": "UPLOADED_AND_HEAD_VERIFIED"
+    },
+    {
+      "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/_control/initial/ingestion_metadata.json",
+      "status": "UPLOADED_AND_HEAD_VERIFIED"
+    },
+    {
+      "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/documents/order_prioritization.md",
+      "status": "UPLOADED_AND_HEAD_VERIFIED"
+    },
+    {
+      "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/documents/incident_escalation.md",
+      "status": "UPLOADED_AND_HEAD_VERIFIED"
+    }
+  ],
+  "verification": {
+    "additional_names": [],
+    "expected_count": 8,
+    "matched_count": 8,
+    "objects": [
+      {
+        "bytes": 763,
+        "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/_control/initial/ingestion_metadata.json"
+      },
+      {
+        "bytes": 1016,
+        "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/_control/initial/manifest.json"
+      },
+      {
+        "bytes": 55363,
+        "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/customers/initial/customers.csv"
+      },
+      {
+        "bytes": 3630112,
+        "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/deliveries/initial/deliveries.csv"
+      },
+      {
+        "bytes": 1342,
+        "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/documents/incident_escalation.md"
+      },
+      {
+        "bytes": 1289,
+        "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/documents/order_prioritization.md"
+      },
+      {
+        "bytes": 22469866,
+        "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/events/initial/events.jsonl"
+      },
+      {
+        "bytes": 5397982,
+        "object_name": "demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/orders/initial/orders.csv"
+      }
+    ],
+    "total_bytes": 31557733,
+    "total_objects_under_run_prefix": 8
+  }
+}

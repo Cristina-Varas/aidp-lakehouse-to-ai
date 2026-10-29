@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aidp-lakehouse-to-ai"
+version = "0.1.0"
+description = "Deterministic ERP source extracts for a neutral operations lakehouse demo"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+oci = ["oci>=2.150,<3"]
+notebooks = ["nbformat>=5.10,<6"]
+
+[project.scripts]
+aidp = "aidp_lakehouse.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aidp_lakehouse = ["policies/*.md"]

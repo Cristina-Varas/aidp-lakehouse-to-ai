@@ -1,0 +1,8 @@
+{
+  "namespace": "<object-storage-namespace>",
+  "bucket": "<existing-shared-aidp-bucket>",
+  "prefix": "demos/<demo-id>/source-data/<version>/<dataset-run>",
+  "profile": "<local-oci-profile>",
+  "region": "<oci-region>",
+  "config_file": "<external-oci-config-file>"
+}

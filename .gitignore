@@ -1,0 +1,19 @@
+# Secrets must also be stored outside this working tree.
+.secrets/
+*.pem
+*.key
+credentials*.json
+*.log
+__pycache__/
+.venv/
+*.egg-info/
+build/
+dist/
+.env
+.env.*
+!.env.example
+data/
+generated/
+storage.local.*
+*.csv
+*.jsonl
