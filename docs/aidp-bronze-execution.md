@@ -47,3 +47,12 @@ and verified an insert-only rerun, schema/provider protections and typed
 quarantine behavior. They used temporary local data and did not connect to AIDP.
 See [aidp-silver-setup.md](aidp-silver-setup.md) for contracts, exact commands,
 limitations and the **pending live Silver** execution checklist.
+
+## LF v2 probe — user-reported 30 October 2026
+
+The user reports `customers_lf_probe` passed live in AIDP: direct and registered
+reads each have 600 rows, zero corrupt rows, row_version exactly `'1'`, and
+full-row exceptAll in both directions yields zero differences. This is supplied
+user evidence, not an independently executed agent query. Main canonical
+registrations have not been migrated by the agent. See
+[prepared migration and canonical notebook](bronze-v2-migration.md).

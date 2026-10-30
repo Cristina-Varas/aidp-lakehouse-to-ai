@@ -1,3 +1,9 @@
+> Current entry point: wheel **0.2.2**, LF **v2** sources and the self-contained
+> `01_register_bronze.ipynb`. Notebook 00 is optional: 01 includes catalog/schema
+> setup. Existing v1 registrations require the separate reviewed migration first.
+> See [canonical workflow and migration](bronze-v2-migration.md) for current order,
+> full-row verification, user-reported probe evidence and rollback instructions.
+
 # AIDP catalog setup and queryable raw Bronze
 
 ## 1. Status and scope

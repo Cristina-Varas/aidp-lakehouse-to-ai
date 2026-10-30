@@ -54,5 +54,8 @@ see [Silver setup](docs/aidp-silver-setup.md). Live Silver verification is pendi
 CSV compatibility release **0.2.1** generates explicit LF source records. The
 initial v2 files/control metadata/policies are uploaded separately; v1 is
 preserved. Use the [standalone customers LF probe](notebooks/probes/customers_lf_probe.py)
-and [verification guide](docs/csv-lf-compatibility.md). Its live AIDP result is
-pending; main Bronze/Silver configuration has not been migrated to v2.
+and [verification guide](docs/csv-lf-compatibility.md). The user reports that the live LF probe passed. Version **0.2.2** prepares the
+[separate guarded migration](docs/bronze-v2-migration.md) and consolidates
+notebook 01 as the canonical v2 register-and-verify flow. Main-table migration
+is not executed; notebook configurations select v2 and stop on existing v1 tables.
+Silver business logic is preserved.

@@ -13,9 +13,10 @@ corrupt rows and correct provenance did not prove field-level fidelity. Do not
 trim business fields or weaken validation to make comparisons pass.
 
 This milestone prepares LF sources and an isolated probe. **No main Bronze table
-was migrated, replaced, dropped or altered.** Main notebook configuration remains
-on v1; Silver transformation modules and all previous Bronze runtime fixes are
-unchanged. Live AIDP LF-probe verification remains pending.
+was migrated, replaced, dropped or altered.** This was the state at the LF-source milestone. The user subsequently reported
+a passing live probe; see the evidence below and [v2 migration preparation](bronze-v2-migration.md).
+Notebook configurations now select v2; main-table migration remains pending.
+Silver transformation modules and previous Bronze runtime fixes are unchanged.
 
 ## 2. Local generation and exact comparisons
 
@@ -148,8 +149,11 @@ afterward. A readable table or count-only result is not success. Reader forms
 follow [Oracle AIDP SQL grammar](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/sql-grammar.html)
 and [CSV provider options](https://spark.apache.org/docs/3.5.6/sql-data-sources-csv.html),
 but documentation/local testing does not establish success in the observed AIDP
-runtime. **Live AIDP LF probe: pending.** Do not migrate main Bronze or run a v2
-Silver build until this probe succeeds and a separate migration is authorized.
+runtime. **Update, 30 October 2026 — user-reported AIDP result:** both reads returned
+600 rows, zero corrupt rows, row_version exactly `'1'`, and exceptAll in both
+directions returned zero differences. The agent did not execute this AIDP probe.
+Main-table migration is prepared separately and has not been executed.
+See [migration and canonical workflow](bronze-v2-migration.md).
 
 ## 5. Local testing and artifact
 
