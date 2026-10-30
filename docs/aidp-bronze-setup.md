@@ -8,11 +8,12 @@ Prepared and locally validated on **29 October 2026**:
 - [01_register_bronze.ipynb](../notebooks/01_register_bronze.ipynb)
 - Reusable orchestration: [aidp_bronze.py](../src/aidp_lakehouse/aidp_bronze.py)
 
-**AIDP runtime verification is pending.** No authenticated AIDP notebook execution
-connection, workspace selection or running compute session was available to this
-task. The available SQLcl integration connects to Autonomous, not AIDP Spark;
-it was not used for AIDP DDL. Local OCI Object Storage access from the earlier
-milestone does not establish AIDP compute access or catalog permissions.
+**Live Bronze verification was reported by the user:** counts 600, 30,600,
+30,000 and 94,572 matched the initial manifest, with zero parser-corrupt rows
+and passing source provenance checks. See [the attributed execution record](aidp-bronze-execution.md).
+The agent has not executed an authenticated AIDP session; local checks and
+user-reported live observations are recorded separately. Live Silver execution
+is still pending. SQLcl connects to Autonomous and is not used for AIDP Spark DDL.
 
 No cloud catalog/schema/table statements have been executed by this work. After
 you import and run the notebooks, notebook 00 creates absent catalog/schema
@@ -130,13 +131,13 @@ wheel locally, without generated data or credentials:
 .venv/bin/python -m pip wheel . --no-deps --wheel-dir dist/
 ```
 
-Upload `dist/aidp_lakehouse_to_ai-0.1.2-py3-none-any.whl` to a workspace location
+Upload `dist/aidp_lakehouse_to_ai-0.2.0-py3-none-any.whl` to a workspace location
 accessible from the notebook driver. Install it in the attached compute's Python
 environment using the workspace's supported library mechanism or an initial
 Python installation cell, with your actual workspace path:
 
 ```python
-%pip install --no-deps --force-reinstall /Workspace/<folder>/aidp_lakehouse_to_ai-0.1.2-py3-none-any.whl
+%pip install --no-deps --force-reinstall /Workspace/<folder>/aidp_lakehouse_to_ai-0.2.0-py3-none-any.whl
 ```
 
 The base package has no third-party runtime dependencies. AIDP supplies Spark;
@@ -267,12 +268,11 @@ its helper bytes match the source module and it contains no source datasets or
 credentials. Wheel SHA-256:
 `57d4f8138d7c3373684b03edc4775fa193f692532052f24ebd84d8797a65dffe`.
 
-The remaining runtime checklist is to select the authenticated AIDP workspace
-and compute, confirm permissions and location ownership, install the base wheel,
-run notebook 00 followed by 01, and retain the real outputs proving definitions,
-locations, counts and samples. Until then, catalog creation and Bronze
-queryability remain **runtime verification pending**. Checked-in notebooks have
-no fabricated outputs or execution counts.
+The original handoff asked the user to run 00 then 01 and retain the actual
+definitions, locations, counts and samples. That Bronze run has now been
+reported successful by the user. Checked-in notebooks still have no fabricated
+outputs or execution counts. Continue with [initial Silver](aidp-silver-setup.md),
+whose live AIDP verification remains pending.
 
 ## 9. Version 0.1.1 — observed INTERNAL catalog metadata
 

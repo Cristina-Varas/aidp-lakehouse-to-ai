@@ -1,0 +1,116 @@
+{
+  "business_fingerprints": {
+    "customers": "27c8bd2d9a716c8a101f89a49fdee3bf56a3ad8c869ae5f223346dcbe799f410",
+    "deliveries": "c1a8358b3fc0932b2b826455fc00bc670292e9bb45bf14052a26c03ae8330969",
+    "events": "0f9570c86c46ff9380074ceb5d8c928bf38020d483b6d9e3908d72dcab240d05",
+    "orders": "3e8638c4e3bc5491a469d23a7b36f971068df48ab6ec0df943cf66da15238f7b"
+  },
+  "counts": {
+    "customers": 600,
+    "deliveries": 30000,
+    "events": 94572,
+    "orders": 30600,
+    "quarantine": 0
+  },
+  "data_types": {
+    "customers": {
+      "_batch_id": "string",
+      "_record_hash": "string",
+      "_source_file": "string",
+      "customer_id": "string",
+      "customer_name": "string",
+      "region": "string",
+      "row_version": "bigint",
+      "segment": "string",
+      "source_created_at": "timestamp",
+      "source_updated_at": "timestamp"
+    },
+    "deliveries": {
+      "_batch_id": "string",
+      "_record_hash": "string",
+      "_source_file": "string",
+      "actual_carrier": "string",
+      "delivered_at": "timestamp",
+      "delivery_id": "string",
+      "dispatched_at": "timestamp",
+      "order_id": "string",
+      "row_version": "bigint",
+      "source_created_at": "timestamp",
+      "source_updated_at": "timestamp"
+    },
+    "events": {
+      "_batch_id": "string",
+      "_record_hash": "string",
+      "_source_file": "string",
+      "event_at": "timestamp",
+      "event_id": "string",
+      "event_type": "string",
+      "order_id": "string",
+      "payload": "map<string,string>",
+      "row_version": "bigint",
+      "source_created_at": "timestamp",
+      "source_updated_at": "timestamp"
+    },
+    "orders": {
+      "_batch_id": "string",
+      "_record_hash": "string",
+      "_source_file": "string",
+      "accepted_at": "timestamp",
+      "current_priority": "string",
+      "current_status": "string",
+      "customer_id": "string",
+      "customer_region_at_acceptance": "string",
+      "customer_segment_at_acceptance": "string",
+      "inventory_fill_rate_at_acceptance": "decimal(6,3)",
+      "line_count": "int",
+      "order_id": "string",
+      "planned_carrier_at_acceptance": "string",
+      "priority_at_acceptance": "string",
+      "promised_delivery_at_acceptance": "timestamp",
+      "row_version": "bigint",
+      "source_created_at": "timestamp",
+      "source_updated_at": "timestamp",
+      "transit_distance_km": "int",
+      "units": "int",
+      "warehouse_load_at_acceptance": "decimal(6,3)"
+    },
+    "quarantine": {
+      "batch_id": "string",
+      "business_key": "string",
+      "entity": "string",
+      "occurrence_count": "bigint",
+      "raw_record": "string",
+      "rejection_id": "string",
+      "rejection_reasons": "array<string>",
+      "source_file": "string"
+    }
+  },
+  "initial_core_rerun_equal": true,
+  "summary": {
+    "customers": {
+      "accepted_rows": 600,
+      "duplicate_removals": 0,
+      "raw_rows": 600,
+      "rejected_rows": 0
+    },
+    "deliveries": {
+      "accepted_rows": 30000,
+      "duplicate_removals": 0,
+      "raw_rows": 30000,
+      "rejected_rows": 0
+    },
+    "events": {
+      "accepted_rows": 94572,
+      "duplicate_removals": 0,
+      "raw_rows": 94572,
+      "rejected_rows": 0
+    },
+    "orders": {
+      "accepted_rows": 30600,
+      "duplicate_removals": 0,
+      "raw_rows": 30600,
+      "rejected_rows": 0
+    }
+  },
+  "validation": "real local Spark 3.5.6 typed frame counts, no AIDP execution"
+}

@@ -1,0 +1,150 @@
+{
+  "customers": [
+    {
+      "_corrupt_record": null,
+      "_source_file": "fixtures/customers.csv",
+      "customer_id": "C-000001",
+      "customer_name": "Example Operations 0001",
+      "region": "EAST",
+      "row_version": 1,
+      "segment": "STANDARD",
+      "source_created_at": "2024-05-11T00:00:00Z",
+      "source_updated_at": "2024-05-11T00:00:00Z"
+    },
+    {
+      "_corrupt_record": null,
+      "_source_file": "fixtures/customers.csv",
+      "customer_id": "C-000002",
+      "customer_name": "Example Operations 0002",
+      "region": "WEST",
+      "row_version": 1,
+      "segment": "PREMIUM",
+      "source_created_at": "2024-05-11T00:00:00Z",
+      "source_updated_at": "2024-05-11T00:00:00Z"
+    }
+  ],
+  "deliveries": [
+    {
+      "_corrupt_record": null,
+      "_source_file": "fixtures/deliveries.csv",
+      "actual_carrier": "CARRIER_A",
+      "delivered_at": "2026-10-12T00:00:00Z",
+      "delivery_id": "D-O-00000001",
+      "dispatched_at": "2026-10-11T00:00:00Z",
+      "order_id": "O-00000001",
+      "row_version": 1,
+      "source_created_at": "2026-10-11T00:00:00Z",
+      "source_updated_at": "2026-10-12T01:00:00Z"
+    }
+  ],
+  "events": [
+    {
+      "_corrupt_record": null,
+      "_source_file": "fixtures/events.jsonl",
+      "event_at": "2026-09-28T00:00:00Z",
+      "event_id": "E-O-00000001-ACCEPTED",
+      "event_type": "ACCEPTED",
+      "order_id": "O-00000001",
+      "payload": {},
+      "row_version": 1,
+      "source_created_at": "2026-09-28T00:00:00Z",
+      "source_updated_at": "2026-09-28T00:00:00Z"
+    },
+    {
+      "_corrupt_record": null,
+      "_source_file": "fixtures/events.jsonl",
+      "event_at": "2026-10-11T00:00:00Z",
+      "event_id": "E-O-00000001-DISPATCHED",
+      "event_type": "DISPATCHED",
+      "order_id": "O-00000001",
+      "payload": {},
+      "row_version": 1,
+      "source_created_at": "2026-10-11T00:00:00Z",
+      "source_updated_at": "2026-10-11T00:00:00Z"
+    },
+    {
+      "_corrupt_record": null,
+      "_source_file": "fixtures/events.jsonl",
+      "event_at": "2026-10-12T00:00:00Z",
+      "event_id": "E-O-00000001-DELIVERED",
+      "event_type": "DELIVERED",
+      "order_id": "O-00000001",
+      "payload": {},
+      "row_version": 1,
+      "source_created_at": "2026-10-12T00:00:00Z",
+      "source_updated_at": "2026-10-12T00:00:00Z"
+    },
+    {
+      "_corrupt_record": null,
+      "_source_file": "fixtures/events.jsonl",
+      "event_at": "2026-10-11T00:00:00Z",
+      "event_id": "E-O-00000001-INCIDENT_OPENED",
+      "event_type": "INCIDENT_OPENED",
+      "order_id": "O-00000001",
+      "payload": {
+        "exception_type": "TRANSPORT"
+      },
+      "row_version": 1,
+      "source_created_at": "2026-10-11T00:00:00Z",
+      "source_updated_at": "2026-10-11T00:00:00Z"
+    },
+    {
+      "_corrupt_record": null,
+      "_source_file": "fixtures/events.jsonl",
+      "event_at": "2026-10-27T00:00:00Z",
+      "event_id": "E-O-00000002-ACCEPTED",
+      "event_type": "ACCEPTED",
+      "order_id": "O-00000002",
+      "payload": {},
+      "row_version": 1,
+      "source_created_at": "2026-10-27T00:00:00Z",
+      "source_updated_at": "2026-10-27T00:00:00Z"
+    }
+  ],
+  "orders": [
+    {
+      "_corrupt_record": null,
+      "_source_file": "fixtures/orders.csv",
+      "accepted_at": "2026-09-28T00:00:00Z",
+      "current_priority": "NORMAL",
+      "current_status": "DELIVERED",
+      "customer_id": "C-000001",
+      "customer_region_at_acceptance": "EAST",
+      "customer_segment_at_acceptance": "STANDARD",
+      "inventory_fill_rate_at_acceptance": 0.502,
+      "line_count": 2,
+      "order_id": "O-00000001",
+      "planned_carrier_at_acceptance": "CARRIER_A",
+      "priority_at_acceptance": "NORMAL",
+      "promised_delivery_at_acceptance": "2026-10-05T00:00:00Z",
+      "row_version": 1,
+      "source_created_at": "2026-09-27T22:00:00Z",
+      "source_updated_at": "2026-10-12T01:00:00Z",
+      "transit_distance_km": 2128,
+      "units": 279,
+      "warehouse_load_at_acceptance": 0.904
+    },
+    {
+      "_corrupt_record": null,
+      "_source_file": "fixtures/orders.csv",
+      "accepted_at": "2026-10-27T00:00:00Z",
+      "current_priority": "NORMAL",
+      "current_status": "OPEN",
+      "customer_id": "C-000002",
+      "customer_region_at_acceptance": "WEST",
+      "customer_segment_at_acceptance": "PREMIUM",
+      "inventory_fill_rate_at_acceptance": 0.797,
+      "line_count": 4,
+      "order_id": "O-00000002",
+      "planned_carrier_at_acceptance": "CARRIER_A",
+      "priority_at_acceptance": "NORMAL",
+      "promised_delivery_at_acceptance": "2026-11-06T00:00:00Z",
+      "row_version": 1,
+      "source_created_at": "2026-10-26T22:00:00Z",
+      "source_updated_at": "2026-10-27T00:00:00Z",
+      "transit_distance_km": 303,
+      "units": 119,
+      "warehouse_load_at_acceptance": 0.904
+    }
+  ]
+}

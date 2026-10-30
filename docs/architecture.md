@@ -19,9 +19,12 @@ flowchart LR
 Source generation, validation, policy documents, initial Object Storage upload
 and Autonomous account bootstrap are complete. Catalog/schema setup and raw
 external Bronze registration are prepared as two importable AIDP notebooks;
-their AIDP runtime verification is pending. Silver/Gold processing, model
-training, Autonomous business tables/loading, retrieval indexing and agents
-remain future milestones. See [AIDP Bronze setup](aidp-bronze-setup.md).
+the user has reported successful live Bronze counts and provenance checks.
+Initial Silver quality logic and managed Delta publication are implemented and
+tested locally, including real Spark/Delta fixture tests; live AIDP Silver
+verification is pending. Gold, model training, Autonomous business tables/loading,
+retrieval indexing and agents remain future milestones. See
+[AIDP Bronze setup](aidp-bronze-setup.md) and [Silver setup](aidp-silver-setup.md).
 
 ## 2. Code organization
 

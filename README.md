@@ -45,5 +45,8 @@ The AIDP catalog/Bronze notebooks are prepared and locally validated:
 [01_register_bronze.ipynb](notebooks/01_register_bronze.ipynb).
 See [AIDP Bronze setup](docs/aidp-bronze-setup.md) for workspace/compute,
 permissions, package installation, execution order and expected source counts.
-AIDP runtime verification is pending; the notebooks have not been executed in
-an authenticated AIDP session. No catalog or Bronze table was created locally.
+The user has reported [live Bronze verification](docs/aidp-bronze-execution.md)
+with matching counts, zero corrupt rows and passing provenance checks. The agent
+has not executed an AIDP session. Reusable initial Silver logic and the thin
+[02_build_silver.ipynb](notebooks/02_build_silver.ipynb) notebook are implemented;
+see [Silver setup](docs/aidp-silver-setup.md). Live Silver verification is pending.
