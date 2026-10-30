@@ -1,0 +1,61 @@
+{
+  "environment": "real local Spark 3.5.6; no AIDP/OCI calls; no table publication",
+  "date": "2026-10-30",
+  "package_version": "0.3.0",
+  "reference_date": "2026-10-28",
+  "seed": 42,
+  "source_dir": "/private/tmp/aidp-lakehouse-source-v2-lf-20261028/initial",
+  "silver_rows": {
+    "customers": 600,
+    "orders": 30600,
+    "deliveries": 30000,
+    "events": 94572
+  },
+  "gold": {
+    "row_counts": {
+      "order_operations": 30600,
+      "delivery_kpis": 296,
+      "late_delivery_training": 30000,
+      "late_delivery_scoring": 600
+    },
+    "late_deliveries": 9816,
+    "delivered_orders": 30000,
+    "open_orders": 600,
+    "reconciliation": "PASS"
+  },
+  "fingerprints": {
+    "order_operations": {
+      "rows": 30600,
+      "limb0": "283616560203639835540791",
+      "limb1": "281080663908979119408738",
+      "limb2": "280788519932483509888128",
+      "limb3": "281169359427064090580173"
+    },
+    "delivery_kpis": {
+      "rows": 296,
+      "limb0": "2757745008115298909185",
+      "limb1": "2601124476744904319500",
+      "limb2": "2710155573834310541045",
+      "limb3": "2659471064073830270604"
+    },
+    "late_delivery_training": {
+      "rows": 30000,
+      "limb0": "273573091840103662015533",
+      "limb1": "276673654081694015550854",
+      "limb2": "277064550372250567554867",
+      "limb3": "276522512567676963140851"
+    },
+    "late_delivery_scoring": {
+      "rows": 600,
+      "limb0": "5576170201928387957462",
+      "limb1": "5500942728704876684228",
+      "limb2": "5419723001505185611175",
+      "limb3": "5816017973848024104847"
+    }
+  },
+  "identical_second_transform": true,
+  "all_columns_exceptAll_both_directions": true,
+  "independent_python_kpi_oracle": "PASS",
+  "kpi_groups": 296,
+  "business_row_collection": "Only the independent local test oracle; production Gold uses distributed transforms"
+}

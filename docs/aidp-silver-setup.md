@@ -1,23 +1,25 @@
-# Reproducible initial Silver — version 0.2.0
-
-CSV compatibility follow-up: package 0.2.1 preserves these Silver modules and
-adds explicit LF generation. The user observed CRLF field differences in main
-v1 Bronze; do not treat enforceSchema=true as validated or migrate inputs based
-on counts alone. See the [isolated v2 LF probe](csv-lf-compatibility.md). Notebook
-02 remains configured for v1; no Silver or main Bronze migration occurs here.
+# Reproducible initial Silver — current release 0.3.0
 
 ## 1. Execution evidence and boundaries
 
-The user reported successful **live AIDP Bronze verification** in this conversation:
-600 customers, 30,600 orders, 30,000 deliveries, 94,572 events; all counts matched
-the uploaded initial manifest, parser-corrupt rows were zero, and source-file
-provenance checks passed. These are user-supplied observations, not AIDP queries
-executed by this agent. The exact runtime execution timestamp was not supplied.
+**User-reported live Silver success, recorded 30 October 2026:** 600 customers,
+30,600 orders, 30,000 deliveries and 94,572 events; zero rejected rows and an
+empty quarantine. The second execution inserted zero rows and preserved the
+fingerprints. This is evidence supplied by the user, not an AIDP run executed
+or independently verified by the agent. Exact job IDs/logs were not supplied.
+See [Silver execution evidence](aidp-silver-execution.md).
 
-This milestone independently tests the quality engine against local initial
-extracts and tests Spark/Delta locally. **Live AIDP Silver verification remains
-pending.** No AIDP catalog/table/data write, Autonomous operation, Gold, ML, agent
-or incremental upload/processing was performed by this work.
+Notebook 02 now uses the verified **LF v2 initial sources**, seed 42 and fixed
+reference date 2026-10-28. Original v1 CRLF problems and failed reader workarounds
+are historical context in [CSV compatibility](csv-lf-compatibility.md); do not
+reintroduce enforceSchema=true or trim values. Main Bronze migration is a
+separate operation described in [v2 migration](bronze-v2-migration.md).
+
+Silver's quality engine and insert-only Delta business logic are preserved.
+Release 0.3.0 adds distributed initial Gold and notebook 03; it does not rerun
+Silver in AIDP, train models, infer scores, load Autonomous or process incremental
+sources. Gold AIDP runtime verification remains pending. Continue after Silver
+with [Gold setup](aidp-gold-setup.md).
 
 The existing Bronze fixes are consolidated in the package, with regression tests:
 direct `spark.read.text(uri, wholetext=True)`, options from both Table/Storage
@@ -202,7 +204,7 @@ for Delta inserts/queries on existing targets. AIDP-managed storage needs its
 normal service policies; never point managed Silver placement at source data.
 
 ```python
-%pip install --no-deps --force-reinstall /Workspace/<folder>/aidp_lakehouse_to_ai-0.2.0-py3-none-any.whl
+%pip install --no-deps --force-reinstall /Workspace/<folder>/aidp_lakehouse_to_ai-0.3.0-py3-none-any.whl
 ```
 
 Restart the Python session so older imported helper functions are not cached.
@@ -233,8 +235,8 @@ Delta 3.2.0 in an isolated environment under `/private/tmp`; the system Java 26
 and project Python 3.14 environment are preserved. They execute actual managed
 Delta creates, insert-only MERGE, typed reads, initial rerun, drift rejection,
 incompatible-table rejection and quarantine frames. Spark binds locally and no
-Object Storage/AIDP connection is used. Default unit discovery skips these two
-tests unless explicitly enabled.
+Object Storage/AIDP connection is used. Default unit discovery skips opt-in real Spark
+tests unless explicitly enabled. The counts below describe the original Silver milestone.
 
 Commands from the repository root:
 
@@ -265,7 +267,7 @@ business fingerprints. Real Spark typed-frame counts are recorded in
 [silver-local-validation.json](silver-local-validation.json), including the
 output data types. These local checks are not a claim of live AIDP Silver success.
 
-Final results: default discovery ran 44 tests, with **42 passed and 2 opt-in
+Historical 0.2.0 results: default discovery ran 44 tests, with **42 passed and 2 opt-in
 Spark tests skipped**. Those two tests were then run separately on real local
 Spark/Delta and both passed. Twelve Silver contract/notebook tests also passed
 when importing the modules directly from the built wheel in an isolated Python
@@ -278,9 +280,14 @@ main matched. No in-progress tracked changes existed. The unrelated `.DS_Store`
 was preserved and excluded from the commit. Consolidated Bronze code was reused
 unchanged, not replaced with notebook patches.
 
-The verified local artifact is
+The archived 0.2.0 local artifact was
 `dist/aidp_lakehouse_to_ai-0.2.0-py3-none-any.whl` inside the repository on the
 user's Mac. It contains the current `aidp_bronze.py`, `silver.py` and
 `silver_spark.py` bytes and no datasets or credentials. SHA-256:
 `2f75070f2f4178a7b1a4b6f748c345bcaa83dbd7d3f9c50bf503979fddcdaff0`.
 The `dist/` folder stays ignored by Git; source/notebooks/docs are committed.
+
+Current installation uses `dist/aidp_lakehouse_to_ai-0.3.0-py3-none-any.whl`.
+Current verification and the Gold artifact are documented in
+[Gold setup](aidp-gold-setup.md). Gold joins/aggregations are distributed; the
+bounded Silver implementation and its contracts are unchanged.

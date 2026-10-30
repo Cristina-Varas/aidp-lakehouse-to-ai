@@ -46,7 +46,8 @@ Actual local Spark/Delta integration tests also created managed fixture tables
 and verified an insert-only rerun, schema/provider protections and typed
 quarantine behavior. They used temporary local data and did not connect to AIDP.
 See [aidp-silver-setup.md](aidp-silver-setup.md) for contracts, exact commands,
-limitations and the **pending live Silver** execution checklist.
+limitations and the Silver execution checklist. Subsequent live Silver success
+is user-reported in [Silver evidence](aidp-silver-execution.md).
 
 ## LF v2 probe — user-reported 30 October 2026
 

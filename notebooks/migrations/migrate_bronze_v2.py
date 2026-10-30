@@ -7,7 +7,7 @@ import json
 from aidp_lakehouse import __version__
 from aidp_lakehouse.bronze_migration import prepare, migrate, restore
 
-assert __version__ == '0.2.2', 'Install the 0.2.2 wheel and restart the session'
+assert __version__ in ('0.2.2', '0.3.0'), 'Install a compatible 0.2.2 or 0.3.0 wheel and restart the session'
 MODE = 'prepare'  # Explicit later choices: 'apply' or 'restore'. Never automatic.
 # For apply/restore, replace this with the EXACT directory printed by prepare.
 # Retain/download the backup outside the notebook/compute before applying changes.

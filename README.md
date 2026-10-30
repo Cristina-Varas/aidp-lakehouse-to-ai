@@ -49,7 +49,8 @@ The user has reported [live Bronze verification](docs/aidp-bronze-execution.md)
 with matching counts, zero corrupt rows and passing provenance checks. The agent
 has not executed an AIDP session. Reusable initial Silver logic and the thin
 [02_build_silver.ipynb](notebooks/02_build_silver.ipynb) notebook are implemented;
-see [Silver setup](docs/aidp-silver-setup.md). Live Silver verification is pending.
+see [Silver setup](docs/aidp-silver-setup.md). The user reports successful live Silver execution and an idempotent rerun; see
+[Silver evidence](docs/aidp-silver-execution.md).
 
 CSV compatibility release **0.2.1** generates explicit LF source records. The
 initial v2 files/control metadata/policies are uploaded separately; v1 is
@@ -59,3 +60,10 @@ and [verification guide](docs/csv-lf-compatibility.md). The user reports that th
 notebook 01 as the canonical v2 register-and-verify flow. Main-table migration
 is not executed; notebook configurations select v2 and stop on existing v1 tables.
 Silver business logic is preserved.
+
+Release **0.3.0** implements distributed initial Gold and
+[03_build_gold.ipynb](notebooks/03_build_gold.ipynb): operational order facts,
+monthly delivery KPIs, 30,000 delivered training rows and 600 unlabeled scoring
+rows. Predictors are explicitly restricted to original acceptance snapshots.
+See [Gold contracts and execution](docs/aidp-gold-setup.md). Gold live AIDP
+verification is pending; no model training, inference or agent is implemented.
