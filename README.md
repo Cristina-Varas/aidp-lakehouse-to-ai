@@ -50,3 +50,9 @@ with matching counts, zero corrupt rows and passing provenance checks. The agent
 has not executed an AIDP session. Reusable initial Silver logic and the thin
 [02_build_silver.ipynb](notebooks/02_build_silver.ipynb) notebook are implemented;
 see [Silver setup](docs/aidp-silver-setup.md). Live Silver verification is pending.
+
+CSV compatibility release **0.2.1** generates explicit LF source records. The
+initial v2 files/control metadata/policies are uploaded separately; v1 is
+preserved. Use the [standalone customers LF probe](notebooks/probes/customers_lf_probe.py)
+and [verification guide](docs/csv-lf-compatibility.md). Its live AIDP result is
+pending; main Bronze/Silver configuration has not been migrated to v2.

@@ -123,7 +123,7 @@ def write_batch(directory: Path, tables: dict, cut: datetime, config: Config,
         path = directory / name
         if name.endswith(".csv"):
             with path.open("w", newline="", encoding="utf-8") as stream:
-                writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+                writer = csv.DictWriter(stream, fieldnames=list(rows[0]), lineterminator="\n")
                 writer.writeheader()
                 writer.writerows(rows)
         else:

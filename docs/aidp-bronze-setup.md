@@ -207,8 +207,10 @@ There is no date cast, cleanup, uniqueness constraint, row filter or join.
 
 CSV options explicitly declare a UTF-8 header, comma delimiter, double-quote
 quoting and doubled-quote escaping, single-line records, no whitespace trimming,
-and non-recursive file lookup. Source CSV records use CRLF; the reader's normal
-line-ending detection handles them without a forced conflicting separator.
+and non-recursive file lookup. Original v1 CSV records use CRLF. The user observed a retained carriage return
+in registered row_version values, so normal detection is not assumed correct.
+Version 0.2.1 generates LF for the [isolated v2 probe](csv-lf-compatibility.md);
+main tables are not migrated.
 `enforceSchema=false` validates the header rather than silently imposing columns
 on a differently ordered header. The reader retains parser failures in an
 additional `_corrupt_record STRING` column using `PERMISSIVE` mode. No source

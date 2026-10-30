@@ -21,6 +21,12 @@ sources are the uploaded initial locations in
 `demos/lakehouse-to-ai/source-data/v1/seed-42/reference-2026-10-28/` prefix.
 No incremental data is included in this observation.
 
+The user subsequently reported a CRLF field-fidelity issue: registered CSV
+row_version values retained `\r` despite those passing counts/provenance checks.
+Those checks therefore do not establish full-row equivalence. Neither
+multiLine=true nor enforceSchema=true is a validated workaround. The
+[isolated v2 LF probe](csv-lf-compatibility.md) is prepared; main tables stay on v1.
+
 The package incorporates the user-observed INTERNAL catalog representation,
 direct wholetext JSON read and both property-section/option.* representations.
 Regression tests check them without notebook monkeypatches. The checked-in

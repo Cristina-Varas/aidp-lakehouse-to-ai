@@ -1,0 +1,97 @@
+{
+  "configuration": {
+    "seed": 42,
+    "reference_date": "2026-10-28",
+    "historical_orders": 30000,
+    "open_orders": 600
+  },
+  "csv": {
+    "incremental/customers.csv": {
+      "data_rows": 35,
+      "ordered_records_equal": true,
+      "field_whitespace_preserved": true,
+      "only_record_terminators_changed": true,
+      "original_bytes": 3323,
+      "lf_bytes": 3287,
+      "original_crlf_count": 36,
+      "lf_count": 36,
+      "lf_carriage_return_count": 0,
+      "original_sha256": "5f9358490561e751212c980fc2e9070ec00623ecf564cff2384333ac7fa92f34",
+      "lf_sha256": "775063fedad9e4ed9af436f3c06773246a350d63a929a19de7bc8cc208a4b8c6"
+    },
+    "incremental/deliveries.csv": {
+      "data_rows": 830,
+      "ordered_records_equal": true,
+      "field_whitespace_preserved": true,
+      "only_record_terminators_changed": true,
+      "original_bytes": 100542,
+      "lf_bytes": 99711,
+      "original_crlf_count": 831,
+      "lf_count": 831,
+      "lf_carriage_return_count": 0,
+      "original_sha256": "29edcafc18b940474f66005c0223fdb8809230b33f9728c704a75477d9eb3ab0",
+      "lf_sha256": "505f33ddf25955d35ec7503f6495e24a1bfd7a66dad4af545570016ce9bd592f"
+    },
+    "incremental/orders.csv": {
+      "data_rows": 1160,
+      "ordered_records_equal": true,
+      "field_whitespace_preserved": true,
+      "only_record_terminators_changed": true,
+      "original_bytes": 203462,
+      "lf_bytes": 202301,
+      "original_crlf_count": 1161,
+      "lf_count": 1161,
+      "lf_carriage_return_count": 0,
+      "original_sha256": "30e25d6ca3960b2db7079a3fbc79004a9435e359b6fad183524d3db3ee87ebd5",
+      "lf_sha256": "2d21f84a7b6e96ece8f5cc3d5a57a16cd5d499f0f9e7e81a9da5397a6d13f761"
+    },
+    "initial/customers.csv": {
+      "data_rows": 600,
+      "ordered_records_equal": true,
+      "field_whitespace_preserved": true,
+      "only_record_terminators_changed": true,
+      "original_bytes": 55363,
+      "lf_bytes": 54762,
+      "original_crlf_count": 601,
+      "lf_count": 601,
+      "lf_carriage_return_count": 0,
+      "original_sha256": "1840b862c210af99f7526c0796adecc064f83c86678a59cee5e74e7a20020415",
+      "lf_sha256": "81aa3b125dfd68256ab34e262713f16646d5ff1a538db891b4b9fbb184f9fd6a"
+    },
+    "initial/deliveries.csv": {
+      "data_rows": 30000,
+      "ordered_records_equal": true,
+      "field_whitespace_preserved": true,
+      "only_record_terminators_changed": true,
+      "original_bytes": 3630112,
+      "lf_bytes": 3600111,
+      "original_crlf_count": 30001,
+      "lf_count": 30001,
+      "lf_carriage_return_count": 0,
+      "original_sha256": "8ce72498c04b384abfec250d645bd6787e8e3a949e120ee0774f7356a370d4c5",
+      "lf_sha256": "5c48c3c25ede27fdcaca009ff21d50109038cc3115d9909a280f235a0d425001"
+    },
+    "initial/orders.csv": {
+      "data_rows": 30600,
+      "ordered_records_equal": true,
+      "field_whitespace_preserved": true,
+      "only_record_terminators_changed": true,
+      "original_bytes": 5397982,
+      "lf_bytes": 5367381,
+      "original_crlf_count": 30601,
+      "lf_count": 30601,
+      "lf_carriage_return_count": 0,
+      "original_sha256": "e306c116eb307f5d665d0acfcd566cf786242fd8dc26592106afe0eb4e708aff",
+      "lf_sha256": "11f452e1fe8143a4c4187beb61acf2a072c412e44848639d7fec10748da959c8"
+    }
+  },
+  "unchanged_non_csv_files": [
+    "dataset_manifest.json",
+    "documents/incident_escalation.md",
+    "documents/order_prioritization.md",
+    "incremental/events.jsonl",
+    "initial/events.jsonl"
+  ],
+  "byte_identical_reproducibility_files": 15,
+  "status": "PASS"
+}

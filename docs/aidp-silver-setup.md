@@ -1,5 +1,11 @@
 # Reproducible initial Silver — version 0.2.0
 
+CSV compatibility follow-up: package 0.2.1 preserves these Silver modules and
+adds explicit LF generation. The user observed CRLF field differences in main
+v1 Bronze; do not treat enforceSchema=true as validated or migrate inputs based
+on counts alone. See the [isolated v2 LF probe](csv-lf-compatibility.md). Notebook
+02 remains configured for v1; no Silver or main Bronze migration occurs here.
+
 ## 1. Execution evidence and boundaries
 
 The user reported successful **live AIDP Bronze verification** in this conversation:

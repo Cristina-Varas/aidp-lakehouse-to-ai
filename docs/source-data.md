@@ -1,5 +1,9 @@
 # Source-data contract and operations
 
+Current generation uses explicit LF terminators (package 0.2.1). Original v1
+CRLF objects and main-table locations are preserved. See the
+[v2 LF compatibility/probe record](csv-lf-compatibility.md) before any migration.
+
 ## 1. Generate and validate
 
 From the repository root, no installation or cloud credentials are required:

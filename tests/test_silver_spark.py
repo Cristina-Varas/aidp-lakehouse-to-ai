@@ -34,6 +34,42 @@ class RealSparkSilverTests(unittest.TestCase):
     def fixture(self):
         return json.loads((Path(__file__).parent/'fixtures/silver_initial.json').read_text())
 
+    def test_lf_probe_cell_with_real_spark_and_isolated_local_fixture(self):
+        # Adapt only environment constants; execute the complete standalone
+        # probe against real local Spark. This is not an AIDP execution.
+        import ast,contextlib,csv,io
+        directory=Path(self.tmp.name)/'lf-source';directory.mkdir()
+        fields=['customer_id','customer_name','region','segment','source_created_at','source_updated_at','row_version']
+        template={k:v for k,v in self.fixture()['customers'][0].items() if k in fields}
+        template['customer_name']=' Example, Operations '
+        with (directory/'customers.csv').open('w',newline='') as stream:
+            writer=csv.DictWriter(stream,fieldnames=fields,lineterminator='\n');writer.writeheader()
+            for i in range(600):writer.writerow({**template,'customer_id':f'C-{i:06d}'})
+        self.spark.sql('CREATE DATABASE lf_probe_test')
+        source=(Path(__file__).resolve().parents[1]/'notebooks/probes/customers_lf_probe.py').read_text()
+        tree=ast.parse(source)
+        for node in tree.body:
+            if isinstance(node,ast.Assign) and len(node.targets)==1 and isinstance(node.targets[0],ast.Name):
+                if node.targets[0].id=='TABLE':node.value=ast.Constant('lf_probe_test.customers_lf_probe')
+                # Local Spark DESCRIBE uses file:/, while input_file_name uses
+                # file:///. Keep those fixture environment values explicit;
+                # the real OCI probe retains strict OCI location/provenance checks.
+                if node.targets[0].id=='LOCATION':node.value=ast.Constant('file:'+str(directory)+'/')
+                if node.targets[0].id=='EXPECTED_FILE':node.value=ast.Constant(directory.as_uri()+'/customers.csv')
+        ast.fix_missing_locations(tree)
+        statements=[];actual=self.spark
+        class TraceSpark:
+            def __getattr__(self,key):return getattr(actual,key)
+            def sql(self,statement):statements.append(statement);return actual.sql(statement)
+        output=io.StringIO()
+        with contextlib.redirect_stdout(output):exec(compile(tree,'customers_lf_probe.py','exec'),{'spark':TraceSpark()})
+        self.assertIn('LF customers probe PASSED',output.getvalue())
+        self.assertEqual(len([s for s in statements if s.startswith('CREATE')]),1)
+        self.assertTrue(all(not s.startswith(('DROP','ALTER')) for s in statements))
+        row=self.spark.table('lf_probe_test.customers_lf_probe').first()
+        self.assertEqual(row['customer_name'],' Example, Operations ')
+        self.assertEqual(row['row_version'],'1')
+
     def test_real_managed_delta_initial_rerun_and_drift_rejection(self):
         from pyspark.sql import functions as F
         namespace='silver_managed_test'
