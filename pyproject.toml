@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aidp-lakehouse-to-ai"
-version = "0.3.0"
+version = "0.4.0"
 description = "Deterministic ERP source extracts for a neutral operations lakehouse demo"
 requires-python = ">=3.11"
 dependencies = []
@@ -12,6 +12,7 @@ dependencies = []
 [project.optional-dependencies]
 oci = ["oci>=2.150,<3"]
 notebooks = ["nbformat>=5.10,<6"]
+training = ["scikit-learn>=1.5,<1.9", "pandas>=2.2,<3", "mlflow>=2.22,<4", "skops>=0.14,<1"]
 spark-tests = ["pyspark==3.5.6", "delta-spark==3.2.0"]
 
 [project.scripts]

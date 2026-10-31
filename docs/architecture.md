@@ -24,9 +24,11 @@ Initial Silver quality logic and managed Delta publication are implemented and
 tested locally, including real Spark/Delta fixture tests. The user reports
 successful live Silver counts, empty quarantine and an identical insert-free
 rerun; see [Silver evidence](aidp-silver-execution.md). Distributed initial Gold
-is implemented in release 0.3.0; its live AIDP verification is pending. Model
-training, inference, Autonomous business tables/loading, retrieval indexing and
-agents remain future milestones. See [Gold setup](aidp-gold-setup.md),
+is implemented in release 0.3.0; its live AIDP success is user-reported and the four counts were independently
+corroborated. Model
+training is implemented in release 0.4.0 with availability-aware temporal evaluation
+and native MLflow integration; see [training](late-delivery-training.md). Inference,
+Autonomous business tables/loading, retrieval indexing and agents remain future milestones. See [Gold setup](aidp-gold-setup.md),
 [AIDP Bronze setup](aidp-bronze-setup.md) and [Silver setup](aidp-silver-setup.md).
 
 ## 2. Code organization

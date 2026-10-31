@@ -1,3 +1,11 @@
+> Update, 31 October 2026: the user reports live AIDP Gold reconciliation PASS,
+> unchanged fingerprints on two executions, zero extra inserts, counts
+> 30,600 / 296 / 30,000 / 600 and 9,816 late deliveries. The agent subsequently
+> corroborated the four counts in the approved read-only diagnostic.
+> See [runtime evidence](aidp-training-connection.md). Current wheel **0.4.0**
+> adds training and the notebook 03 PASS-state guard; Gold business contracts
+> and transforms remain unchanged. Historical 0.3.0 checks below retain attribution.
+
 # Initial Gold — release 0.3.0
 
 ## 1. Scope, prerequisites and execution
@@ -5,7 +13,7 @@
 The user reported successful live Silver counts 600 / 30,600 / 30,000 / 94,572,
 zero rejects, empty quarantine, zero second-run inserts and unchanged fingerprints.
 See [attributed evidence](aidp-silver-execution.md). The agent has not run AIDP
-Gold or inspected an AIDP job. **Live Gold execution remains pending.**
+Gold or inspected an AIDP job. **The 0.3.0 agent work did not execute live Gold; subsequent user evidence is recorded above.**
 
 Use the existing authenticated **lakehouse_to_ai** AIDP workspace and Spark/Delta
 compute. Install `dist/aidp_lakehouse_to_ai-0.3.0-py3-none-any.whl` as a compute

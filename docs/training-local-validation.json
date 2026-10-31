@@ -1,0 +1,562 @@
+{
+  "date": "2026-10-31",
+  "package_version": "0.4.0",
+  "environment": "LOCAL Spark/Delta + sklearn + SQLite MLflow; not AIDP",
+  "source_dir": "/private/tmp/aidp-lakehouse-source-v2-lf-20261028/initial",
+  "runtime": {
+    "versions": {
+      "mlflow": "3.16.0",
+      "mlflow-skinny": "3.16.0",
+      "scikit-learn": "1.8.0",
+      "pandas": "2.2.3",
+      "numpy": "2.4.6",
+      "skops": "0.14.0"
+    },
+    "mlflow_module_version": "3.16.0",
+    "native_auth_marker_present": false,
+    "native_serialization_default": "skops",
+    "mlflow_distribution_version": "3.16.0",
+    "model_log_path_argument": "name",
+    "tracking_checked": true,
+    "registry_read_checked": true,
+    "environment": "explicit local test backend",
+    "registry_write_and_load": "verified only after registration; not established by read-only preflight"
+  },
+  "input_snapshots": {
+    "late_delivery_training": {
+      "table": "spark_catalog.gold.late_delivery_training",
+      "delta_version": 0,
+      "schema": [
+        [
+          "order_id",
+          "string"
+        ],
+        [
+          "customer_id",
+          "string"
+        ],
+        [
+          "customer_segment_at_acceptance",
+          "string"
+        ],
+        [
+          "customer_region_at_acceptance",
+          "string"
+        ],
+        [
+          "priority_at_acceptance",
+          "string"
+        ],
+        [
+          "inventory_fill_rate_at_acceptance",
+          "decimal(6,3)"
+        ],
+        [
+          "warehouse_load_at_acceptance",
+          "decimal(6,3)"
+        ],
+        [
+          "planned_carrier_at_acceptance",
+          "string"
+        ],
+        [
+          "transit_distance_km",
+          "int"
+        ],
+        [
+          "line_count",
+          "int"
+        ],
+        [
+          "units",
+          "int"
+        ],
+        [
+          "promised_delivery_at_acceptance",
+          "timestamp"
+        ],
+        [
+          "accepted_at",
+          "timestamp"
+        ],
+        [
+          "is_late",
+          "boolean"
+        ],
+        [
+          "outcome_available_at",
+          "timestamp"
+        ],
+        [
+          "_batch_id",
+          "string"
+        ],
+        [
+          "_reference_date",
+          "date"
+        ]
+      ]
+    },
+    "late_delivery_scoring": {
+      "table": "spark_catalog.gold.late_delivery_scoring",
+      "delta_version": 0,
+      "schema": [
+        [
+          "order_id",
+          "string"
+        ],
+        [
+          "customer_id",
+          "string"
+        ],
+        [
+          "customer_segment_at_acceptance",
+          "string"
+        ],
+        [
+          "customer_region_at_acceptance",
+          "string"
+        ],
+        [
+          "priority_at_acceptance",
+          "string"
+        ],
+        [
+          "inventory_fill_rate_at_acceptance",
+          "decimal(6,3)"
+        ],
+        [
+          "warehouse_load_at_acceptance",
+          "decimal(6,3)"
+        ],
+        [
+          "planned_carrier_at_acceptance",
+          "string"
+        ],
+        [
+          "transit_distance_km",
+          "int"
+        ],
+        [
+          "line_count",
+          "int"
+        ],
+        [
+          "units",
+          "int"
+        ],
+        [
+          "promised_delivery_at_acceptance",
+          "timestamp"
+        ],
+        [
+          "accepted_at",
+          "timestamp"
+        ],
+        [
+          "_batch_id",
+          "string"
+        ],
+        [
+          "_reference_date",
+          "date"
+        ]
+      ]
+    },
+    "source_contract": {
+      "reference_date": "2026-10-28",
+      "prefix": "demos/lakehouse-to-ai/source-data/v2/seed-42/reference-2026-10-28",
+      "predictors": [
+        "customer_segment_at_acceptance",
+        "customer_region_at_acceptance",
+        "priority_at_acceptance",
+        "inventory_fill_rate_at_acceptance",
+        "warehouse_load_at_acceptance",
+        "planned_carrier_at_acceptance",
+        "transit_distance_km",
+        "line_count",
+        "units",
+        "promised_delivery_at_acceptance",
+        "accepted_at"
+      ],
+      "open_rows": 600,
+      "first_open_acceptance": "2026-10-22T00:04:00.000000Z",
+      "open_rows_scored": 0
+    }
+  },
+  "evaluation": {
+    "partitions": {
+      "train": {
+        "rows": 14247,
+        "first_acceptance": "2024-10-27T00:32:00+00:00",
+        "last_acceptance": "2025-09-28T10:06:00+00:00",
+        "last_outcome_available_at": "2025-09-30T23:59:00+00:00",
+        "positives": 4599,
+        "prevalence": 0.3228048010107391
+      },
+      "validation": {
+        "rows": 7224,
+        "first_acceptance": "2025-10-01T00:02:00+00:00",
+        "last_acceptance": "2026-03-28T23:36:00+00:00",
+        "last_outcome_available_at": "2026-03-31T23:10:00+00:00",
+        "positives": 2401,
+        "prevalence": 0.3323643410852713
+      },
+      "test": {
+        "rows": 7751,
+        "first_acceptance": "2026-04-01T00:31:00+00:00",
+        "last_acceptance": "2026-09-27T23:39:00+00:00",
+        "last_outcome_available_at": "2026-10-15T05:00:00+00:00",
+        "positives": 2464,
+        "prevalence": 0.31789446523029286
+      },
+      "final_train": {
+        "rows": 21838,
+        "first_acceptance": "2024-10-27T00:32:00+00:00",
+        "last_acceptance": "2026-03-28T23:36:00+00:00",
+        "last_outcome_available_at": "2026-03-31T23:10:00+00:00",
+        "positives": 7161,
+        "prevalence": 0.32791464419818667
+      },
+      "boundaries": {
+        "validation_start": "2025-10-01T00:00:00+00:00",
+        "test_start": "2026-04-01T00:00:00+00:00",
+        "final_training_cutoff": "2026-04-01T00:00:00+00:00",
+        "first_open_acceptance": "2026-10-22T00:04:00+00:00",
+        "test_observation_cutoff": "2026-10-28T00:00:00+00:00",
+        "outcome_rule": "strictly before training cutoff"
+      },
+      "excluded_unavailable_labels": {
+        "train": 367,
+        "validation": 411
+      },
+      "cohort_reconciliation": {
+        "total": 30000,
+        "train": 14247,
+        "validation": 7224,
+        "test": 7751,
+        "purged": 778
+      }
+    },
+    "validation_candidates": [
+      {
+        "candidate": {
+          "name": "prevalence",
+          "kind": "baseline"
+        },
+        "metrics": {
+          "roc_auc": 0.5,
+          "average_precision": 0.3323643410852713,
+          "precision": 0.3323643410852713,
+          "recall": 1.0,
+          "f1": 0.4989090909090909,
+          "confusion_matrix": [
+            [
+              0,
+              4823
+            ],
+            [
+              0,
+              2401
+            ]
+          ],
+          "tn": 0,
+          "fp": 4823,
+          "fn": 0,
+          "tp": 2401,
+          "threshold": 0.3,
+          "roc_auc_status": "defined",
+          "average_precision_status": "defined"
+        }
+      },
+      {
+        "candidate": {
+          "name": "logistic_c01",
+          "kind": "logistic",
+          "C": 0.1
+        },
+        "metrics": {
+          "roc_auc": 0.6269130035406666,
+          "average_precision": 0.4452870490061754,
+          "precision": 0.35533553355335534,
+          "recall": 0.9416909620991254,
+          "f1": 0.5159744408945687,
+          "confusion_matrix": [
+            [
+              721,
+              4102
+            ],
+            [
+              140,
+              2261
+            ]
+          ],
+          "tn": 721,
+          "fp": 4102,
+          "fn": 140,
+          "tp": 2261,
+          "threshold": 0.2,
+          "roc_auc_status": "defined",
+          "average_precision_status": "defined"
+        }
+      },
+      {
+        "candidate": {
+          "name": "logistic_c1",
+          "kind": "logistic",
+          "C": 1.0
+        },
+        "metrics": {
+          "roc_auc": 0.6269273385726436,
+          "average_precision": 0.44532267700466976,
+          "precision": 0.3743666729217489,
+          "recall": 0.8309037900874635,
+          "f1": 0.5161707632600259,
+          "confusion_matrix": [
+            [
+              1489,
+              3334
+            ],
+            [
+              406,
+              1995
+            ]
+          ],
+          "tn": 1489,
+          "fp": 3334,
+          "fn": 406,
+          "tp": 1995,
+          "threshold": 0.25,
+          "roc_auc_status": "defined",
+          "average_precision_status": "defined"
+        }
+      },
+      {
+        "candidate": {
+          "name": "forest_depth4",
+          "kind": "forest",
+          "max_depth": 4,
+          "n_estimators": 64,
+          "min_samples_leaf": 30
+        },
+        "metrics": {
+          "roc_auc": 0.6310917517175916,
+          "average_precision": 0.4490216983092897,
+          "precision": 0.3990329265484688,
+          "recall": 0.7217825905872554,
+          "f1": 0.513938315539739,
+          "confusion_matrix": [
+            [
+              2213,
+              2610
+            ],
+            [
+              668,
+              1733
+            ]
+          ],
+          "tn": 2213,
+          "fp": 2610,
+          "fn": 668,
+          "tp": 1733,
+          "threshold": 0.3,
+          "roc_auc_status": "defined",
+          "average_precision_status": "defined"
+        }
+      },
+      {
+        "candidate": {
+          "name": "forest_depth8",
+          "kind": "forest",
+          "max_depth": 8,
+          "n_estimators": 64,
+          "min_samples_leaf": 30
+        },
+        "metrics": {
+          "roc_auc": 0.6334615224857498,
+          "average_precision": 0.4494235541923043,
+          "precision": 0.3686176836861768,
+          "recall": 0.8629737609329446,
+          "f1": 0.5165794066317626,
+          "confusion_matrix": [
+            [
+              1274,
+              3549
+            ],
+            [
+              329,
+              2072
+            ]
+          ],
+          "tn": 1274,
+          "fp": 3549,
+          "fn": 329,
+          "tp": 2072,
+          "threshold": 0.25,
+          "roc_auc_status": "defined",
+          "average_precision_status": "defined"
+        }
+      }
+    ],
+    "selected_candidate": {
+      "name": "forest_depth8",
+      "kind": "forest",
+      "max_depth": 8,
+      "n_estimators": 64,
+      "min_samples_leaf": 30
+    },
+    "selected_threshold": 0.25,
+    "selection_rule": "validation AP; then ROC-AUC; then fixed candidate order",
+    "threshold_rule": "validation F1 on fixed grid; ties choose higher threshold",
+    "test": {
+      "selected": {
+        "roc_auc": 0.6333061030609262,
+        "average_precision": 0.44786778785320236,
+        "precision": 0.3507255829121148,
+        "recall": 0.8729707792207793,
+        "f1": 0.500407118762359,
+        "confusion_matrix": [
+          [
+            1305,
+            3982
+          ],
+          [
+            313,
+            2151
+          ]
+        ],
+        "tn": 1305,
+        "fp": 3982,
+        "fn": 313,
+        "tp": 2151,
+        "threshold": 0.25,
+        "roc_auc_status": "defined",
+        "average_precision_status": "defined"
+      },
+      "prevalence_baseline": {
+        "roc_auc": 0.5,
+        "average_precision": 0.31789446523029286,
+        "precision": 0.31789446523029286,
+        "recall": 1.0,
+        "f1": 0.4824278022515908,
+        "confusion_matrix": [
+          [
+            0,
+            5287
+          ],
+          [
+            0,
+            2464
+          ]
+        ],
+        "tn": 0,
+        "fp": 5287,
+        "fn": 0,
+        "tp": 2464,
+        "threshold": 0.3,
+        "roc_auc_status": "defined",
+        "average_precision_status": "defined"
+      },
+      "selected_minus_baseline": {
+        "roc_auc": 0.13330610306092616,
+        "average_precision": 0.1299733226229095,
+        "precision": 0.03283111768182195,
+        "recall": -0.12702922077922074,
+        "f1": 0.017979316510768173
+      }
+    },
+    "seed": 42,
+    "feature_contract": {
+      "raw_predictors": [
+        "customer_segment_at_acceptance",
+        "customer_region_at_acceptance",
+        "priority_at_acceptance",
+        "inventory_fill_rate_at_acceptance",
+        "warehouse_load_at_acceptance",
+        "planned_carrier_at_acceptance",
+        "transit_distance_km",
+        "line_count",
+        "units",
+        "promised_delivery_at_acceptance",
+        "accepted_at"
+      ],
+      "identifiers_excluded": [
+        "order_id",
+        "customer_id"
+      ],
+      "metadata_excluded": [
+        "is_late",
+        "outcome_available_at",
+        "_batch_id",
+        "_reference_date"
+      ],
+      "categorical": [
+        "customer_segment_at_acceptance",
+        "customer_region_at_acceptance",
+        "priority_at_acceptance",
+        "planned_carrier_at_acceptance"
+      ],
+      "numeric": [
+        "inventory_fill_rate_at_acceptance",
+        "warehouse_load_at_acceptance",
+        "transit_distance_km",
+        "line_count",
+        "units",
+        "promised_lead_days"
+      ],
+      "derivation": {
+        "promised_lead_days": "(promised_delivery_at_acceptance - accepted_at).total_seconds() / 86400"
+      },
+      "raw_timestamps": "UTC ISO strings at model boundary; only used to compute promised_lead_days",
+      "no_other_derived_variables": true,
+      "decision_rule": "P(is_late=True) >= validation-selected threshold"
+    },
+    "partition_membership_sha256": {
+      "train": "1660ea500bb2475b7bc6a721f95713befbd32d4dce7e5f8802881b0f3b6fa580",
+      "validation": "dfbc2f43ce72e5f2bdbc1194f1d89715f236465320b294d9df0cd1f29585de3b",
+      "test": "12b37d7242a03376a501b8a4935cf216cd3b4e24a26d4e5d3299a64152af4052",
+      "final_train": "d09326d7f62801aeba1f441a11f056aed8d2398706295918dd82acf144a81beb"
+    },
+    "final_training_cutoff": "2026-04-01T00:00:00Z",
+    "test_used_for_training": false,
+    "future_open_orders_scored": 0,
+    "threshold_grid": [
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.9
+    ]
+  },
+  "registry": {
+    "run_id": "d1a881dd86e54a31ab63af7674480440",
+    "experiment_id": "1",
+    "backend_environment": "explicit local test backend",
+    "registered_model": "lakehouse_demo_late_delivery_acceptance",
+    "version": "1",
+    "model_uri": "models:/lakehouse_demo_late_delivery_acceptance/1",
+    "registry_load_verified": true,
+    "threshold": 0.25,
+    "training_cutoff": "2026-04-01T00:00:00Z",
+    "verification_rows": "5 held-out historical rows; zero open orders"
+  },
+  "reproducible_repeat": true,
+  "open_orders_scored": 0,
+  "aidp_writes": false,
+  "simulated_checks": [
+    "AIDP catalog identity lookup only; local spark_catalog used"
+  ],
+  "tested_from_built_wheel": true
+}

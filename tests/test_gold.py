@@ -43,9 +43,9 @@ class GoldContractTests(unittest.TestCase):
         self.assertEqual(sum('CONFIG =' in c for c in code),1)
         all_code='\n'.join(code)
         self.assertIn('build_initial_gold',all_code);self.assertIn('second',all_code)
-        self.assertIn('fingerprints',all_code);self.assertIn('GOLD PASS',all_code)
+        self.assertIn('gold_verification.build_second',all_code);self.assertIn('GOLD PASS',all_code)
         self.assertNotIn('SELECT *',all_code.upper())
-        self.assertEqual(notebook.metadata.aidp.runtime_verification,'pending')
+        self.assertIn('user-reported',notebook.metadata.aidp.runtime_verification)
 
     def test_distributed_transforms_do_not_collect_business_rows(self):
         source=(Path(__file__).parents[1]/'src/aidp_lakehouse/gold_spark.py').read_text()
@@ -65,7 +65,7 @@ class GoldContractTests(unittest.TestCase):
         notebook=json.loads((Path(__file__).parents[1]/'notebooks/03_build_gold.ipynb').read_text())
         frame=SimpleNamespace(orderBy=lambda *a:frame,limit=lambda n:frame,show=lambda **kw:None)
         spark=SimpleNamespace(version='simulated',conf=SimpleNamespace(set=lambda *a:None),table=lambda n:frame)
-        result={'validation':{'reconciliation':'PASS'},'fingerprints':{'order_operations':'same'},
+        result={'validation':{'reconciliation':'PASS'},'fingerprints':{name:'same' for name in CONTRACTS_GOLD},
                 'publication':{n:{'inserted_rows':0} for n in CONTRACTS_GOLD}}
         scope={'spark':spark}
         with patch('aidp_lakehouse.gold_spark.build_initial_gold',return_value=result) as build, \

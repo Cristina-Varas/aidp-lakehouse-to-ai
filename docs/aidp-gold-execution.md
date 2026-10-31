@@ -1,3 +1,11 @@
+> Update, 31 October 2026: the user reports live AIDP Gold reconciliation PASS,
+> unchanged fingerprints on two executions, zero extra inserts, counts
+> 30,600 / 296 / 30,000 / 600 and 9,816 late deliveries. The agent subsequently
+> corroborated the four counts in the approved read-only diagnostic.
+> See [runtime evidence](aidp-training-connection.md). Current wheel **0.4.0**
+> adds training and the notebook 03 PASS-state guard; Gold business contracts
+> and transforms remain unchanged. Historical 0.3.0 checks below retain attribution.
+
 # Initial Gold execution record — 30 October 2026
 
 ## Attribution

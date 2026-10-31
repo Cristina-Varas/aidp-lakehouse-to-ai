@@ -27,8 +27,8 @@ class BronzeRun:
         self.verification = None
         try:
             self.config = BronzeConfig(**config)
-            if __version__ not in ('0.2.2', '0.3.0'):
-                raise ValueError('Install aidp_lakehouse_to_ai-0.3.0-py3-none-any.whl and restart the session')
+            if __version__ not in ('0.2.2', '0.3.0', '0.4.0'):
+                raise ValueError('Install aidp_lakehouse_to_ai-0.4.0-py3-none-any.whl and restart the session')
             if '/source-data/v2/' not in self.config.prefix:
                 raise ValueError('Canonical Bronze workflow requires the validated LF v2 sources')
             if not hasattr(spark, 'sparkContext'):

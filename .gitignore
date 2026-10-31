@@ -17,3 +17,7 @@ generated/
 storage.local.*
 *.csv
 *.jsonl
+
+# Local ML experiment artifacts belong outside the repository.
+mlruns/
+mlartifacts/

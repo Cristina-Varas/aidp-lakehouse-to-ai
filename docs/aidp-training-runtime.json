@@ -1,0 +1,200 @@
+{
+  "active_run_present": false,
+  "api_signatures": {
+    "mlflow.log_dict": "(dictionary: dict[str, typing.Any], artifact_file: str, run_id: str | None = None) -> None",
+    "mlflow.register_model": "(model_uri, name, await_registration_for=300, *, tags: dict[str, typing.Any] | None = None, env_pack: Union[Literal['databricks_model_serving'], mlflow.utils.env_pack.EnvPackConfig, NoneType] = None) -> mlflow.entities.model_registry.model_version.ModelVersion",
+    "mlflow.set_experiment": "(experiment_name: str | None = None, experiment_id: str | None = None, trace_location: mlflow.entities.trace_location.UnityCatalog | None = None) -> mlflow.entities.experiment.Experiment",
+    "mlflow.sklearn.load_model": "(model_uri, dst_path=None)",
+    "mlflow.sklearn.log_model": "(sk_model, artifact_path: str | None = None, conda_env=None, code_paths=None, serialization_format='skops', registered_model_name=None, signature: mlflow.models.signature.ModelSignature = None, input_example: Union[pandas.core.frame.DataFrame, numpy.ndarray, dict, list, ForwardRef('csr_matrix'), ForwardRef('csc_matrix'), str, bytes, tuple] = None, await_registration_for=300, pip_requirements=None, extra_pip_requirements=None, pyfunc_predict_fn='predict', metadata=None, extra_files=None, params: dict[str, typing.Any] | None = None, tags: dict[str, typing.Any] | None = None, model_type: str | None = None, step: int = 0, model_id: str | None = None, name: str | None = None, skops_trusted_types: list[str] | None = None, **kwargs)",
+    "mlflow.sklearn.save_model": "(sk_model, path, conda_env=None, code_paths=None, mlflow_model=None, serialization_format='skops', signature: mlflow.models.signature.ModelSignature = None, input_example: Union[pandas.core.frame.DataFrame, numpy.ndarray, dict, list, ForwardRef('csr_matrix'), ForwardRef('csc_matrix'), str, bytes, tuple] = None, pip_requirements=None, extra_pip_requirements=None, pyfunc_predict_fn='predict', metadata=None, skops_trusted_types=None, extra_files=None)",
+    "mlflow.start_run": "(run_id: str | None = None, experiment_id: str | None = None, run_name: str | None = None, nested: bool = False, parent_run_id: str | None = None, tags: dict[str, typing.Any] | None = None, description: str | None = None, log_system_metrics: bool | None = None) -> mlflow.tracking.fluent.ActiveRun",
+    "sklearn.ensemble.RandomForestClassifier": "(n_estimators=100, *, criterion='gini', max_depth=None, min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, max_features='sqrt', max_leaf_nodes=None, min_impurity_decrease=0.0, bootstrap=True, oob_score=False, n_jobs=None, random_state=None, verbose=0, warm_start=False, class_weight=None, ccp_alpha=0.0, max_samples=None, monotonic_cst=None)",
+    "sklearn.linear_model.LogisticRegression": "(penalty='deprecated', *, C=1.0, l1_ratio=0.0, dual=False, tol=0.0001, fit_intercept=True, intercept_scaling=1, class_weight=None, random_state=None, solver='lbfgs', max_iter=100, verbose=0, warm_start=False, n_jobs=None)",
+    "sklearn.model_selection.FixedThresholdClassifier": "(estimator, *, threshold='auto', pos_label=None, response_method='auto')",
+    "sklearn.preprocessing.OneHotEncoder": "(*, categories='auto', drop=None, sparse_output=True, dtype=<class 'numpy.float64'>, handle_unknown='error', min_frequency=None, max_categories=None, feature_name_combiner='concat')"
+  },
+  "architecture": "x86_64",
+  "gold": {
+    "delivery_kpis": {
+      "columns": [
+        "period_start",
+        "customer_region_at_acceptance",
+        "actual_carrier",
+        "deliveries",
+        "late_deliveries",
+        "late_delivery_pct",
+        "_batch_id",
+        "_reference_date"
+      ],
+      "rows": 296
+    },
+    "late_delivery_scoring": {
+      "columns": [
+        "order_id",
+        "customer_id",
+        "customer_segment_at_acceptance",
+        "customer_region_at_acceptance",
+        "priority_at_acceptance",
+        "inventory_fill_rate_at_acceptance",
+        "warehouse_load_at_acceptance",
+        "planned_carrier_at_acceptance",
+        "transit_distance_km",
+        "line_count",
+        "units",
+        "promised_delivery_at_acceptance",
+        "accepted_at",
+        "_batch_id",
+        "_reference_date"
+      ],
+      "rows": 600
+    },
+    "late_delivery_training": {
+      "columns": [
+        "order_id",
+        "customer_id",
+        "customer_segment_at_acceptance",
+        "customer_region_at_acceptance",
+        "priority_at_acceptance",
+        "inventory_fill_rate_at_acceptance",
+        "warehouse_load_at_acceptance",
+        "planned_carrier_at_acceptance",
+        "transit_distance_km",
+        "line_count",
+        "units",
+        "promised_delivery_at_acceptance",
+        "accepted_at",
+        "is_late",
+        "outcome_available_at",
+        "_batch_id",
+        "_reference_date"
+      ],
+      "rows": 30000
+    },
+    "order_operations": {
+      "columns": [
+        "order_id",
+        "customer_id",
+        "accepted_at",
+        "promised_delivery_at_acceptance",
+        "customer_segment_at_acceptance",
+        "customer_region_at_acceptance",
+        "priority_at_acceptance",
+        "inventory_fill_rate_at_acceptance",
+        "warehouse_load_at_acceptance",
+        "planned_carrier_at_acceptance",
+        "transit_distance_km",
+        "line_count",
+        "units",
+        "current_priority",
+        "current_status",
+        "order_source_created_at",
+        "order_source_updated_at",
+        "order_row_version",
+        "order_source_file",
+        "customer_name",
+        "customer_region_current",
+        "customer_segment_current",
+        "delivery_id",
+        "dispatched_at",
+        "delivered_at",
+        "actual_carrier",
+        "delivery_source_created_at",
+        "delivery_source_updated_at",
+        "delivery_row_version",
+        "delivery_source_file",
+        "event_count",
+        "incident_count",
+        "incident_types",
+        "first_incident_at",
+        "last_incident_at",
+        "last_event_at",
+        "is_late",
+        "outcome_available_at",
+        "_batch_id",
+        "_reference_date"
+      ],
+      "rows": 30600
+    }
+  },
+  "mlflow_auth_provider_entrypoints": [
+    "mlops_auth_provider"
+  ],
+  "mlflow_distributions": [
+    "mlflow-skinny"
+  ],
+  "mlflow_error_flags": {
+    "auth provider": false,
+    "authentication": false,
+    "cannot": false,
+    "credentials": false,
+    "databricks": false,
+    "disabled": false,
+    "file store": false,
+    "local filesystem": false,
+    "maintenance mode": true,
+    "mlflow_allow_file_store": true,
+    "not found": false,
+    "sqlalchemy": false,
+    "tracking uri": false,
+    "unsupported": false
+  },
+  "mlflow_module_version": "3.16.0",
+  "mlflow_read_error_class": "MlflowException",
+  "mlflow_read_error_code": "INVALID_PARAMETER_VALUE",
+  "mlflow_writes": false,
+  "native_auth_marker_present": true,
+  "open_orders_scored": 0,
+  "packages": {
+    "aidp-lakehouse-to-ai": "0.3.0",
+    "delta-spark": "3.1.0",
+    "mlflow": null,
+    "mlflow-skinny": "3.16.0",
+    "numpy": "2.4.6",
+    "pandas": "2.2.3",
+    "pyspark": "3.5.9",
+    "scikit-learn": "1.8.0",
+    "skops": "0.14.0"
+  },
+  "python": "3.11.13",
+  "registry_scheme": "",
+  "registry_uri_is_none": false,
+  "serialization_constants": {
+    "SERIALIZATION_FORMAT_CLOUDPICKLE": "cloudpickle",
+    "SERIALIZATION_FORMAT_PICKLE": "pickle",
+    "SERIALIZATION_FORMAT_SKOPS": "skops"
+  },
+  "spark": "3.5.0-dataflow-3-5-2-12-df.1.0.103",
+  "tracking_scheme": "",
+  "tracking_uri_is_none": false,
+  "training_performed": false,
+  "uri_classification": {
+    "registry": {
+      "has_whitespace": false,
+      "is_local_path": false,
+      "known_alias": null
+    },
+    "tracking": {
+      "has_whitespace": false,
+      "is_local_path": false,
+      "known_alias": null
+    }
+  },
+  "date": "2026-10-31",
+  "instance": "CristinaVaras-AIDPWorkbench",
+  "workspace": "lakehouse_to_ai",
+  "region": "eu-frankfurt-1",
+  "compute": "lakehouse_demo_cpu",
+  "mcp_server": "ask-aidp",
+  "mcp_version": "0.10.0",
+  "aidp_cli_version": "5.1.1",
+  "connection_method": "Existing ~/.config/ask-aidp/ask-aidp-mcp launcher via stdio MCP; native client tool list did not expose ask-aidp",
+  "workspace_state": "ACTIVE",
+  "compute_state": "ACTIVE",
+  "registry_rest_search_status": 200,
+  "native_mlflow_client_ready": false,
+  "diagnostic_workflow_status": "SUCCESS",
+  "diagnostic_executions": 3,
+  "diagnostic_notebook": "/Workspace/aidp-lakehouse-to-ai/_diagnostics/runtime_readonly_20261031_83f6ed50/runtime_probe.ipynb",
+  "native_dependencies_changed": false,
+  "native_mlflow_configuration_changed": false
+}
