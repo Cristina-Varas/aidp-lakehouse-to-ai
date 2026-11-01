@@ -104,3 +104,11 @@ Open initial orders remain unlabeled until an incremental delivery arrives.
 The incremental updates demonstrate that later outcomes and operational priority
 can change without changing original acceptance features. This is a teaching
 simulator with bounded cohorts, not a calibrated forecast of any real business.
+
+The initial inference milestone uses `scoring`, `scoring_mlflow` and
+`scoring_spark` from notebook 05. It loads an exact native registry version and
+its saved acceptance contract/threshold/cutoff, pins the 600-row Gold input, and
+publishes managed Delta `gold.late_delivery_predictions` with insert-only guards.
+Inference is bounded on the driver for the sklearn model; input validation and
+full-row publication/repeat checks use Spark. No source layer is overwritten.
+See [scoring design](late-delivery-scoring.md).

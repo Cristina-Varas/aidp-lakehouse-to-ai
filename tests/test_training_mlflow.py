@@ -7,6 +7,31 @@ import unittest
 HAS_ML=all(find_spec(n) is not None for n in ('mlflow','numpy','pandas','sklearn'))
 
 
+class NativeModelNameTests(unittest.TestCase):
+    def test_native_preflight_rejects_unqualified_or_empty_parts_before_mlflow(self):
+        from unittest.mock import patch
+        from aidp_lakehouse.training_contract import TrainingConfig
+        from aidp_lakehouse.training_mlflow import preflight
+        for name in ('late_delivery_acceptance', 'gold.late_delivery_acceptance',
+                     'lakehouse_demo..late_delivery_acceptance', '.gold.model',
+                     'catalog.schema.model.extra', 'catalog. schema.model'):
+            with self.subTest(name=name), patch('builtins.__import__', side_effect=AssertionError('MLflow must not be imported')):
+                with self.assertRaisesRegex(ValueError, 'three parts'):
+                    preflight(TrainingConfig(registered_model_name=name))
+
+    def test_default_and_notebook_use_same_qualified_name(self):
+        import json
+        from aidp_lakehouse.training_contract import TrainingConfig
+        expected='lakehouse_demo.gold.late_delivery_acceptance'
+        self.assertEqual(TrainingConfig().registered_model_name, expected)
+        notebook=json.loads((Path(__file__).resolve().parents[1]/'notebooks/04_train_late_delivery.ipynb').read_text())
+        configuration=next(''.join(cell['source']) for cell in notebook['cells']
+                           if cell['cell_type']=='code' and 'CONFIG = {' in ''.join(cell['source']))
+        scope={}
+        exec(configuration,scope)
+        self.assertEqual(scope['CONFIG']['registered_model_name'],expected)
+
+
 @unittest.skipUnless(HAS_ML,'Requires optional MLflow training environment')
 class MlflowTests(unittest.TestCase):
     def test_complete_pipeline_register_and_load_exact_version(self):
@@ -22,7 +47,7 @@ class MlflowTests(unittest.TestCase):
             uri='sqlite:///'+str(Path(directory)/'tracking.db')
             try:
                 mlflow.set_tracking_uri(uri);mlflow.set_registry_uri(uri)
-                cfg=TrainingConfig()
+                cfg=TrainingConfig(registered_model_name='local_late_delivery_acceptance')
                 mlflow.create_experiment(cfg.experiment_name,artifact_location=(Path(directory)/'artifacts').as_uri())
                 # Explicit local mode only in tests. Production notebook always requires native AIDP.
                 capabilities=preflight(cfg,require_aidp=False)

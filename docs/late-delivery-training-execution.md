@@ -1,5 +1,13 @@
 # Training verification — 31 October 2026
 
+**Update, user-reported 1 November 2026:** TRAINING PASS in AIDP,
+`lakehouse_demo.gold.late_delivery_acceptance` version 1, run
+`fc64485e353c41168cb90ee0f0bc5f71`; exact-version reload passed, threshold 0.25,
+cutoff 2026-04-01T00:00:00Z. Zero opens scored at that point. This supersedes
+the pending status below for the user's interactive training execution; the
+31 October diagnostic/local checks remain historical observations. See
+[scoring milestone](late-delivery-scoring.md).
+
 ## Attribution and current AIDP status
 
 Gold reconciliation PASS, equal fingerprints over two executions, zero extra

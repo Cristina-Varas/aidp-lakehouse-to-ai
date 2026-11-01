@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from .gold import GoldConfig, PREDICTORS
 
-VERSION = '0.4.0'
+VERSION = '0.5.0'
 CATEGORICAL = ('customer_segment_at_acceptance','customer_region_at_acceptance',
                'priority_at_acceptance','planned_carrier_at_acceptance')
 ORIGINAL_NUMERIC = ('inventory_fill_rate_at_acceptance','warehouse_load_at_acceptance',
@@ -34,7 +34,7 @@ class TrainingConfig:
     seed: int = 42
     max_training_rows: int = 50000  # Driver memory limit, not a business threshold.
     experiment_name: str = 'lakehouse_to_ai_late_delivery'
-    registered_model_name: str = 'lakehouse_demo_late_delivery_acceptance'
+    registered_model_name: str = 'lakehouse_demo.gold.late_delivery_acceptance'
 
     def __post_init__(self):
         if not instant(self.validation_start)<instant(self.test_start)<instant('2026-10-28T00:00:00Z'):

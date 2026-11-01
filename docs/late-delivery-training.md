@@ -12,7 +12,7 @@ still attributed to the user, not an agent rerun of Gold. See
 
 Use [04_train_late_delivery.ipynb](../notebooks/04_train_late_delivery.ipynb)
 in a fresh authenticated lakehouse_to_ai AIDP notebook with existing AMD/Intel
-Spark compute. Install only the project wheel **0.4.0** as a compute library
+Spark compute. Install only the project wheel **0.5.0** as a compute library
 (or `%pip install --no-deps <uploaded wheel path>`) and restart Python. Use the
 existing native sklearn/pandas/MLflow integration; **do not install .[training]
 over AIDP's built-in MLflow**. That extra is for independent local environments.
@@ -20,17 +20,27 @@ Native MLflow is mlflow-skinny 3.16.0, not a missing full mlflow distribution.
 
 Notebook 04 has one non-secret configuration cell: LF v2 initial prefix, seed 42,
 fixed reference date 2026-10-28, temporal cutoffs, memory guard, experiment and
-registered-model names. It imports reusable modules; no state/functions from
+registered-model names. The native registered-model default is
+`lakehouse_demo.gold.late_delivery_acceptance` (`catalog.schema.model`). Native
+preflight rejects missing/empty parts before MLflow access or training. Explicit
+local tests can still use an unqualified SQLite registry name.
+
+**User-reported runtime, 1 November 2026:** training reached `mlflow.register_model`
+and failed with “Model name must contain three parts”. The qualified-name fix
+addresses that failure; successful AIDP registration/reload is still pending.
+
+It imports reusable modules; no state/functions from
 other notebooks or monkeypatches are required. Bronze/Silver/Gold remain read-only.
 The 600 open orders are **not scored**. No agent, endpoint, Autonomous publication,
 incremental ingestion or notebook 05 is implemented/executed.
 
-**Environment prerequisite:** native Python MLflow client initialization failed
-in the read-only diagnostic workflow, despite successful MCP/REST connection.
-Review its native Experiments binding in the actual notebook session. The first
-cell checks supported APIs and authenticated read access before fitting and
-stops on this problem. No URI/auth override, fallback server or local file-store
-enabling is performed. AIDP training/registration/reload are not claimed complete.
+**Native environment history:** the 31 October read-only diagnostic workflow
+failed native MLflow initialization despite a successful MCP/REST connection.
+The user subsequently reports TRAINING PASS and exact-version reload in their
+AIDP session, with the model identity recorded in the scoring guide. That user
+evidence supersedes the earlier pending status for interactive training. Native
+preflight still preserves auth/URIs and stops before fitting if its checks fail;
+no local fallback is enabled. This change does not rerun AIDP training.
 
 ## 2. Inputs and prediction contract
 
@@ -191,3 +201,11 @@ is not presented as AIDP Model Registry success.
 After native preflight passes, run notebook 04 top to bottom. Keep its exact model
 version, feature contract, cutoff and threshold for a **separate future scoring
 notebook**. No inference on the 600 opens is part of this milestone.
+
+## 8. Next: inference without retraining
+
+The user now reports TRAINING PASS with the exact native version/run documented
+in [scoring](late-delivery-scoring.md). The earlier read-only diagnostic remains
+a historical workflow observation, not the current interactive training result.
+Use notebook 05 with wheel 0.5.0 to load that saved version; do not rerun training
+to score the open cohort. Live scoring has not been claimed.

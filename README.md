@@ -46,8 +46,7 @@ The AIDP catalog/Bronze notebooks are prepared and locally validated:
 See [AIDP Bronze setup](docs/aidp-bronze-setup.md) for workspace/compute,
 permissions, package installation, execution order and expected source counts.
 The user has reported [live Bronze verification](docs/aidp-bronze-execution.md)
-with matching counts, zero corrupt rows and passing provenance checks. The agent
-has not executed an AIDP session. Reusable initial Silver logic and the thin
+with matching counts, zero corrupt rows and passing provenance checks. Those Bronze results are user-reported. Reusable initial Silver logic and the thin
 [02_build_silver.ipynb](notebooks/02_build_silver.ipynb) notebook are implemented;
 see [Silver setup](docs/aidp-silver-setup.md). The user reports successful live Silver execution and an idempotent rerun; see
 [Silver evidence](docs/aidp-silver-execution.md).
@@ -73,7 +72,18 @@ and [notebook 04](notebooks/04_train_late_delivery.ipynb), with explicit accepta
 features, availability-aware chronological evaluation, baseline/logistic/forest
 comparison and native MLflow registration/version reload. Gold live success is
 user-reported and its four counts were independently corroborated in a read-only
-AIDP diagnostic. The native MLflow client binding in that workflow context needs
-review; notebook 04 fails before fitting if preflight is not ready. See
+AIDP diagnostic. That diagnostic workflow encountered a native MLflow binding failure; the later
+user-reported TRAINING PASS below supersedes its pending interactive status.
+Notebook 04 still stops before fitting if preflight is not ready. See
 [connection/runtime evidence](docs/aidp-training-connection.md). No open order
 was scored. The existing Bronze/Silver/Gold data and transformations are preserved.
+
+Release **0.5.0** adds [open-order scoring](docs/late-delivery-scoring.md) and
+[notebook 05](notebooks/05_score_open_orders.ipynb). The user reports TRAINING PASS
+in AIDP and exact-version reload for `lakehouse_demo.gold.late_delivery_acceptance/1`
+(run `fc64485e353c41168cb90ee0f0bc5f71`). Scoring loads only that version and
+recovers its threshold/cutoff/contracts; it pins 600 Gold opens and publishes
+managed Delta predictions with guarded insert-only reruns. This release includes
+the pending three-part model-name fix. Live AIDP scoring is pending; see
+[execution record](docs/late-delivery-scoring-execution.md). Existing layer
+transformations are preserved; agents and Autonomous publication remain next.

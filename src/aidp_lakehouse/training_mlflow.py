@@ -15,6 +15,12 @@ def _distribution_version(name):
 
 
 def preflight(config,*,require_aidp=True):
+    if require_aidp:
+        parts = config.registered_model_name.split('.')
+        if len(parts) != 3 or any(not part or any(c.isspace() for c in part) for part in parts):
+            raise ValueError('AIDP registered model name must contain three parts: '
+                             'catalog.schema.model (for example lakehouse_demo.gold.late_delivery_acceptance). '
+                             'No training started.')
     import mlflow
     import mlflow.sklearn
     from mlflow.tracking import MlflowClient
