@@ -20,7 +20,8 @@ scope was not added from the 3.5.0 skill to this resumed project.
 
 Workspace **lakehouse_to_ai**, instance **CristinaVaras-AIDPWorkbench**, region
 **eu-frankfurt-1**, Standard catalog **lakehouse_demo**, existing Spark compute
-**lakehouse_demo_cpu** ACTIVE.
+**lakehouse_demo_cpu** was ACTIVE for notebook 06; its latest readback is
+**STOPPED** after the unchanged 30-minute idle policy.
 
 A new isolated notebook-06 workflow executed the canonical notebook's code using
 the exact supplied project wheel on that kernel's temporary sys.path. This used
@@ -62,8 +63,9 @@ notebook was executed or overwritten.
   explicit approval: AMD, **1 OCPU / 16 GB / one replica**, no horizontal scaling.
   Capacity was read back. It consumes AIDP Units while active; no hourly monetary
   price is asserted. Existing Spark sizing, idle policy and libraries were not changed.
-- **DEV agent `lakehouse_to_ai_operations_adviser`: DRAFT**, attached to that
-  dedicated AI compute, not deployed. Long-term memory and summarization disabled.
+- **DEV agent `lakehouse_to_ai_operations_adviser`: full DRAFT preserved**, attached
+  to that dedicated AI compute. A separate SQL-only diagnostic deployment is
+  ACTIVE; the complete six-tool adviser has not deployed successfully. Long-term memory and summarization disabled.
   The actual instructions, a bounded native Spark SQL probe and the prepared
   package's six guarded tool classes are saved in its canvas. Its service-managed
   `.aflow` is in the project folder. No other demo's agent/compute was reused.
@@ -86,62 +88,78 @@ operation identities and cleanup ownership remain in protected runtime outside
 Git; the sanitized [execution summary](operations-agent-execution.json) contains
 logical names and results only.
 
-## Gates that did not pass
+## User-selected model and native deployment observations
 
-The real `agent validate-agent` operation returns **isValidAgent=false** with
-**AFV_AGENT_LLM_REQUIRED**: planner `llm.provider`, `llm.modelId` and `llm.regionId`
-are unset. A model from another demonstration was not copied or guessed. Select
-an approved model offered by the target instance in the DEV agent UI and save;
-Ask-AIDP can then reread that actual configuration.
+The user reported selecting a model and saving the DEV draft. A fresh native
+read independently confirmed **google.gemini-2.5-flash**, provider **google**,
+region **eu-frankfurt-1**. That UI save had retained the model but lost the
+canvas edge and inline tools. Only the missing prepared edge/tools were restored,
+with fresh reads and conditional updates preserving the selected model.
+Native validation then returned **isValidAgent=true**, no validation errors.
+The earlier AFV_AGENT_LLM_REQUIRED result is historical and resolved.
 
-The installed 5.1.1 SDK defines `SqlToolQueryType.SPARK`, `SqlToolConfiguration`,
-`TestSqlToolDetails`, Custom Code configuration and KnowledgeBase data types.
-The actual client/request set and CLI do **not** expose tool-test, KB creation/
-ingestion or LLM-catalog selection operations. The MCP reference also lacks
-those operations. This is a limitation of the exposed integration, **not proof
-that AIDP lacks Spark SQL or KB support**. No private endpoint or method was
-invented. The documented [SQL tool UI](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/agent-flow-tools.html)
+One CLI deployment submission of the complete draft timed out. Readback found
+**three implicit SDK attempts**, all terminal **FAILED / HTTP 500 /
+InternalServerError**. No additional complete-agent deployment was submitted.
+A bounded changed diagnostic retained the same model, instructions and compute,
+removing only the Custom Code package from the deployed variant. A single signed
+REST deployment request returned **HTTP 201 / ACTIVE** with the fixed native SQL
+probe alone. This narrows the failing configuration but does not establish a
+Custom Code root cause or prove native SQL execution. The subsequent driver
+ERROR log search returned zero records.
+
+The **complete two-tool draft has now been restored and revalidated successfully**
+without redeploying. Its six guarded classes remain prepared, with an intentionally
+empty sql_connection. The ACTIVE deployment is the diagnostic SQL-only snapshot;
+it is not the completed operations adviser. No agent chat was submitted.
+
+## Gates that remain pending
+
+The selected Spark compute is STOPPED. The first start lookup accidentally
+selected restart and was rejected before changes. The corrected /actions/start
+request, explicitly carrying an empty JSON body, was also rejected with HTTP 400:
+**The request body must not be null**. Neither call started or restarted compute;
+no settings, libraries or idle policy changed. Further repair attempts stopped.
+The owner was asked to start this existing compute in the AIDP console before
+continuing the one-row SQL read probe. No native SQL result is claimed.
+
+The installed 5.1.1 SDK defines SqlToolQueryType.SPARK, SqlToolConfiguration,
+TestSqlToolDetails, Custom Code configuration and KnowledgeBase data types.
+The exposed CLI/client/reference set lacks direct tool-test and KB lifecycle
+operations. These are integration limitations, not proof that AIDP lacks those
+features. The documented [SQL tool UI](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/agent-flow-tools.html)
 and [KB UI](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/knowledge-bases.html)
-remain the current supported operator path for those gaps.
+provide supported operator paths. No private endpoint was invented.
 
-The native SQL probe uses exact SDK keys and the verified Spark compute key, with
-one fixed version-pinned SELECT and a one-row limit. It is a **saved proposal**,
-not a successful native SQL-tool execution. The guarded classes deliberately
-retain an empty sql_connection until that probe succeeds and its real native
-configuration is exported. The Custom Code composition remains simulated-only.
-The Spark inventory found no aidputils package; that is not an inspection of the
-AI runtime and does not establish missing AI-compute libraries.
+A bounded signed chat transport was prepared using the actual exported diagnostic
+deployment endpoint, the same existing launcher, SDK and authentication provider.
+It has **not been invoked**. The MCP REST wrapper does not expose that chat route;
+preparation does not imply successful runtime authentication or a tool response.
+No credentials, endpoint credential identifiers or raw headers are published.
 
-**No KB was created or ingested, no RAG retrieval/citations were tested, no agent
-was deployed and none of the 17 live acceptance cases ran.** Neither AGENT DATA
-READY nor an ACTIVE compute is AGENT ACCEPTANCE PASS.
+**No KB was created or ingested, no RAG retrieval/citations were tested and none
+of the 17 live acceptance cases ran. AGENT ACCEPTANCE remains PENDING.**
 
 ## Exact next operator steps
 
-1. In the saved DEV canvas select an available, approved LLM and save. Re-read
-   it and rerun native validation; preserve unrelated owner edits.
-2. Select/test `native_spark_sql_probe` directly using the attached AI compute.
-   Expect O-00030255 and 0.5999136971617619. Export the real configuration, then
-   configure each of the six guarded classes. Test them individually, including
-   rejected IDs/limits, missing valid orders and native failure propagation.
-   Remove the diagnostic-only probe from agent-facing tools after this gate.
-3. Create dedicated **`lakehouse_demo.gold.operations_policies`** through the KB
-   UI. Select **lakehouse_to_ai / lakehouse_demo_cpu**, an embedding model offered
-   there (MULTILINGUAL_E5_SMALL is the documented multilingual candidate), and
-   explicit chunk/overlap settings. Register **only** the source volume's
-   `/documents` folder with TXT enabled. Start ingestion and verify both files'
-   completed ingestion jobs. These are instructions, not recorded execution.
-4. Attach `retrieve_operations_policy` using that actual KB's exported config.
-   Test retrieval of both policies and required numbered sections. Genuine
-   retrieved chunks/citations are required; file upload alone is insufficient.
-5. Validate/deploy the owned DEV graph and read back its actual endpoint and
-   version. Execute the 17 cases in fresh sessions and retain tool calls, raw
-   results, actual citations and pass/fail reasons. Do not copy operating rows
-   into an agent question to simulate native retrieval.
+1. Start existing **lakehouse_demo_cpu** from the console without changing its
+   configuration. Confirm ACTIVE by readback before invoking the one-row probe
+   on the already ACTIVE SQL-only diagnostic deployment. Expect O-00030255 and
+   0.5999136971617619; these expected values must not be injected into the prompt.
+2. Export the successful native SQL configuration and configure/test each guarded
+   class, including invalid IDs/limits, valid missing orders and propagated
+   native failures. Diagnose the complete draft's deployment separately; do not
+   resubmit the timed-out operation or treat its retries as pending.
+3. Create dedicated **lakehouse_demo.gold.operations_policies** through the KB UI.
+   Select lakehouse_to_ai / lakehouse_demo_cpu and an embedding model actually
+   offered there; record chunk/overlap settings. Ingest only the policy volume's
+   **/documents** folder with TXT enabled. Verify both ingestion jobs and actual
+   retrieved numbered sections/citations before attaching the retrieval tool.
+4. Validate/deploy the complete owned DEV graph, removing the diagnostic probe
+   from agent-facing tools only after the six classes pass. Run all 17 cases in
+   fresh sessions, retaining actual tool calls, results, citations and decisions.
 
-Until the missing native operations are exposed or these UI gates are completed,
-retain **AGENT ACCEPTANCE PENDING**. Autonomous publication, source changes,
-training, new scoring and outbound messages remain outside this milestone.
+No mainline layer, training, scoring or Autonomous publication was performed.
 
 ## Local verification and files
 

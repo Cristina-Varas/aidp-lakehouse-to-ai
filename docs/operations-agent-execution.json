@@ -6,7 +6,9 @@
     "workspace": "lakehouse_to_ai",
     "instance": "CristinaVaras-AIDPWorkbench",
     "region": "eu-frankfurt-1",
-    "spark_compute": "lakehouse_demo_cpu"
+    "spark_compute": "lakehouse_demo_cpu",
+    "spark_state_latest": "STOPPED",
+    "spark_idle_minutes_unchanged": 30
   },
   "package_version": "0.6.0",
   "notebook_06": {
@@ -50,17 +52,40 @@
   },
   "dev_agent": {
     "name": "lakehouse_to_ai_operations_adviser",
-    "state": "DRAFT",
+    "state": "FULL_DRAFT_PRESERVED",
     "deployed": false,
     "instructions_saved": true,
     "sql_probe_saved": true,
     "custom_classes_prepared": 6,
     "native_custom_code_verified": false,
     "validation": {
-      "is_valid": false,
-      "code": "AFV_AGENT_LLM_REQUIRED"
+      "is_valid": true,
+      "errors": []
     },
-    "model_selected": false
+    "model_selected": true,
+    "model": {
+      "provider": "google",
+      "model_id": "google.gemini-2.5-flash",
+      "region": "eu-frankfurt-1",
+      "source": "user selection independently reread"
+    },
+    "full_deployment": {
+      "client_submissions": 1,
+      "implicit_sdk_attempts": 3,
+      "terminal_status": "FAILED",
+      "http_status": 500,
+      "error": "InternalServerError"
+    },
+    "diagnostic_deployment": {
+      "state": "ACTIVE",
+      "http_status": 201,
+      "variant": "native SQL probe only; complete adviser not deployed",
+      "request_count": 1,
+      "chat_submitted": false,
+      "native_sql_verified": false
+    },
+    "full_draft_restored_after_diagnostic": true,
+    "driver_error_log_records": 0
   },
   "ai_compute": {
     "name": "lakehouse_to_ai_agent_dev",
@@ -106,5 +131,13 @@
     "filename": "aidp_lakehouse_to_ai-0.6.0-py3-none-any.whl",
     "sha256": "ca6e82efc793a2dbb49ad382c33116534943f8a9bd013cad4a84a2ac2c7828d7",
     "ignored_by_git": true
+  },
+  "spark_start": {
+    "latest_state": "STOPPED",
+    "restart_lookup_rejected_before_action": true,
+    "correct_start_http_status": 400,
+    "message": "The request body must not be null",
+    "compute_settings_changed": false,
+    "next_step": "Owner starts existing compute in console; reread ACTIVE before SQL probe"
   }
 }
