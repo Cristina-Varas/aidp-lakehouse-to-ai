@@ -1,0 +1,110 @@
+{
+  "date": "2026-11-01",
+  "source_handoff": "quistor-operations-agent-0.6.0.zip",
+  "source_base_commit": "a27072275b437c01a4797f8ac125224593f12c5b",
+  "environment": {
+    "workspace": "lakehouse_to_ai",
+    "instance": "CristinaVaras-AIDPWorkbench",
+    "region": "eu-frankfurt-1",
+    "spark_compute": "lakehouse_demo_cpu"
+  },
+  "package_version": "0.6.0",
+  "notebook_06": {
+    "executed_in_aidp": true,
+    "execution_mode": "isolated read-only workflow; exact project wheel on kernel-local sys.path; no pip/shared library changes",
+    "workflow_status": "SUCCESS",
+    "source_rows": 600,
+    "alerts": 450,
+    "non_alerts": 150,
+    "predictions_delta_version": 1,
+    "scoring_input_delta_version": 1,
+    "data_status": "AGENT DATA READY",
+    "query_status": "NOTEBOOK SQL PASS",
+    "native_agent_sql_verified": false,
+    "top_order": {
+      "order_id": "O-00030255",
+      "customer_id": "C-000550",
+      "late_probability": 0.5999136971617619
+    },
+    "receipt_location": "protected local runtime outside Git"
+  },
+  "policy_sources": {
+    "volume": "lakehouse_demo.gold.lakehouse_to_ai_policy_sources",
+    "folder": "/documents",
+    "file_count": 2,
+    "files": {
+      "order_prioritization.txt": {
+        "bytes": 1289,
+        "sha256": "8d0214d1e39b000daae016c7fcb091b8e26657c1d738facecb8007538ef6f454",
+        "remote_bytes_match": true
+      },
+      "incident_escalation.txt": {
+        "bytes": 1342,
+        "sha256": "7ad708d4453f5d3300663ea17ade94013b93a7567acac555d851c43817254276",
+        "remote_bytes_match": true
+      }
+    },
+    "kb_created": false,
+    "ingestion_verified": false,
+    "retrieval_verified": false
+  },
+  "dev_agent": {
+    "name": "lakehouse_to_ai_operations_adviser",
+    "state": "DRAFT",
+    "deployed": false,
+    "instructions_saved": true,
+    "sql_probe_saved": true,
+    "custom_classes_prepared": 6,
+    "native_custom_code_verified": false,
+    "validation": {
+      "is_valid": false,
+      "code": "AFV_AGENT_LLM_REQUIRED"
+    },
+    "model_selected": false
+  },
+  "ai_compute": {
+    "name": "lakehouse_to_ai_agent_dev",
+    "created_with_explicit_user_approval": true,
+    "state": "ACTIVE",
+    "ocpus": 1,
+    "memory_gb": 16,
+    "replicas": 1,
+    "cost": "AIDP Units per hour while active; no unverified price asserted"
+  },
+  "dependencies": {
+    "ask_aidp": "0.10.0",
+    "aidp_cli": "5.1.1",
+    "aidp_typescript_sdk": "5.1.1",
+    "recording_or_app_selected": false,
+    "upgrades_performed": false
+  },
+  "local_verification": {
+    "default_tests": 115,
+    "passed": 91,
+    "optional_skipped": 24,
+    "direct_wheel_agent_tests_passed": 12,
+    "unit_native_adapter": "SIMULATED",
+    "unit_sql_semantics": "SQLite; actual six query families separately passed in AIDP Spark"
+  },
+  "acceptance": {
+    "status": "NOT_EXECUTED",
+    "cases": 17,
+    "passed": 0,
+    "native_sql_verified": false,
+    "rag_verified": false,
+    "AGENT_ACCEPTANCE_PASS": false
+  },
+  "preservation": {
+    "training_performed": false,
+    "scoring_performed": false,
+    "notebooks_01_to_05_executed": false,
+    "existing_layers_models_sources_changed": false,
+    "autonomous_publication_performed": false,
+    "auth_or_uri_changes": false
+  },
+  "wheel": {
+    "filename": "aidp_lakehouse_to_ai-0.6.0-py3-none-any.whl",
+    "sha256": "ca6e82efc793a2dbb49ad382c33116534943f8a9bd013cad4a84a2ac2c7828d7",
+    "ignored_by_git": true
+  }
+}

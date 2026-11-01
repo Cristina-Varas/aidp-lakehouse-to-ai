@@ -94,3 +94,27 @@ verifies experiment 1, the FINISHED training run and READY model version 1.
 Native workflow authorization is still blocked; no scoring was executed. During
 this diagnosis run only configuration and section 1a, not Run All. See
 [native binding evidence and exact platform prerequisite](docs/aidp-native-mlflow-binding.md).
+
+
+## Operations adviser preparation (0.6.0 candidate)
+
+The user has now confirmed live AIDP SCORING PASS: 600 predictions, 450 alerts,
+150 non-alerts, identical repeat and zero additional rows. This supersedes the
+older pending-scoring status above; the connection-repair mechanism was not
+independently observed here.
+
+[Notebook 06](notebooks/06_prepare_operations_agent.ipynb) checks and pins existing
+results without loading a model or scoring again. Reusable modules prepare six
+read-only queries, a native Custom Code SQL adapter, byte-preserved TXT policies,
+and agent instructions. Follow [setup and explicit acceptance gates](docs/operations-agent.md)
+and [acceptance cases](docs/operations-agent-acceptance.json). Native SQL adapter
+invocation, KB ingestion/RAG, deployment and answer acceptance remain unverified.
+This candidate does not publish to Autonomous or change existing layer logic.
+
+The local continuation of **0.6.0** independently verified notebook 06 in AIDP:
+600 orders / 450 alerts / 150 non-alerts, with both actual Delta versions pinned
+to 1 and all six notebook query families passing. A dedicated approved AI compute,
+DEV draft and byte-verified two-document source volume are prepared. Native SQL
+tool execution, LLM selection, KB ingestion/RAG and 17 live cases remain pending.
+See [actual operations-agent execution](docs/operations-agent-execution.md); no
+AGENT ACCEPTANCE PASS is claimed.
