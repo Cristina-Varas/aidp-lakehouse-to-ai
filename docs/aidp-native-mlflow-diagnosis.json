@@ -1,0 +1,170 @@
+{
+  "date": "2026-11-01",
+  "server": "ask-aidp",
+  "instance": "CristinaVaras-AIDPWorkbench",
+  "workspace": "lakehouse_to_ai",
+  "compute": "lakehouse_demo_cpu",
+  "region": "eu-frankfurt-1",
+  "same_compute_for_notebooks": true,
+  "distinct_kernels": true,
+  "saved_04_contains_training_pass": true,
+  "saved_04_has_explicit_uri_setters": false,
+  "mcp_reads": {
+    "experiment": {
+      "http_status": 200,
+      "id": "1",
+      "name": "lakehouse_to_ai_late_delivery"
+    },
+    "run": {
+      "http_status": 200,
+      "id": "fc64485e353c41168cb90ee0f0bc5f71",
+      "status": "FINISHED"
+    },
+    "model_version": {
+      "http_status": 200,
+      "name": "lakehouse_demo.gold.late_delivery_acceptance",
+      "version": "1",
+      "run_id": "fc64485e353c41168cb90ee0f0bc5f71",
+      "status": "READY"
+    }
+  },
+  "native_diagnostic_scope": "isolated workflow; not the live 04/05 kernels",
+  "native_context_flags": {
+    "dh_user_principal_present": true,
+    "instance_matches_expected": false,
+    "native_auth_provider_selected": true,
+    "workspace_matches_expected": false
+  },
+  "native_injected_route_shapes": {
+    "driver_tracking": {
+      "equals_python_env": true,
+      "equals_verified_registry_base": false,
+      "equals_verified_tracking_base": false,
+      "has_host": false,
+      "present": true,
+      "scheme": ""
+    },
+    "executor_tracking": {
+      "equals_python_env": true,
+      "equals_verified_registry_base": false,
+      "equals_verified_tracking_base": false,
+      "has_host": false,
+      "present": true,
+      "scheme": ""
+    }
+  },
+  "empty_scheme_factories": {
+    "tracking_empty_scheme_factory": {
+      "module": "mlflow.tracking._tracking_service.utils",
+      "name": "_get_file_store"
+    },
+    "registry_empty_scheme_factory": {
+      "module": "mlflow.tracking._model_registry.utils",
+      "name": "_get_file_store"
+    }
+  },
+  "native_metadata_reads": {
+    "experiment": {
+      "error_class": "RestException",
+      "error_code": "INTERNAL_ERROR",
+      "known_flags": {
+        "401": false,
+        "403": false,
+        "404": false,
+        "500": false,
+        "authorization failed": true,
+        "dh-user-principal": false,
+        "missing": false,
+        "not authenticated": false,
+        "not found": true,
+        "not set": false,
+        "notauthorizedornotfound": false,
+        "path": false,
+        "principal": false,
+        "resource": true,
+        "route": false,
+        "signer": false,
+        "tenant": false,
+        "workspace": false
+      },
+      "platform_code": "NotAuthorizedOrNotFound",
+      "status": "FAIL"
+    },
+    "model_version": {
+      "error_class": "RestException",
+      "error_code": "INTERNAL_ERROR",
+      "known_flags": {
+        "401": false,
+        "403": false,
+        "404": false,
+        "500": false,
+        "authorization failed": true,
+        "dh-user-principal": false,
+        "missing": false,
+        "not authenticated": false,
+        "not found": true,
+        "not set": false,
+        "notauthorizedornotfound": false,
+        "path": false,
+        "principal": false,
+        "resource": true,
+        "route": false,
+        "signer": false,
+        "tenant": false,
+        "workspace": false
+      },
+      "platform_code": "NotAuthorizedOrNotFound",
+      "status": "FAIL"
+    },
+    "run": {
+      "error_class": "RestException",
+      "error_code": "INTERNAL_ERROR",
+      "known_flags": {
+        "401": false,
+        "403": false,
+        "404": false,
+        "500": false,
+        "authorization failed": true,
+        "dh-user-principal": false,
+        "missing": false,
+        "not authenticated": false,
+        "not found": true,
+        "not set": false,
+        "notauthorizedornotfound": false,
+        "path": false,
+        "principal": false,
+        "resource": true,
+        "route": false,
+        "signer": false,
+        "tenant": false,
+        "workspace": false
+      },
+      "platform_code": "NotAuthorizedOrNotFound",
+      "status": "FAIL"
+    }
+  },
+  "global_routing_unchanged_in_client_probe": true,
+  "native_restoration_verified": false,
+  "model_loaded": false,
+  "scoring_performed": false,
+  "training_performed": false,
+  "native_auth_changed": false,
+  "mlflow_writes": false,
+  "canonical_notebooks_changed_in_aidp": false,
+  "credentials_or_environment_values_in_receipt": false,
+  "actual_native_initializer_guard_test": {
+    "authentication_unchanged": true,
+    "error_class": "RuntimeError",
+    "global_routing_unchanged": true,
+    "initializer_status": "BLOCKED",
+    "known_flags": {
+      "No global URI or auth setting was changed": true,
+      "No model loaded or scoring performed": true,
+      "NotAuthorizedOrNotFound": true
+    },
+    "mlflow_writes": false,
+    "model_loaded": false,
+    "scoring_performed": false,
+    "source": "project native initializer, executed without installing dependencies"
+  }
+}

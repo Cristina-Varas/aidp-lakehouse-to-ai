@@ -87,3 +87,10 @@ managed Delta predictions with guarded insert-only reruns. This release includes
 the pending three-part model-name fix. Live AIDP scoring is pending; see
 [execution record](docs/late-delivery-scoring-execution.md). Existing layer
 transformations are preserved; agents and Autonomous publication remain next.
+
+Connection diagnosis **0.5.1** adds a metadata-only native binding stage before
+notebook 05 loads any model. The existing ask-aidp connection independently
+verifies experiment 1, the FINISHED training run and READY model version 1.
+Native workflow authorization is still blocked; no scoring was executed. During
+this diagnosis run only configuration and section 1a, not Run All. See
+[native binding evidence and exact platform prerequisite](docs/aidp-native-mlflow-binding.md).

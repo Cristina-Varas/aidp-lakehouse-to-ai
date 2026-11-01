@@ -1,5 +1,10 @@
 # Initial open-order scoring — release 0.5.0
 
+**Connection update 0.5.1:** before model loading, notebook 05 now verifies native
+metadata routing. During the active diagnosis run only configuration and section
+1a, then stop. Native connection restoration and scoring remain unverified. See
+[native binding diagnosis](aidp-native-mlflow-binding.md).
+
 ## 1. Evidence and scope
 
 **User-reported AIDP evidence, recorded 1 November 2026:** TRAINING PASS;
@@ -27,7 +32,7 @@ Oracle's [Models documentation](https://docs.oracle.com/en/cloud/paas/ai-data-pl
 describes loading registered models into notebooks for batch inference.
 
 Upload the ignored local wheel
-`dist/aidp_lakehouse_to_ai-0.5.0-py3-none-any.whl` as a compute library, or install
+`dist/aidp_lakehouse_to_ai-0.5.1-py3-none-any.whl` as a compute library, or install
 that project wheel with `%pip install --no-deps <uploaded-wheel-path>` and restart
 Python. Do not install the local-test training extra over native MLflow.
 Open/import notebook 05 and execute top to bottom in a new session. Notebook 04
@@ -35,7 +40,7 @@ need not run again. Logic lives in `aidp_lakehouse.scoring`, `scoring_mlflow` an
 `scoring_spark`; the wheel makes all modules available.
 
 The notebook has one configuration cell: v2 source metadata, exact model name,
-version **"1"**, expected training run and optional input Delta integer version.
+version **"1"**, expected training run optional input Delta integer version, and non-secret verified native API bases.
 There is **no threshold or cutoff setting**. An omitted Delta version is resolved
 once, printed and reused for both inferences. Record that integer to replay in a
 later session. Input is always `lakehouse_demo.gold.late_delivery_scoring`; output
@@ -46,7 +51,9 @@ is `lakehouse_demo.gold.late_delivery_predictions`.
 Only `models:/lakehouse_demo.gold.late_delivery_acceptance/1` is loaded with
 [`mlflow.sklearn.load_model`](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.sklearn.html).
 No latest alias, stage lookup, registration, fit, threshold search or calibration
-occurs. Native preflight makes read-only capability checks and refuses local
+occurs. Native initialization verifies the exact existing experiment/run/version before
+activating any explicit route, preserving a working native binding. The following
+preflight makes read-only capability checks and refuses local
 backend fallback. The registry version must belong to the configured training
 run, whose status must be FINISHED. Run artifacts are retrieved through
 [`MlflowClient.download_artifacts`](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.client.html).
