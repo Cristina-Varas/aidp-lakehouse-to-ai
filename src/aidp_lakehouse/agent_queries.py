@@ -5,6 +5,7 @@ Only validated runtime values are interpolated. Connection IDs remain private
 deployment configuration copied from this workspace's native SQL tool UI.
 """
 from dataclasses import dataclass
+import json
 import re
 
 PREDICTIONS = 'lakehouse_demo.gold.late_delivery_predictions'
@@ -111,6 +112,20 @@ def native_sql_config(connection, tool, params, snapshot):
     the UI, including its dialect/cluster fields. Those keys are not guessed.
     No credentials belong in this dictionary or in generated repository assets.
     """
+    if isinstance(connection, str):
+        # AIDP's Custom Code Parameters editor serializes nested configuration
+        # objects to JSON text. Decode only JSON, retaining all target checks.
+        def unique_keys(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in result:
+                    raise ValueError('Duplicate SQL configuration key')
+                result[key] = value
+            return result
+        try:
+            connection = json.loads(connection, object_pairs_hook=unique_keys)
+        except (TypeError, ValueError) as exc:
+            raise ValueError('SQL connection must be an object or valid JSON object text') from exc
     if not isinstance(connection, dict) or not connection:
         raise ValueError('Supply a verified Spark SQL tool configuration from this workspace')
     if connection.get('catalogKey') != 'lakehouse_demo' or connection.get('schemaKey') != 'gold':
@@ -118,5 +133,21 @@ def native_sql_config(connection, tool, params, snapshot):
     if any(k in connection for k in ('password', 'token', 'secret', 'api_key')):
         raise ValueError('Use native connection references, not credentials')
     conf = dict(connection)
+    if conf.get('queryType') == 'SPARK':
+        # Observed native SQLTool routes by catalogType, while the exported
+        # canvas configuration uses queryType. Without this translation the
+        # toolkit defaults to Oracle EXTERNAL validation, rejecting Spark SQL.
+        for key in ('catalogType', 'catalog_type'):
+            if key in conf and str(conf[key]).strip().upper() != 'STANDARD':
+                raise ValueError('Spark SQL configuration conflicts with catalog type')
+        conf['catalogType'] = 'STANDARD'
+        cluster = conf.get('sparkComputeKey')
+        if not isinstance(cluster, str) or not cluster.strip():
+            raise ValueError('Spark SQL configuration requires its verified compute key')
+        if 'clusterKey' in conf and conf['clusterKey'] != cluster:
+            raise ValueError('Spark SQL configuration has conflicting compute keys')
+        # The inspected native _SparkSQLExecutor reads clusterKey, not the
+        # canvas export's sparkComputeKey. Preserve the exported key as well.
+        conf['clusterKey'] = cluster
     conf.update(query=query_sql(tool, params, snapshot), isRowLimitEnabled=True, maxRows=TOOLS[tool][2])
     return conf

@@ -1,4 +1,5 @@
 """Native AIDP Custom Code adapter; integration must pass in the target workspace."""
+import json
 from aidputils.agents.tools.custom_tools.base import CustomToolBase
 from aidputils.agents.toolkit.configs import AIDPToolConf
 from aidputils.agents.toolkit.tool_helper import create_langgraph_tool
@@ -26,6 +27,13 @@ class _OperationsSql(CustomToolBase):
         tool_conf = AIDPToolConf(name=cls.operation, description=TOOLS[cls.operation][0],
                                 tool_class='SQLTool', conf=sql, params=[])
         result = create_langgraph_tool(tool_conf.model_dump()).invoke({})
+        # The native SQL tool also returns JSON-encoded error envelopes. A text
+        # representation must receive the same failure checks as a dictionary.
+        if isinstance(result, str):
+            try:
+                result = json.loads(result)
+            except ValueError:
+                pass
         # Native failures must remain failures, never successful business answers.
         if result is None or (isinstance(result, dict) and (
                 result.get('success') is False or result.get('isError') is True or result.get('error'))):

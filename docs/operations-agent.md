@@ -7,11 +7,24 @@ The user confirmed SCORING PASS in AIDP on 1 November 2026: 600 predictions,
 shown ranking uses model 1, threshold 0.25 and scoring-input Delta version 1.
 This is user-provided evidence. We did not independently query that kernel.
 
-This change prepares notebook 06, reusable read-only queries, a Custom Code
-package builder, unchanged policy bytes in TXT form, agent instructions and an
-acceptance plan. It does **not** deploy an agent, create/ingest a KB, publish to
-Autonomous or establish native SQL authorization. Native adapter tests use a
-simulation, and local query semantics use SQLite; neither is live AIDP evidence.
+The implementation is now **0.6.1**. Notebook 06 and the native SQL-only probe
+passed earlier. On 2 November, the isolated **risk_summary** Custom Code Test also
+passed with directly visible structured output matching 600 / 450 / 150. The
+six-tool deployment API returned ACTIVE, but its first conversation failed with
+AIDP_USER_CODE_EXECUTION_ERROR before a verified invocation. The prior SQL-only
+baseline has been restored and the full candidate draft preserved.
+
+The user created operations_policies in gold, but its observed workspace/cluster
+binding differs from the project. It has no registered sources or ingestion.
+All 17 agent acceptance cases remain blocked, not passed. See
+[dated execution evidence](operations-agent-execution.md) and the
+[case dispositions](operations-agent-acceptance.json).
+
+Adapter fixes decode the native editor's JSON-text configuration, translate the
+observed canvas Spark keys to the inspected toolkit keys, and propagate encoded
+native SQL errors. Business SQL, snapshot versions and policy bytes are unchanged.
+Local adapter tests remain simulations; they are separate from the real isolated
+Custom Code Test. No Autonomous publication, training or scoring was performed.
 
 The adviser estimates acceptance-time risk for a fixed synthetic snapshot as of
 2026-10-28. It does not monitor later events or determine a business work queue.
@@ -19,7 +32,7 @@ It cannot send messages, reschedule deliveries or retrain/change the model.
 
 ## 1. Verify existing data using notebook 06
 
-Build the candidate 0.6.0 wheel from this branch with the existing project build
+Build the candidate 0.6.1 wheel from this branch with the existing project build
 procedure. Install only the project wheel without replacing platform packages.
 Preserve the working 05 kernel until ready to attach/restart compute. Run
 `notebooks/06_prepare_operations_agent.ipynb`; 01–05 need not be rerun.
@@ -107,7 +120,9 @@ platform dependencies. It registers:
 For **each enabled class**, populate the initially empty `sql_connection` with
 that tested native Spark SQL configuration. Keep the generated prediction/input
 versions and table IDs from the receipt. Configuration is private deployment
-state, not a runtime argument chosen by the LLM.
+state, not a runtime argument chosen by the LLM. The module decodes the editor's
+JSON-text object and translates the runtime-observed Spark routing/cluster keys;
+conflicting type or compute keys are rejected.
 
 The adapter validates runtime parameters, creates a fixed SELECT for that call,
 and delegates to the documented `AIDPToolConf` / `create_langgraph_tool` SQL
@@ -176,7 +191,7 @@ feature-attribution mechanism is supplied, and risk cannot determine severity.
 
 Only report **AGENT ACCEPTANCE PASS** after successful native query invocation,
 verified ingestion/retrieval of both documents and the completed case evidence.
-Until then, report the specific unfinished gate. No live result is asserted here.
+Until then, report the specific unfinished gate. Live evidence is limited to the explicitly dated execution record; this guide is not an acceptance receipt.
 
 ## References checked 1 November 2026
 

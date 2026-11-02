@@ -143,6 +143,31 @@ class QueryTests(unittest.TestCase):
         self.assertIn('VERSION AS OF 2',conf['query']);self.assertIn('VERSION AS OF 1',conf['query'])
         self.assertNotIn('{{',conf['query'])
 
+    def test_native_ui_json_configuration_preserves_target_and_parameter_checks(self):
+        connection = {'queryType': 'SPARK', 'catalogKey': 'lakehouse_demo',
+                      'schemaKey': 'gold', 'sparkComputeKey': 'verified-cluster'}
+        self.assertEqual(native_sql_config(json.dumps(connection), 'risk_summary', {}, SNAPSHOT),
+                         native_sql_config(connection, 'risk_summary', {}, SNAPSHOT))
+        self.assertEqual(native_sql_config(connection, 'risk_summary', {}, SNAPSHOT)['catalogType'],
+                         'STANDARD')
+        self.assertEqual(native_sql_config(connection, 'risk_summary', {}, SNAPSHOT)['clusterKey'],
+                         'verified-cluster')
+        with self.assertRaises(ValueError):
+            native_sql_config(dict(connection, clusterKey='different-cluster'), 'risk_summary', {}, SNAPSHOT)
+        for key in ('catalogType', 'catalog_type'):
+            with self.assertRaises(ValueError):
+                native_sql_config(dict(connection, **{key:'EXTERNAL'}), 'risk_summary', {}, SNAPSHOT)
+        invalid = ['not json', 'null', '[]', '1', '"text"', '{}',
+                   '{"catalogKey":"other","catalogKey":"lakehouse_demo","schemaKey":"gold"}',
+                   json.dumps(dict(connection, catalogKey='other')),
+                   json.dumps(dict(connection, password='must-not-be-used'))]
+        for value in invalid:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                native_sql_config(value, 'risk_summary', {}, SNAPSHOT)
+        with self.assertRaises(ValueError):
+            native_sql_config(json.dumps(connection), 'get_order_risk',
+                              {'order_id': "O-00030255' OR 1=1 --"}, SNAPSHOT)
+
 
 class BundleTests(unittest.TestCase):
     def test_deterministic_bundle_and_document_only_ingestion_folder(self):
@@ -205,6 +230,10 @@ class BundleTests(unittest.TestCase):
         conf=factory.call_args.args[0]
         self.assertEqual(conf['params'],[]);self.assertIn('VERSION AS OF 2',conf['conf']['query'])
         factory.return_value.invoke.return_value={'success':False,'error':'unavailable'}
+        with self.assertRaises(RuntimeError):scope['RiskSummary']._execute_tool(config,{})
+        factory.return_value.invoke.return_value=json.dumps({'isError':True,'error':{
+            'aidp_error_code':'AIDP_SQL_TOOL_INVALID_QUERY_ERROR',
+            'data':{'details':{'reason':'SQL_SCHEMA_VALIDATION_UNSUPPORTED_QUALIFIER'}}}})
         with self.assertRaises(RuntimeError):scope['RiskSummary']._execute_tool(config,{})
 
     def test_notebook_is_clean_read_only_and_cannot_claim_deployment(self):

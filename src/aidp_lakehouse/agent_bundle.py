@@ -9,6 +9,7 @@ import io
 import json
 from pathlib import Path
 import zipfile
+from . import __version__
 from .agent_queries import AgentSnapshot, TOOLS, MODEL, RUN, PREDICTIONS, SCORING
 
 CLASSES = dict(zip(TOOLS, ('RiskSummary', 'RankOpenOrders', 'GetOrderRisk',
@@ -36,7 +37,7 @@ def bundle_files(receipt):
     tools = []
     for name, (description, params, _) in TOOLS.items():
         tools.append({'toolClassName': CLASSES[name], 'displayName': name, 'description': description,
-                      'version': '0.6.0', 'schema': [{'name': key, 'type': kind,
+                      'version': __version__, 'schema': [{'name': key, 'type': kind,
                            'description': 'Exact ' + key + (' (integer 1 through 20)' if key == 'limit' else '')}
                           for key, kind in params.items()], 'conf': defaults})
     zip_files = {

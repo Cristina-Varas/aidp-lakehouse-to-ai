@@ -10,7 +10,7 @@
     "spark_state_latest": "ACTIVE",
     "spark_idle_minutes_unchanged": 30
   },
-  "package_version": "0.6.0",
+  "package_version": "0.6.1",
   "notebook_06": {
     "executed_in_aidp": true,
     "execution_mode": "isolated read-only workflow; exact project wheel on kernel-local sys.path; no pip/shared library changes",
@@ -46,13 +46,25 @@
         "remote_bytes_match": true
       }
     },
-    "kb_created": false,
+    "kb_created": true,
     "ingestion_verified": false,
-    "retrieval_verified": false
+    "retrieval_verified": false,
+    "kb_name": "lakehouse_demo.gold.operations_policies",
+    "kb_state": "ACTIVE",
+    "kb_created_by": "user; independently reread in native UI",
+    "kb_binding_matches_project": false,
+    "kb_binding_status": "Observed workspace/cluster keys differ from verified lakehouse_to_ai/lakehouse_demo_cpu; values retained privately",
+    "kb_source_count": 0,
+    "ingestion_submitted": false,
+    "embedding_model": null,
+    "effective_chunk_size": null,
+    "effective_chunk_overlap": null,
+    "requested_chunk_size": 1024,
+    "requested_chunk_overlap": 128
   },
   "dev_agent": {
     "name": "lakehouse_to_ai_operations_adviser",
-    "state": "FULL_DRAFT_PRESERVED",
+    "state": "FULL_DRAFT_061_VALIDATED",
     "deployed": false,
     "instructions_saved": true,
     "sql_probe_saved": true,
@@ -71,39 +83,33 @@
       "runtime_access_verified": true
     },
     "full_deployment": {
-      "client_submissions": 1,
-      "implicit_sdk_attempts": 3,
-      "terminal_status": "FAILED",
-      "http_status": 500,
-      "error": "InternalServerError"
+      "status": "RUNTIME_BLOCKED",
+      "deployment_http_status": 201,
+      "first_chat_http_status": 400,
+      "error_code": "AIDP_USER_CODE_EXECUTION_ERROR",
+      "sql_only_baseline_restored_and_rechecked": true
     },
     "diagnostic_deployment": {
       "state": "ACTIVE",
       "http_status": 201,
-      "variant": "native SQL probe only; updated through documented redeploy",
-      "request_count": 1,
-      "chat_submitted": true,
-      "native_sql_verified": true,
-      "chat_result": {
-        "date": "2026-11-02",
-        "model": "openai.gpt-oss-120b",
+      "variant": "restored previously verified SQL-only baseline",
+      "custom_suite_exposed": false,
+      "restoration_runtime_recheck": {
+        "status": "PASS",
         "http_status": 200,
-        "envelope_error": false,
-        "probe_invocations": 1,
-        "sql_status": "SUCCEEDED",
+        "tool_invocations": 1,
         "rows_fetched": 1,
         "columns_fetched": 2,
-        "query": "SELECT order_id, late_probability FROM lakehouse_demo.gold.late_delivery_predictions VERSION AS OF 1 ORDER BY late_probability DESC, order_id ASC LIMIT 1",
-        "agent_rendered_order": "O-00030255",
-        "agent_rendered_probability": 0.5999136971617619,
-        "matches_independently_verified_snapshot": true,
-        "trace_tool_output": "[REDACTED] by native service; do not claim unredacted raw tool payload",
-        "native_sql_status": "PASS",
-        "full_agent_acceptance": "PENDING"
+        "rendered_values_match_independent_snapshot": true,
+        "raw_tool_payload": "service-redacted; not claimed visible"
       }
     },
     "full_draft_restored_after_diagnostic": true,
-    "driver_error_log_records": 0
+    "driver_error_log_records": 0,
+    "native_custom_code_verification": {
+      "risk_summary_in_Test": "PASS",
+      "six_tool_agent": "BLOCKED before verified invocation"
+    }
   },
   "ai_compute": {
     "name": "lakehouse_to_ai_agent_dev",
@@ -122,20 +128,24 @@
     "upgrades_performed": false
   },
   "local_verification": {
-    "default_tests": 115,
-    "passed": 91,
+    "default_tests": 116,
+    "passed": 92,
     "optional_skipped": 24,
-    "direct_wheel_agent_tests_passed": 12,
+    "direct_wheel_agent_tests_passed": 13,
     "unit_native_adapter": "SIMULATED",
-    "unit_sql_semantics": "SQLite; actual six query families separately passed in AIDP Spark"
+    "unit_sql_semantics": "SQLite; actual six query families separately passed in AIDP Spark",
+    "notebook_structure": "PASS; code AST, empty outputs, no execution counts"
   },
   "acceptance": {
-    "status": "NOT_EXECUTED",
+    "status": "BLOCKED",
     "cases": 17,
     "passed": 0,
     "native_sql_verified": true,
     "rag_verified": false,
-    "AGENT_ACCEPTANCE_PASS": false
+    "AGENT_ACCEPTANCE_PASS": false,
+    "executed": 0,
+    "failed": 0,
+    "blocked": 17
   },
   "preservation": {
     "training_performed": false,
@@ -143,12 +153,15 @@
     "notebooks_01_to_05_executed": false,
     "existing_layers_models_sources_changed": false,
     "autonomous_publication_performed": false,
-    "auth_or_uri_changes": false
+    "auth_or_uri_changes": false,
+    "core_bronze_silver_gold_bytes_match_60a1a71": true
   },
   "wheel": {
-    "filename": "aidp_lakehouse_to_ai-0.6.0-py3-none-any.whl",
-    "sha256": "ca6e82efc793a2dbb49ad382c33116534943f8a9bd013cad4a84a2ac2c7828d7",
-    "ignored_by_git": true
+    "filename": "aidp_lakehouse_to_ai-0.6.1-py3-none-any.whl",
+    "sha256": "7de56bdb378c998096f7137878fca9e8ffe8ccb007a7448b9c850c3df7a456c0",
+    "ignored_by_git": true,
+    "environment": "local Mac",
+    "native_agent_code": "Standalone ZIP uses matching source; wheel not installed into shared AIDP compute"
   },
   "spark_start": {
     "latest_state": "ACTIVE",
@@ -181,5 +194,112 @@
     "reason": "existing ACTIVE deployment",
     "documented_redeploy_http": 201,
     "automatic_retries": false
+  },
+  "runtime_configuration_fixes": {
+    "nested_sql_connection": "Strict JSON object decoding; malformed/non-object/duplicate keys rejected",
+    "native_routing": "queryType=SPARK -> catalogType=STANDARD; contradictory types rejected",
+    "native_compute": "sparkComputeKey -> clusterKey; contradictory cluster keys rejected",
+    "native_errors": "JSON-encoded SQL error envelopes raise instead of becoming successful business data",
+    "evidence": "Native AI-compute Custom Code Test introspected toolkit source/signatures; no environment values or credentials read"
+  },
+  "risk_summary_native_test": {
+    "status": "PASS",
+    "mode": "AIDP Custom Code Test; single-class isolated package",
+    "raw_structured_result_visible": true,
+    "rows": {
+      "open_orders": 600,
+      "alert_orders": 450,
+      "non_alert_orders": 150,
+      "alert_fraction": 0.75,
+      "min_score": 0.13201401099091106,
+      "max_score": 0.5999136971617619,
+      "decision_threshold": 0.25,
+      "model_name": "lakehouse_demo.gold.late_delivery_acceptance",
+      "model_version": "1",
+      "training_run_id": "fc64485e353c41168cb90ee0f0bc5f71",
+      "training_cutoff": "2026-04-01 00:00:00.000Z",
+      "observation_date": "2026-10-28"
+    },
+    "predictions_delta_version": 1,
+    "scoring_delta_version": 1,
+    "evidence_location": "protected local runtime outside Git"
+  },
+  "six_tools_ui_suite": {
+    "status": "OUTCOME_UNVERIFIED",
+    "confirmed_submissions": 1,
+    "intended_read_calls": 7,
+    "intended_invalid_inputs": 10,
+    "ui_error": "Failed to fetch results",
+    "server_result_available": false,
+    "replayed": false,
+    "note": "Do not claim individual tool passes or parameter rejections from this unreturned suite"
+  },
+  "six_tools_deployment": {
+    "native_api_http_status": 201,
+    "native_api_state": "ACTIVE at submission",
+    "first_individual_chat_http_status": 400,
+    "first_individual_chat_error": "AIDP_USER_CODE_EXECUTION_ERROR",
+    "first_individual_chat_message": "The agent's user code could not be executed.",
+    "native_error_data": {},
+    "remaining_individual_chats_submitted": false,
+    "status": "RUNTIME_BLOCKED",
+    "action": "SQL-only deployment restored; full 0.6.1 draft preserved and validated"
+  },
+  "browser_session": {
+    "expired_during_work": true,
+    "restored_by_user": true,
+    "auth_changed_by_agent": false,
+    "os_keystroke_automation": "Denied: osascript is not allowed to send keystrokes (1002)",
+    "permissions_changed": false
+  },
+  "history": {
+    "initial_full_deployment": {
+      "client_submissions": 1,
+      "implicit_sdk_attempts": 3,
+      "terminal_status": "FAILED",
+      "http_status": 500,
+      "error": "InternalServerError"
+    },
+    "original_wheel": {
+      "filename": "aidp_lakehouse_to_ai-0.6.0-py3-none-any.whl",
+      "sha256": "ca6e82efc793a2dbb49ad382c33116534943f8a9bd013cad4a84a2ac2c7828d7",
+      "ignored_by_git": true
+    },
+    "original_notebook_06": {
+      "executed_in_aidp": true,
+      "execution_mode": "isolated read-only workflow; exact project wheel on kernel-local sys.path; no pip/shared library changes",
+      "workflow_status": "SUCCESS",
+      "source_rows": 600,
+      "alerts": 450,
+      "non_alerts": 150,
+      "predictions_delta_version": 1,
+      "scoring_input_delta_version": 1,
+      "data_status": "AGENT DATA READY",
+      "query_status": "NOTEBOOK SQL PASS",
+      "native_agent_sql_verified": true,
+      "top_order": {
+        "order_id": "O-00030255",
+        "customer_id": "C-000550",
+        "late_probability": 0.5999136971617619
+      },
+      "receipt_location": "protected local runtime outside Git"
+    },
+    "prior_sql_probe": {
+      "date": "2026-11-02",
+      "model": "openai.gpt-oss-120b",
+      "http_status": 200,
+      "envelope_error": false,
+      "probe_invocations": 1,
+      "sql_status": "SUCCEEDED",
+      "rows_fetched": 1,
+      "columns_fetched": 2,
+      "query": "SELECT order_id, late_probability FROM lakehouse_demo.gold.late_delivery_predictions VERSION AS OF 1 ORDER BY late_probability DESC, order_id ASC LIMIT 1",
+      "agent_rendered_order": "O-00030255",
+      "agent_rendered_probability": 0.5999136971617619,
+      "matches_independently_verified_snapshot": true,
+      "trace_tool_output": "[REDACTED] by native service; do not claim unredacted raw tool payload",
+      "native_sql_status": "PASS",
+      "full_agent_acceptance": "PENDING"
+    }
   }
 }
