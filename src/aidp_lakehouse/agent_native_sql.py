@@ -156,15 +156,25 @@ def native_canvas_diagram(existing, sql_tools, rag_tool):
     return diagram
 
 
-def write_native_sql_bundle(directory, receipt, environment, profile='static'):
+def write_native_sql_bundle(directory, receipt, environment, profile='static', feature_evidence=None):
     if profile not in ('static', 'complete'):
         raise ValueError('Choose an explicit static or complete native SQL profile')
     tools = (static_native_tools if profile == 'static' else native_tools)(receipt, environment)
+    response_contract = None
+    if profile == 'complete':
+        from .agent_order_risk import apply_order_risk_contract, TrainingFeatureEvidence, SCHEMA
+        if not isinstance(feature_evidence, TrainingFeatureEvidence):
+            raise ValueError('Complete export requires the saved training feature contract')
+        tools = apply_order_risk_contract(tools, validated_snapshot(receipt), feature_evidence)
+        response_contract = {'schema': SCHEMA, 'artifact': 'feature_contract.json',
+                             'sha256': feature_evidence.sha256,
+                             'training_run_id': feature_evidence.training_run_id}
     encoded = (json.dumps(tools, indent=2, sort_keys=True) + '\n').encode()
     manifest = {
         'stage': 'PREPARED_ONLY', 'custom_code_required': False,
         'runtime_verified': False, 'agent_acceptance_pass': False,
         'profile': profile, 'tools': [t['displayName'] for t in tools],
+        'order_risk_response_contract': response_contract,
         'excluded_pending_native_parameter_validation': [
             name for name in TOOLS if name not in {t['displayName'] for t in tools}],
         'predictions_version': receipt['predictions_version'],
@@ -195,9 +205,19 @@ def main():
     parser.add_argument('--environment', required=True, type=Path)
     parser.add_argument('--output-dir', required=True, type=Path)
     parser.add_argument('--profile', choices=('static', 'complete'), default='static')
+    parser.add_argument('--feature-contract', type=Path,
+                        help='Downloaded feature_contract.json from the exact registered training run')
     args = parser.parse_args()
+    receipt = json.loads(args.receipt.read_text())
+    evidence = None
+    if args.profile == 'complete':
+        if args.feature_contract is None:
+            parser.error('--profile complete requires --feature-contract')
+        from .agent_order_risk import TrainingFeatureEvidence
+        evidence = TrainingFeatureEvidence(args.feature_contract.read_bytes(), receipt['model_name'],
+                                           str(receipt['model_version']), receipt['training_run_id'])
     print(json.dumps(write_native_sql_bundle(args.output_dir,
-          json.loads(args.receipt.read_text()), json.loads(args.environment.read_text()), args.profile)))
+          receipt, json.loads(args.environment.read_text()), args.profile, evidence)))
 
 
 if __name__ == '__main__':

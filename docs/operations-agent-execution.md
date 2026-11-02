@@ -1,6 +1,21 @@
-# Operations agent execution — 2 November 2026
+# Operations agent execution — 2–3 November 2026
 
-## Current result
+## Current follow-up: 0.6.3 response contract — PENDING
+
+The focused correction is implemented and locally verified against the actual
+saved training feature artifact. **It has not been deployed or tested in AIDP.**
+The working 0.6.2 native agent/KB/model remain unchanged. Project Spark is STOPPED;
+one explicit-body start request returned HTTP400, `The request body must not be null`,
+and was not repeated. Manual start of the existing compute is required.
+
+The **21 direct native parameter calls** and **17 new acceptance sessions on one
+final configuration** are prepared but **NOT RUN**. No earlier result is reused
+as current acceptance. See [focused response contract and execution steps](order-risk-response-contract.md).
+Current local checks: **135 tests, 111 passed / 24 optional skipped**, plus 32 tests
+from the built 0.6.3 wheel. No shared AIDP package, business data or model changed.
+
+
+## Verified 0.6.2 baseline (previous campaign)
 
 **DEV operational with six native SQL tools and policy RAG. Acceptance: FAIL
 (17 executed, 16 passed, 1 failed). No AGENT ACCEPTANCE PASS.**

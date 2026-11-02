@@ -1,3 +1,21 @@
+# Local verification — 0.6.3 response-contract candidate
+
+2–3 November 2026, existing project environment on the local Mac. **135 tests:
+111 passed / 24 optional skipped**; **32 operations tests** passed importing
+directly from the 0.6.3 wheel. All 35 packaged source/resource files match source.
+The role-query fixtures use SQLite adaptations, not real Spark. New fixtures
+verify exact saved-contract roles, day units, output/provenance separation,
+missing-artifact refusal, raw JSON parameter types and conservative observation
+classification. No live SQL or new agent acceptance was executed for 0.6.3.
+
+The actual training artifact was downloaded and its run/model identity checked
+through native AIDP APIs. This read-only evidence is separate from the pending
+response execution. The existing agent/KB/model are unchanged.
+
+See [the focused correction and pending runtime steps](order-risk-response-contract.md).
+
+## Historical 0.6.2 local report
+
 # Local verification — operations adviser 0.6.2
 
 Date: 2 November 2026. Environment: this Mac and the existing project `.venv`.

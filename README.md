@@ -96,6 +96,16 @@ this diagnosis run only configuration and section 1a, not Run All. See
 [native binding evidence and exact platform prerequisite](docs/aidp-native-mlflow-binding.md).
 
 
+## Operations adviser 0.6.3 candidate — response contract verification pending
+
+The focused [order-risk response contract](docs/order-risk-response-contract.md)
+uses the actual saved training feature artifact to distinguish prediction outputs,
+fitted inputs, original date derivation sources and metadata. Local tests pass.
+The correction has **not** been deployed or verified live: project Spark is STOPPED.
+21 direct native parameter calls and all 17 acceptance cases on one final graph
+remain NOT RUN. The working 0.6.2 agent, KB and selected model are preserved;
+acceptance remains pending and the PR is a draft.
+
 ## Operations adviser 0.6.2 — native SQL and RAG; acceptance incomplete
 
 The dedicated DEV agent now runs six bounded native Spark SQL tools and policy

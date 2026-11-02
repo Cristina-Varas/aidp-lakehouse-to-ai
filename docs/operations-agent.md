@@ -1,6 +1,14 @@
 # Operations adviser — native SQL and policy RAG
 
-## Current state and scope
+## Current follow-up: role-separated order-risk response
+
+Candidate **0.6.3** reads the saved training feature artifact and separates model
+outputs, fitted feature values, date derivation sources and metadata. It is
+locally verified, **not yet deployed or verified live**; project Spark is STOPPED.
+Acceptance is pending. See [contract, direct parameter tests and single-configuration campaign](order-risk-response-contract.md).
+The working native 0.6.2 agent, KB and model remain preserved.
+
+## Verified 0.6.2 baseline and scope
 
 Version **0.6.2** provides six bounded native Spark SQL tools and native policy
 RAG in the existing DEV agent `lakehouse_to_ai_operations_adviser`. The corrected
@@ -46,6 +54,7 @@ PYTHONPATH=src .venv/bin/python -m aidp_lakehouse.agent_native_sql \
   --receipt /path/outside-git/agent-data-readiness.json \
   --environment /path/outside-git/native-environment.json \
   --profile complete \
+  --feature-contract /path/outside-git/feature_contract.json \
   --output-dir /path/outside-git/native-operations-062
 ```
 
@@ -119,14 +128,20 @@ and saved KB metadata into private local files:
 ```python
 from aidp_lakehouse.agent_native_sql import native_tools, native_canvas_diagram
 from aidp_lakehouse.agent_policies import policy_rag_definition
+from aidp_lakehouse.agent_order_risk import TrainingFeatureEvidence, apply_order_risk_contract
+from aidp_lakehouse.agent_bundle import validated_snapshot
 
-sql_tools = native_tools(receipt, environment)
+evidence = TrainingFeatureEvidence.from_native_records(
+    feature_contract_bytes, model_version_record, run_info)
+sql_tools = apply_order_risk_contract(
+    native_tools(receipt, environment), validated_snapshot(receipt), evidence)
 rag_tool = policy_rag_definition(
     kb_metadata, environment, existing_diagram["nodes"]["planner"]["llm"])
 candidate = native_canvas_diagram(existing_diagram, sql_tools, rag_tool)
 ```
 
-These variables are private readbacks, not notebook-global dependencies.
+These variables are private readbacks, not notebook-global dependencies. This
+prepares the 0.6.3 candidate; do not deploy it before the pending runtime gate.
 `native_canvas_diagram` preserves model, instructions and unrelated metadata,
 uses native `toolsMap` and `toolReferences`, and the observed **bottom → top**
 ports. It refuses a different graph instead of resetting it. Inline-only tools
