@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from .gold import GoldConfig, PREDICTORS
 
-VERSION = '0.6.1'
+VERSION = '0.6.2'
 CATEGORICAL = ('customer_segment_at_acceptance','customer_region_at_acceptance',
                'priority_at_acceptance','planned_carrier_at_acceptance')
 ORIGINAL_NUMERIC = ('inventory_fill_rate_at_acceptance','warehouse_load_at_acceptance',

@@ -2,221 +2,203 @@
 
 ## Current result
 
-**Isolated native `risk_summary`: PASS. Full agent acceptance: BLOCKED.**
-Version **0.6.1** fixes native configuration compatibility and encoded-error
-propagation. The original SQL-only deployment has been restored; the full 0.6.1
-candidate draft is separately saved and passes native validation. Neither an
-ACTIVE deployment nor draft validation proves that its conversations work.
+**DEV operational with six native SQL tools and policy RAG. Acceptance: FAIL
+(17 executed, 16 passed, 1 failed). No AGENT ACCEPTANCE PASS.**
 
-| Gate | Actual evidence |
+The dedicated agent `lakehouse_to_ai_operations_adviser` is ACTIVE using the
+owner-selected `openai.gpt-oss-120b`. Custom Code and the diagnostic SQL tool are
+absent from its exposed tools. The final native canvas shows six SQL tools and
+one RAG tool; a fresh combined conversation called SQL and RAG successfully.
+
+The remaining failure is **causality**. After a targeted instruction repair, the
+model still described `late_probability`, `predicted_late` and `decision_threshold`
+as model inputs. These are outputs/metadata. It did disclaim individual feature
+attribution, but that does not make the unsupported predictor claim acceptable.
+The failed responses remain recorded; further blind prompt retries stopped.
+The PR stays a draft and has not been merged.
+
+[Machine-readable execution](operations-agent-execution.json) and
+[all 17 case records](operations-agent-acceptance.json) contain actual arguments,
+responses, citations, SQL success/failure events, verdict reasons and protected
+raw-response hashes. They retain configuration revisions: this bounded campaign
+is not a claim that all cases passed on one final immutable configuration.
+
+## Corrected KB and ingestion
+
+The user recreated `lakehouse_demo.gold.operations_policies` and renamed the old,
+empty object to `operations_policies_unconfigured_20261102`. The old object was
+preserved and was not ingested or referenced by the final RAG configuration.
+
+| Saved property | Verified value |
 | --- | --- |
-| Notebook 06 | Earlier AIDP workflow SUCCESS; six Spark query families passed |
-| Native SQL-only probe | Earlier PASS; one invocation, one row, two columns |
-| Native Custom Code `risk_summary` | **PASS**, directly visible structured Test output |
-| Six-tool UI suite | **Outcome unverified**: `Failed to fetch results`; not replayed |
-| Corrected six-tool deployment | HTTP **201 / ACTIVE**, followed by runtime failure |
-| First six-tool conversation | HTTP **400 / AIDP_USER_CODE_EXECUTION_ERROR** |
-| Restored SQL-only baseline | **Restored and rechecked PASS**, one SQL call / one row / two columns |
-| Full candidate draft | Preserved and **isValidAgent=true**, no errors |
-| Policy KB | Created by user; ACTIVE, but project binding mismatch; no sources |
-| Ingestion / retrieval / citations | **Not executed / not verified** |
-| Agent acceptance | **0 executed, 17 blocked**, no AGENT ACCEPTANCE PASS |
+| New KB key | `b5310533e4fe43e3a8c0f3234c569f3a` |
+| Workspace | `lakehouse_to_ai` |
+| Spark compute | `lakehouse_demo_cpu` |
+| Embedding model | `MULTILINGUAL_E5_SMALL` |
+| Chunk size / overlap | **1024 / 128 characters** |
+| Source | `/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents` |
+| Source filter | `*.txt` |
+| Registered sources | **1** |
 
-The machine-readable [execution record](operations-agent-execution.json) and
-[17 case dispositions](operations-agent-acceptance.json) distinguish these gates.
-An isolated tool Test is not a completed agent conversation acceptance case.
-
-## Verified environment and preservation
-
-The existing Ask-AIDP **0.10.0**, CLI **5.1.1**, TypeScript SDK **5.1.1** and
-original launcher/authentication were reused. Instance
-**CristinaVaras-AIDPWorkbench**, workspace **lakehouse_to_ai**, region
-**eu-frankfurt-1**, Standard catalog **lakehouse_demo** were reread. The existing
-AI compute **lakehouse_to_ai_agent_dev** remains ACTIVE, **1 OCPU / 16 GB / one
-replica**, as previously approved. The model remains the owner's selection:
-**openai.gpt-oss-120b**, provider openai, Frankfurt.
-
-Spark **lakehouse_demo_cpu** stopped under its unchanged 30-minute idle policy;
-the user restarted it and Ask-AIDP subsequently confirmed ACTIVE. It was not
-created, resized or given a different idle policy. No shared dependencies were
-installed, no native authentication or URI configuration changed, and notebooks
-01–05 were not executed in AIDP. Training, scoring, Autonomous publication and
-business/source data writes were not performed.
-
-The web session expired during work and the user restored it. No offered account
-from another tenancy was used. macOS denied OS keystroke automation with
-`osascript is not allowed to send keystrokes (1002)`; permissions were not changed.
-Native UI operations used the already authenticated Workbench session. Browser
-screens and raw responses remain private, outside Git.
-
-## Independent data evidence
-
-The earlier isolated notebook-06 workflow used the exact 0.6.0 wheel on that
-kernel's temporary sys.path, with no pip/shared-library changes. Its single task
-had `maxRetries=0` and finished SUCCESS. It verified:
-
-- **600** unique predictions and **600** scoring-input orders.
-- **450** alerts and **150** non-alerts.
-- Predictions Delta version **1**, independently determined scoring version **1**.
-- Top order **O-00030255**, customer **C-000550**, probability
-  **0.5999136971617619**.
-- Source/model/threshold consistency and the six read-only query families.
-
-Those expected values were used to check results, never injected into agent
-probe prompts. Fixed source reference date remains **2026-10-28**, sources **v2**.
-Both Delta table identities and the complete receipt are stored privately.
-
-The earlier native SQL-only probe also passed through a real agent conversation.
-Its trace records Spark SQL success, one row and two columns. The raw tool trace
-was service-redacted; the agent-rendered values matched notebook 06. No claim of
-seeing that hidden payload is made.
-
-## Native Custom Code Test and implemented fixes
-
-The documented [Custom Code Test tab](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/agent-flow-tools.html)
-was used on the dedicated AI compute. The isolated package was accepted and
-`RiskSummary` discovered. Initial Test returned INVALID_CONFIG because Workbench
-had converted nested `sql_connection` into JSON text. The 0.6.1 module now decodes
-only valid JSON objects and rejects malformed/non-object/duplicate-key input.
-Existing catalog/schema, parameter and credential checks remain in place.
-
-Read-only native Test probes inspected the actual toolkit signatures/source,
-without reading environment values or credentials. They established:
-
-- `create_langgraph_tool(tool, private_context_provider=None)` is available.
-- `SQLTool` routes Spark only with **catalogType=STANDARD**; its default is EXTERNAL.
-- `_SparkSQLExecutor` reads **clusterKey**.
-- The canvas export instead supplies **queryType=SPARK** and **sparkComputeKey**.
-
-The module translates those observed representations and rejects conflicting
-catalog or cluster keys. Business SQL, joins, limits, prediction/input versions
-and model contract remain unchanged. It also decodes JSON-encoded native error
-envelopes before checking them: a real native error previously appeared as
-business data; after correction, Test returned TOOL_EXECUTION_ERROR.
-
-With both translations applied, native isolated `risk_summary` returned visible,
-unredacted structured content matching **600 / 450 / 150**, fraction **0.75**,
-threshold **0.25**, registered model version **1**, the recorded training run and
-cutoff, and observation date **2026-10-28**. This is a genuine native Test PASS.
-
-A separate DEV-only suite was prepared using the same six reusable classes:
-seven fixed reads (including a missing order), ten invalid-input checks, at most
-two concurrent reads, and no writes. One confirmed Submit ended in
-**Failed to fetch results**. Its server result is unavailable; individual passes
-and native parameter rejections cannot be inferred. The suite was not replayed.
-The verification class is not exposed in the prepared/deployed adviser tool list.
-
-## Deployment and runtime are separate gates
-
-The original full inline configuration had failed with HTTP 500. During this
-continuation, a single isolated inline RiskSummary redeploy also returned
-**500 / InternalError / Unexpected error occurred: Internal Server Error**.
-No automatic SDK retry loop was used.
-
-The native UI materialized the package under
-`Agent_flows/.../CustomTools/...`, with provider AIDP. Those exact exported
-metadata were saved privately and used for the corrected deployment, rather than
-assuming the earlier `/Workspace/...` asset path was a runtime package binding.
-The diagram now uses tool references/maps and the actual canvas ports
-**bottom → top**, preserving the selected model.
-
-The corrected six-tool diagnostic redeploy returned **201 / ACTIVE**. Its first
-fresh-session `risk_summary` conversation then failed with:
+Ask-AIDP reread the project compute as ACTIVE. Its CLI/reference exposes no KB
+lifecycle, and its REST tool rejects `/20240831` with:
 
 ```text
-HTTP 400
-AIDP_USER_CODE_EXECUTION_ERROR
-The agent's user code could not be executed.
+path must start with /20260430/aiDataPlatforms/{aiDataPlatformId}/.
 ```
 
-The native `aidpError.data` is empty; no internal exception/loader traceback was
-provided. The AI-compute UI offers Details, Deployed Agents, Metrics and
-Permissions, without a runtime-log tab. No exact package/import root cause is
-claimed from this generic error. The remaining prepared individual chats were
-not submitted after that failure.
+The fallback read the actual KB route from authenticated Workbench and its
+public current JavaScript client, and checked request models in the installed
+Oracle SDK. Native signed requests reused the **same existing Ask-AIDP launcher,
+profile and authentication file**. No endpoint was inferred from the UI URL,
+no credential was copied, and no new MCP configuration was created.
 
-The prior SQL-only deployment was restored once, returning **201 / ACTIVE**.
-A fresh signed conversation then returned **200**: one probe invocation, one row
-and two columns; the rendered values matched the independent snapshot. The
-raw tool trace remained service-redacted, and is not claimed visible.
-The full 0.6.1 candidate draft remains saved separately and validates successfully;
-it was not redeployed after restoration. Original drafts and subsequent native
-configurations are preserved in the protected runtime inventory.
-
-## Policy KB and source status
-
-Volume **lakehouse_demo.gold.lakehouse_to_ai_policy_sources**, folder
-**/documents**, still contains only the two previously uploaded policy TXT files:
+The saved new key, binding, embedding model and chunk settings were verified
+before the first source update. Ask-AIDP listed and downloaded `/documents` again:
+only these two approved files were present, matching original policy bytes.
 
 | File | Bytes | SHA-256 |
 | --- | ---: | --- |
-| order_prioritization.txt | 1289 | 8d0214d1e39b000daae016c7fcb091b8e26657c1d738facecb8007538ef6f454 |
-| incident_escalation.txt | 1342 | 7ad708d4453f5d3300663ea17ade94013b93a7567acac555d851c43817254276 |
+| `order_prioritization.txt` | 1289 | `8d0214d1e39b000daae016c7fcb091b8e26657c1d738facecb8007538ef6f454` |
+| `incident_escalation.txt` | 1342 | `7ad708d4453f5d3300663ea17ade94013b93a7567acac555d851c43817254276` |
 
-Their earlier remote download matched original policy bytes. Neither policy source file
-was changed in this continuation. Model artifacts, prompts and receipts remain
-outside the policy ingestion folder.
+A single guarded source update requested inline ingestion. Source key:
+`3a87dd5cae9b4ae29ba23b9a59a98a11`. Ingestion run
+`83b2985c187b4e008a685c945b05ed6c` finished **SUCCEEDED**, with **2 added,
+0 modified, 0 deleted**. No second ingestion was submitted. The metadata counters
+`currentProcessedItems` and `timeLastEmbedding` remained null; they were not used
+to infer success. The job result and actual retrieval provide the evidence.
 
-The user created **lakehouse_demo.gold.operations_policies**, which was
-independently listed as ACTIVE. Details show workspace/cluster keys that differ
-from the verified project resources. The current UI row menu offers View, Rename,
-Edit description and Delete; it does not expose binding edits. The empty KB was
-preserved: no delete/recreate, no actual rename, no source registration and no
-ingestion. Its embedding model and effective chunk settings are **not verified**;
-1024/128 were requested form settings, not a verified saved configuration.
+The source-level workspace, compute, filter and chunk settings were reread and
+match the KB. The folder was never broadened to include other volume contents,
+receipts, control files, prompts, code or model artifacts.
 
-The [Oracle KB procedure](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/knowledge-bases.html)
-requires a correctly selected ingestion workspace/compute and explicit source
-folder. Do not ingest using the mismatched binding or the default compute of
-another workspace. A dedicated corrected binding must be verified before adding
-only `/documents` with TXT enabled. Both documents' ingestion and genuine section
-retrieval/citations remain required before attaching retrieve_operations_policy.
+## Real retrieval and citations
 
-## Local verification and wheel
+Two fresh conversations invoked `retrieve_operations_policy`, one for each
+policy. They returned queue/risk guidance and severity/communication guidance
+with the corresponding TXT identities. Chat traces redact raw tool payloads;
+we do not claim to have seen the hidden chat retrieval content.
 
-On this Mac: **116 tests, 92 passed / 24 optional skipped**. The **13 operations
-agent tests** also passed importing directly from the built wheel. Adapter tests
-use a simulation, SQL fixture semantics use SQLite, and notebook workflow tests
-use simulated sessions. They do not prove native deployment, RAG or acceptance.
-Native evidence above comes from actual AIDP operations and is separate.
+Independent **native RAG Test** calls returned visible `retrievedChunks`, including
+both policies' `#chunk_0` and `#chunk_1` document IDs beneath the exact `/documents`
+path. All four chunks match the approved source text after whitespace
+normalization. This independently verifies document identity, content and section
+availability. `agent_policies.verify_policy_chunks` performed that comparison.
 
-Notebook JSON/code structure and empty outputs were checked locally. Changes to
-01–05 are package-version compatibility gates/text only, preserving their business
-logic; they were not run in AIDP. The original 0.6.0 wheel is retained.
+The native SDK uses `inputSchema: {"query": ""}` for RAG, unlike SQL's flat parameter
+map. An initial SQL-style RAG schema was rejected with HTTP 400
+`Unable to process JSON input`; the installed `RagToolInputSchema` established
+the correct type. The corrected definition validated and deployed successfully.
+RAG uses catalog/schema/name and topK=4, as supported by this runtime. Its name
+was resolved to the verified new KB; no old UUID appears in the final diagram.
+
+## Native SQL alternative and its boundaries
+
+The Custom Code loader failure remains historical and unresolved. No platform-owner
+logs were obtained and no new Custom Code deployment was attempted in this
+continuation. The working alternative uses native SQL definitions generated by
+`agent_native_sql`, retaining the fixed **prediction/scoring Delta versions 1/1**
+and the receipt's table identities. Gold metadata was reread with Ask-AIDP:
+both inputs are managed Delta tables. No Gold, Silver or Bronze data was written.
+
+| Tool | Direct native Test rows | Conversation evidence |
+| --- | ---: | --- |
+| `risk_summary` | 1 | 600 opens / 450 alerts / 150 non-alerts |
+| `rank_open_orders` | 10, and separately 20 | Deterministic score-descending / order-ID-ascending ranking |
+| `get_order_risk` | 1 | Correct ID, customer, score, model/run and cutoff |
+| `get_customer_orders` | 2 | C-000550 only, total_matching=2 |
+| `risk_by_carrier` | 3 | Groups reconcile to 600 / 450 |
+| `risk_by_region` | 4 | Groups reconcile to 600 / 450 |
+
+All six native Tests returned visible structured rows. The exact top score was
+`0.5999136971617619` for `O-00030255`, matching the earlier notebook-06 receipt.
+These values checked results; they were not supplied as expected answers in the
+agent prompts. All displayed ranking IDs, including the 20-row limit case, were
+compared with independent native Test rows. Actual native conversation events
+show SQL successes with the expected row and column counts. Missing order
+`O-99999999` returned zero rows rather than an invented score.
+
+Static queries are unchanged. Parameterized templates use Oracle's documented
+quoted string placeholders, fixed business-key guards, and an integer 1–20 rank
+bound. Invalid values select `raise_error`, not an empty business result. The rank
+query retains a fixed LIMIT 20 and explicit output columns. A separate real Spark
+constant-only query verified **14 guard predicates**, including trailing newline,
+short IDs, fractional/excess/zero/negative limits, boolean text and NaN text.
+This establishes predicate semantics, not every native binding/type behavior.
+Earlier constant-ID conversations independently showed malformed/quoted input
+causing native SQL failure and the valid input returning unchanged.
+
+One direct native Test with an invalid business ID timed out after 150 seconds.
+Its outcome is **UNKNOWN**, not a confirmed rejection, and it was not replayed.
+The remaining prepared negative Test requests were not submitted. Native
+no-input tools also accepted spurious empty-name arguments generated by the
+model. Unexpected-argument rejection and exact numeric-coercion equivalence with
+the stricter Python adapter are **not certified**. The original Python adapter's
+checks remain intact. These differences are not silently presented as identical
+validation; native fixed SQL and guarded known parameters bound the reads.
+
+## Acceptance and restoration
+
+Every case ran in a new session. SQL/RAG content hidden by chat traces was checked
+against the independent native Tests and approved policy bytes. Public records
+contain sanitized answer text and evidence summaries; headers, principal IDs,
+full traces and private deployment configurations remain outside Git.
+
+The initial combined case failed: it called SQL alone and fabricated
+`operations_policy.pdf`. A single instruction repair made current-turn RAG
+mandatory before policy claims and prohibited unsupported predictor claims.
+Combined passed afterward and again after the canvas conversion, with actual
+SQL+RAG calls and the approved TXT source. Causality failed again and remains FAIL.
+No failed evidence was discarded and no criteria were relaxed to obtain PASS.
+
+The two deliberate failure cases did not stop or resize compute:
+
+- **RAG unavailable:** a temporary, independently inaccessible KB reference in
+  the DEV tool. SQL succeeded; RAG failed; the answer reported missing policy and
+  supplied no fabricated citation. The real KB/vectors were untouched.
+- **SQL unavailable:** a temporary read-only constant `raise_error` query. A real
+  native SQL failure event was observed; the answer reported failure and did not
+  invent a ranking.
+
+The complete canonical configuration was restored in a finally block, redeployed
+ACTIVE, and reread. It was then represented using the previously observed native
+`toolsMap` / `toolReferences` and **bottom → top** ports. Workbench reload showed
+**Tools (7)**: six SQL and one RAG. A fresh combined conversation passed after
+that conversion. No diagnostic or Custom Code tool remains exposed.
+
+## Local checks and wheel
+
+**127 tests: 103 passed, 24 optional skipped.** Local SQL fixtures use SQLite with
+explicit adaptations of Spark-only expressions. Adapter/session tests use
+simulations. They are not local real-Spark tests. Actual Spark SQL, native RAG,
+ingestion and conversation evidence above came from AIDP. Notebook JSON, Python
+syntax, cleared outputs and diff whitespace were checked locally.
 
 ```sh
 PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v
 .venv/bin/python -m pip wheel . --no-deps --wheel-dir dist/
-PYTHONPATH=dist/aidp_lakehouse_to_ai-0.6.1-py3-none-any.whl:tests \
-  .venv/bin/python -m unittest test_operations_agent -v
+PYTHONPATH=dist/aidp_lakehouse_to_ai-0.6.2-py3-none-any.whl:tests \
+  .venv/bin/python -m unittest test_operations_agent test_agent_native_sql test_agent_policies -v
 ```
 
-The build used temporary isolated build dependencies, without changing AIDP.
-The wheel's packaged implementation bytes match current source:
+The wheel is on the **local Mac**, in ignored `dist/`:
 
 ```text
-/Users/cristinavarasmenadas/Library/CloudStorage/OneDrive-OracleCorporation/4. FY27/1. Customers/Workshops/14. Quistor/aidp-lakehouse-to-ai/dist/aidp_lakehouse_to_ai-0.6.1-py3-none-any.whl
+/Users/cristinavarasmenadas/Library/CloudStorage/OneDrive-OracleCorporation/4. FY27/1. Customers/Workshops/14. Quistor/aidp-lakehouse-to-ai/dist/aidp_lakehouse_to_ai-0.6.2-py3-none-any.whl
 ```
 
-SHA-256: `7de56bdb378c998096f7137878fca9e8ffe8ccb007a7448b9c850c3df7a456c0`.
-This is on the **local Mac**. `dist/` remains ignored. Native Test used matching
-standalone ZIP source; this wheel was not installed into shared Spark/AI libraries.
+SHA-256: `c104ce2d5ab052eb4f9597bacd8308f428893fa463ca2275f68824064048338d`.
+No wheel or dependency was installed into shared AIDP libraries in this work.
+Notebook 01–05 edits are package compatibility/version text only; none was run.
+The original generator, bootstrap, Bronze/Silver/Gold transformations, model,
+predictions, Object Storage sources and inactivity policy were preserved.
 
-## Required next actions
+The remaining gate is a truthful causal/feature-role response and certification
+of the noted native parameter boundaries. There is no outstanding manual KB
+creation or ingestion step. The previous Custom Code history is preserved in the
+JSON record and the [0.6.1 execution document](https://github.com/Cristina-Varas/aidp-lakehouse-to-ai/blob/d56eb6113b9d06125c1aba417f43e8c51173db11/docs/operations-agent-execution.md).
 
-1. Obtain the internal loader exception/traceback for the recorded failed
-   six-tool conversation from the platform owner. Request identity, timestamp and
-   raw response are retained in protected local runtime outside Git. Do not
-   guess imports, change authentication, restart compute or redeploy blindly.
-2. Correct/preserve the empty KB's workspace/compute binding through the supported
-   owner UI, then independently verify it. Record an actually selected embedding
-   model and effective chunk settings; only then ingest the two TXT sources.
-3. After fixing the proven runtime cause, validate all six tools individually,
-   including errors/limits/missing IDs, remove the diagnostic probe, attach tested
-   RAG and run all 17 cases in fresh sessions. Actual calls, results, citations
-   and verdicts are mandatory; hidden trace content needs independent checks.
-
-The PR remains a **draft**, with no merge. No cleanup was performed. The dedicated
-AI compute continues consuming AIDP Units while active; no unverified hourly
-monetary price is asserted. Reused compute, models, tables, sources and prior
-execution artifacts are preserved.
+Official references used: [Knowledge Bases](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/knowledge-bases.html),
+[native tool configuration and Test](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/agent-flow-tools.html),
+and [deployed agent sessions](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/invoke-deployed-agent.html).

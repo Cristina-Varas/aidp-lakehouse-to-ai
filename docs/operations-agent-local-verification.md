@@ -1,3 +1,30 @@
+# Local verification — operations adviser 0.6.2
+
+Date: 2 November 2026. Environment: this Mac and the existing project `.venv`.
+
+- **127 tests: 103 passed, 24 optional skipped**. No local real Spark execution.
+- New native SQL tests compare guarded query results with the original generator
+  on small SQLite fixtures, including ties, full columns, invalid IDs, invalid
+  numeric limits, deterministic definitions and canvas preservation.
+- Policy tests reject stale KB identities, wrong bindings, broader sources,
+  changed chunking, fabricated chunk identities and unsupported policy text.
+- Notebook JSON, AST syntax, cleared outputs and whitespace checks passed.
+- Wheel modules/resources are compared byte-for-byte with source; operations,
+  native SQL and policy tests also run directly from the built wheel.
+
+Actual AIDP native SQL, 14 real Spark guard-predicate fixtures, two-document
+SUCCEEDED ingestion, visible policy chunks and 17 real acceptance cases are
+separate [cloud evidence](operations-agent-execution.md). Local simulations
+cannot establish those results. Acceptance remains FAIL (16/17 pass).
+
+Build output `dist/aidp_lakehouse_to_ai-0.6.2-py3-none-any.whl` is on this local Mac
+and ignored by Git; no shared AIDP libraries were updated.
+
+## Historical 0.6.0 report (different environment)
+
+The following is preserved as historical evidence and does not describe current
+Mac capabilities or the later AIDP execution.
+
 # Local verification — operations adviser candidate 0.6.0
 
 Date: 1 November 2026. Environment: isolated Codex Linux workspace, Python 3.12.

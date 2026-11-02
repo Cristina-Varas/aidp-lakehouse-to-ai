@@ -96,21 +96,20 @@ this diagnosis run only configuration and section 1a, not Run All. See
 [native binding evidence and exact platform prerequisite](docs/aidp-native-mlflow-binding.md).
 
 
-## Operations adviser 0.6.1 — DEV acceptance blocked
+## Operations adviser 0.6.2 — native SQL and RAG; acceptance incomplete
 
-[Notebook 06](notebooks/06_prepare_operations_agent.ipynb) checks existing results
-without training or scoring: 600 orders, 450 alerts, 150 non-alerts, both pinned
-Delta versions 1. The native SQL probe and isolated native Custom Code
-`risk_summary` Test passed. Version 0.6.1 fixes observed native configuration
-translation and encoded-error propagation, preserving business SQL and policies.
+The dedicated DEV agent now runs six bounded native Spark SQL tools and policy
+RAG with the existing model. The corrected KB ingested both TXT files successfully;
+real native Tests verified four chunks against the source policies. The final
+Workbench canvas shows all seven tools and a combined SQL/RAG conversation passed.
 
-The full six-tool deployment reached ACTIVE but failed at conversation startup
-with AIDP_USER_CODE_EXECUTION_ERROR. The previously verified SQL-only deployment
-was restored and rechecked; the full candidate draft is saved and validated.
-The new policy KB has a workspace/compute binding mismatch and no ingestion.
-All 17 agent acceptance cases remain blocked; no AGENT ACCEPTANCE PASS is claimed.
+All **17 acceptance cases executed: 16 PASS, 1 FAIL**. Causality still confuses
+model outputs/metadata with predictors after a targeted repair. Native unexpected
+argument/type-coercion boundaries also remain uncertified. **AGENT ACCEPTANCE PASS
+is false** and the PR stays a draft. The original Custom Code loader failure is
+historical; Custom Code is not exposed by the current native agent.
 
 See [setup](docs/operations-agent.md), [actual execution](docs/operations-agent-execution.md)
-and [case dispositions](docs/operations-agent-acceptance.json). The wheel is in
-ignored dist/ locally. No business data, model, training, scoring or Autonomous
-publication was changed during this continuation.
+and [case responses](docs/operations-agent-acceptance.json). The 0.6.2 wheel is in
+ignored `dist/` on the local Mac. No business data, model, training, scoring,
+Autonomous publication, authentication or compute policy was changed.

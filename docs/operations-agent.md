@@ -1,201 +1,169 @@
-# Operations adviser — prepared SQL + RAG milestone
+# Operations adviser — native SQL and policy RAG
 
-## Status and scope
+## Current state and scope
 
-The user confirmed SCORING PASS in AIDP on 1 November 2026: 600 predictions,
-450 alerts, 150 non-alerts, exact-version repeat and no additional rows. The
-shown ranking uses model 1, threshold 0.25 and scoring-input Delta version 1.
-This is user-provided evidence. We did not independently query that kernel.
+Version **0.6.2** provides six bounded native Spark SQL tools and native policy
+RAG in the existing DEV agent `lakehouse_to_ai_operations_adviser`. The corrected
+KB ingested the two TXT successfully, and independent native Tests verified their
+actual retrieved chunks. All 17 acceptance cases were executed: **16 PASS, 1 FAIL**.
+The remaining causal/feature-role response is incorrect after one targeted repair.
+**AGENT ACCEPTANCE PASS is false; the PR remains a draft.**
 
-The implementation is now **0.6.1**. Notebook 06 and the native SQL-only probe
-passed earlier. On 2 November, the isolated **risk_summary** Custom Code Test also
-passed with directly visible structured output matching 600 / 450 / 150. The
-six-tool deployment API returned ACTIVE, but its first conversation failed with
-AIDP_USER_CODE_EXECUTION_ERROR before a verified invocation. The prior SQL-only
-baseline has been restored and the full candidate draft preserved.
+See [execution evidence](operations-agent-execution.md),
+[case responses and verdicts](operations-agent-acceptance.json) and
+[local checks](operations-agent-local-verification.md). Raw traces, authentication
+and private deployment exports stay outside Git. This is an advisory synthetic
+snapshot as of **2026-10-28**, sources **v2**, not live ERP monitoring.
 
-The user created operations_policies in gold, but its observed workspace/cluster
-binding differs from the project. It has no registered sources or ingestion.
-All 17 agent acceptance cases remain blocked, not passed. See
-[dated execution evidence](operations-agent-execution.md) and the
-[case dispositions](operations-agent-acceptance.json).
+The user previously reported SCORING PASS: 600 predictions, 450 alerts and
+150 non-alerts, model version 1, threshold 0.25 and identical repeat results.
+Notebook 06 and subsequent native Tests independently checked the existing
+snapshot. No training, scoring, Autonomous publication or business-data writes
+were performed during agent integration.
 
-Adapter fixes decode the native editor's JSON-text configuration, translate the
-observed canvas Spark keys to the inspected toolkit keys, and propagate encoded
-native SQL errors. Business SQL, snapshot versions and policy bytes are unchanged.
-Local adapter tests remain simulations; they are separate from the real isolated
-Custom Code Test. No Autonomous publication, training or scoring was performed.
+## Reuse the existing readiness receipt
 
-The adviser estimates acceptance-time risk for a fixed synthetic snapshot as of
-2026-10-28. It does not monitor later events or determine a business work queue.
-It cannot send messages, reschedule deliveries or retrain/change the model.
+`notebooks/06_prepare_operations_agent.ipynb` verifies existing Delta data and the
+six SQL families without loading a model or writing business tables. It already
+passed earlier in AIDP. **Do not repeat 01–05 or notebook 06 merely to redeploy
+tools.** Reuse the protected `AGENT DATA READY` receipt after verifying the target
+and table definitions. Predictions and scoring-input versions are both **1**;
+immutable table identities come from that receipt, not guessed names or versions.
 
-## 1. Verify existing data using notebook 06
+Notebook readiness is not native-tool or agent acceptance. The wheel is an
+optional project handoff artifact; native SQL/RAG deployment does not require
+installing it into shared Spark or AI libraries.
 
-Build the candidate 0.6.1 wheel from this branch with the existing project build
-procedure. Install only the project wheel without replacing platform packages.
-Preserve the working 05 kernel until ready to attach/restart compute. Run
-`notebooks/06_prepare_operations_agent.ipynb`; 01–05 need not be rerun.
+## Reproducible native SQL definitions
 
-The first gate checks managed Delta schemas and identities, exactly 600 unique
-prediction/input keys, customer and acceptance timestamps, model 1 and its run,
-finite probabilities, consistency with each saved decision threshold and fixed
-source provenance. It pins the prediction Delta version and reads the scoring
-Delta version recorded in those predictions. The Spark session and Python driver
-must both use UTC. A timezone error is a stop, not permission to reinterpret data.
-
-The second gate runs the six query families against those versions in Spark.
-Copy the JSON readiness receipt to a local file **outside Git**. An optional new
-driver output directory builds files locally; it does not upload them. Neither
-`AGENT DATA READY` nor `NOTEBOOK SQL PASS` is an agent acceptance result.
-
-From the same candidate source, the local bundle command is:
+Use the successful native SQL export for this workspace and existing compute.
+Copy the placeholder-only `config/operations-agent-native-sql.example.json` to a
+private local directory and fill it with independently verified routing and the
+new KB identity. Keep authentication native; never add credentials to this file.
 
 ```sh
-PYTHONPATH=src python -m aidp_lakehouse.agent_bundle \
+PYTHONPATH=src .venv/bin/python -m aidp_lakehouse.agent_native_sql \
   --receipt /path/outside-git/agent-data-readiness.json \
-  --output-dir /path/outside-git/quistor-operations-agent
+  --environment /path/outside-git/native-environment.json \
+  --profile complete \
+  --output-dir /path/outside-git/native-operations-062
 ```
 
-Identical repeated builds change zero files. A different existing output directory
-is rejected without overwriting it. The bundle contains:
+The command does not deploy anything. It writes private tool definitions and a
+manifest marked PREPARED_ONLY, runtime_verified=false and agent_acceptance_pass=false.
+Identical reruns change zero files; conflicting existing directories are preserved
+and rejected. `--profile static` prepares only the three parameter-free queries.
 
-| File | Use |
-|---|---|
-| `operations_sql_tools.zip` | Six read-only Custom Code tool classes |
-| `agent_instructions.txt` | Instructions for the executor agent |
-| `documents/order_prioritization.txt` | Byte-preserved fictional policy |
-| `documents/incident_escalation.txt` | Byte-preserved fictional procedure |
-| `data_readiness.json` | Pinned data identities and counts |
-| `manifest.json` | File checksums and explicit pending states |
-
-Do not upload the whole bundle as a knowledge source. Only `documents/` belongs
-in the KB source folder. Metadata, prompts, code and receipts stay outside it.
-
-## 2. Check native SQL capability before configuring the agent
-
-Use the existing **CristinaVaras-AIDPWorkbench / lakehouse_to_ai** workspace.
-Create a separate DEV agent named `lakehouse_to_ai_operations_adviser`; do not
-reuse another demonstration's agent or compute without checking its identity.
-Attach a suitable existing ACTIVE AI compute. Do not silently provision compute.
-
-In a native SQL tool, check whether the dialect selector offers **Spark SQL**
-against the standard `lakehouse_demo` catalog and a running Spark cluster.
-Oracle's detailed SQL-tool instructions and tutorial now describe this path,
-while introductory notes still say external catalogs only. This inconsistency
-means the actual instance capability must be verified before relying on it.
-
-If Spark SQL is available, configure it for `lakehouse_demo.gold`. Run a static
-`SELECT` from `lakehouse_demo.gold.late_delivery_predictions` with a one-row
-limit. Record success, target workspace and cluster. Copy the tool's actual JSON
-Configuration export; preserve its native dialect and cluster keys exactly.
-Do not infer keys/identifiers from UI URLs, copy credentials, replace native auth
-or use the MLflow endpoints for SQL. A successful notebook query is not this test.
-
-If Spark SQL is unavailable, stop and record **BLOCKED: standard-catalog SQL tool
-unavailable**. The external-Oracle route would require separately publishing
-approved Gold data to Autonomous and granting its read-only account access. That
-fallback is not implemented or executed here; do not point the agent at empty
-Autonomous tables or an unrelated existing demo.
-
-The SQL tool needs its selected Spark cluster to remain running. Do not change
-its idle/Forever setting without considering the resulting cost and existing
-workspace policy. Report a stopped cluster as unavailable, not an empty result.
-
-## 3. Configure and test the guarded SQL package
-
-Upload `operations_sql_tools.zip` as a Custom Code tool package. It uses only
-standard-library Python plus native `aidputils`; it installs no replacement
-platform dependencies. It registers:
-
-| Tool | Runtime input | Limit |
-|---|---|---:|
-| `risk_summary` | None | 1 aggregate row |
-| `rank_open_orders` | Integer `limit`, 1–20 | 20 |
-| `get_order_risk` | Exact `order_id`, `O-########` | 1 |
-| `get_customer_orders` | Exact `customer_id`, `C-######` | 20, plus total_matching |
+| Native SQL tool | Runtime input | Maximum rows |
+| --- | --- | ---: |
+| `risk_summary` | None | 1 aggregate |
+| `rank_open_orders` | Integer `limit`, 1–20; default 10 | 20 |
+| `get_order_risk` | Exact `O-########` | 1 |
+| `get_customer_orders` | Exact `C-######` | 20, with total_matching |
 | `risk_by_carrier` | None | 3 |
 | `risk_by_region` | None | 4 |
 
-For **each enabled class**, populate the initially empty `sql_connection` with
-that tested native Spark SQL configuration. Keep the generated prediction/input
-versions and table IDs from the receipt. Configuration is private deployment
-state, not a runtime argument chosen by the LLM. The module decodes the editor's
-JSON-text object and translates the runtime-observed Spark routing/cluster keys;
-conflicting type or compute keys are rejected.
+The three static queries retain the original pinned SQL. Parameterized native
+queries use documented quoted string placeholders, exact key guards, validated
+integral rank bounds and a fixed LIMIT 20. Invalid known values select an error,
+not a silently missing record. Ranking retains score descending / order_id
+ascending and explicit evidence columns; the model cannot replace the SQL.
 
-The adapter validates runtime parameters, creates a fixed SELECT for that call,
-and delegates to the documented `AIDPToolConf` / `create_langgraph_tool` SQL
-integration with an empty native parameter list. Thus user text never reaches a
-native SQL template. The installed toolkit's support for composing the native
-SQL tool from Custom Code is **not verified by this change**. Test it first on
-this exact runtime. If class registration, configuration or invocation differs,
-inspect the installed SDK/example via Ask-AIDP and adapt it; do not guess methods
-or mark the mocked tests as deployment evidence.
+**Native boundary limitation:** the backend accepted empty-name extra arguments
+from the model for no-input tools. Exact unexpected-argument rejection and numeric
+coercion equivalence with the original Python adapter remain uncertified. One
+negative native Test timed out and was not replayed. Real Spark verified 14 guard
+predicates separately; it did not establish all binder/error behaviors. The
+original stricter Python checks have been preserved. Do not describe these
+interfaces as having identical argument-validation guarantees.
 
-Test each tool independently, compare its raw result with notebook 06 and save
-receipts. An invalid ID, fractional/oversized limit or unexpected argument must
-raise before the SQL helper is called. Test both existing and missing valid IDs.
-Test a simulated native failure: it must not become a fabricated business answer.
+## Dedicated KB and native RAG
 
-Queries pin versions; source refreshes require a new readiness receipt and
-bundle. Rerun the identity gate before deployment if either table may have been
-recreated. The recorded IDs do not cryptographically bind a native SQL execution
-to the old table: do not deploy after recreation without rechecking.
+The corrected `lakehouse_demo.gold.operations_policies` has key
+`b5310533e4fe43e3a8c0f3234c569f3a`, workspace **lakehouse_to_ai**, compute
+**lakehouse_demo_cpu**, embeddings **MULTILINGUAL_E5_SMALL**, chunk size **1024**,
+overlap **128**. Its only source is:
 
-## 4. Ingest policies and attach RAG
+```text
+/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents
+```
 
-The bundle changes `.md` to `.txt` without changing bytes; checksums establish
-source equivalence. Oracle's KB documentation lists TXT as an ingestion format.
-Upload the two TXT files into a dedicated managed-volume folder or a separate
-Object Storage prefix exposed by an external volume. Preserve original source
-files and avoid shared folders containing other demos or control metadata.
+TXT is the only enabled file type. The folder contains exactly
+`order_prioritization.txt` and `incident_escalation.txt`, preserving the original
+English numbered policies. Do not register the whole volume or add manifests,
+control files, prompts, notebooks, packages, source data or model artifacts.
 
-Create a dedicated Knowledge Base in `lakehouse_demo.gold`, for example
-`operations_policies`. Select the verified workspace/ingestion cluster and an
-embedding model available there. A multilingual model is a reasonable candidate
-for Spanish questions over English policies, but retrieval quality must be tested.
-Use explicit chunking settings, then inspect retrieval; do not assume defaults
-preserve every numbered section.
+Ingestion already completed: **2 added / 0 modified / 0 deleted**, SUCCEEDED.
+Do not reingest merely to query or redeploy. The old renamed empty KB is retained
+and is not a fallback. If the new name resolves to a different identity later,
+stop and inspect it before using it.
 
-Add only the isolated documents folder as the source, enable TXT ingestion, and
-verify the ingestion job completes for **both** documents. An empty KB creation
-success is insufficient. Add a RAG tool named `retrieve_operations_policy`, select
-this KB and initially retrieve up to four chunks. Verify raw retrieval for:
+`agent_policies.validate_policy_kb` checks saved identity, binding, embedding
+model, chunking and the exact source. `policy_rag_definition` builds the verified
+native SDK representation: RAG `inputSchema.query` is a **string**, unlike SQL's
+flat parameter map. `verify_policy_chunks` checks actual retrieved document IDs
+and normalized chunks against the approved policy text. An LLM answer alone is
+not retrieval evidence.
 
-- Risk is advisory and needs coordinator review: prioritization sections 4–5.
-- PREMIUM alone does not override earlier promises: prioritization section 3.
-- Severity 1/2/3 targets: escalation section 3.
-- Human approval for communication or a revised promise: escalation section 4.
+The current Ask-AIDP tool set does not expose the legacy KB lifecycle. Its REST
+wrapper permits only the current API prefix. Where required, use Workbench's
+[documented KB interface](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/knowledge-bases.html)
+or the exact native interface verified from that runtime, reusing existing auth.
+Never derive endpoints from the UI address or recreate authentication.
 
-If ingestion/retrieval fails, retain the failure evidence and stop the combined
-acceptance gate. Test in fresh conversations to avoid confusing cached responses
-with retrieval from the new KB.
+## Preserve native canvas and selected model
 
-## 5. Agent setup and acceptance
+Build definitions with the reusable modules after reading the current owned agent
+and saved KB metadata into private local files:
 
-Use one executor agent with the six SQL tools and the policy RAG tool. Paste the
-bundle instructions into its instructions field. Select an approved model
-available on the verified AI compute; do not assume a model from another demo.
-Keep this in DEV until native SQL, ingestion, retrieval and answer checks pass.
+```python
+from aidp_lakehouse.agent_native_sql import native_tools, native_canvas_diagram
+from aidp_lakehouse.agent_policies import policy_rag_definition
 
-Run the cases in `operations-agent-acceptance.json` in separate fresh sessions.
-For each, record session/case ID, tool names and inputs, raw tool results, final
-answer, actual document citations and pass/fail reason. When traces are
-incomplete, verify the native tool output independently; answer text alone is
-not proof of execution. All counts and ordering must reconcile with SQL.
+sql_tools = native_tools(receipt, environment)
+rag_tool = policy_rag_definition(
+    kb_metadata, environment, existing_diagram["nodes"]["planner"]["llm"])
+candidate = native_canvas_diagram(existing_diagram, sql_tools, rag_tool)
+```
 
-Keep SQL data, retrieved policy, and proposed human action distinct in answers.
-For combined questions, failure of either tool must be visible. No individual
-feature-attribution mechanism is supplied, and risk cannot determine severity.
+These variables are private readbacks, not notebook-global dependencies.
+`native_canvas_diagram` preserves model, instructions and unrelated metadata,
+uses native `toolsMap` and `toolReferences`, and the observed **bottom → top**
+ports. It refuses a different graph instead of resetting it. Inline-only tools
+can execute through the API while disappearing from the visual canvas; use the
+verified native representation. The current UI shows **Tools (7)**.
 
-Only report **AGENT ACCEPTANCE PASS** after successful native query invocation,
-verified ingestion/retrieval of both documents and the completed case evidence.
-Until then, report the specific unfinished gate. Live evidence is limited to the explicitly dated execution record; this guide is not an acceptance receipt.
+Retain `src/aidp_lakehouse/agent_resources/instructions.txt` as the reviewed source
+of project instructions. No instruction prompt guarantees compliance: causal
+claims still failed acceptance in the actual selected model. Do not change the
+owner's selected model or claim that the prompt repaired that failure.
 
-## References checked 1 November 2026
+## Validate and preserve failure evidence
 
-- Tool authoring, SQL and RAG: https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/agent-flow-tools.html
-- SQL tutorial capability description: https://docs.oracle.com/en/cloud/paas/ai-data-platform/videos.html
-- KB ingestion: https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/knowledge-bases.html
-- Agent creation: https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/agent-creation.html
+Use independent native SQL Tests to compare actual rows, including ranking order,
+customer membership, missing IDs and aggregate reconciliation. For RAG, compare
+real chunks and source identities; only then check chat citations. If chat traces
+redact payloads, record that limitation and the independent comparison.
+
+Run acceptance prompts unchanged in new conversations. Record tools, arguments,
+responses, source citations, configuration revisions and verdict reasons. Keep
+failed attempts when a targeted repair is tested. Test SQL/RAG unavailability by
+reversible DEV-only configuration changes, never by stopping shared compute,
+changing authentication or deleting a KB. Always restore and reread the complete
+canonical configuration afterward.
+
+The final DEV deployment is operational, but **causality remains FAIL** and the
+native argument boundaries above need further certification. No merge is allowed
+on the basis of deployment status or 16 passing cases.
+
+## Historical Custom Code path
+
+`agent_bundle` and its original six guarded classes remain available and preserve
+their prior behavior. The loader failure for the six-tool Custom Code deployment
+was never explained by internal logs. The active native alternative does not use
+that package and does not require retrying that failure. Historical evidence is
+retained in the execution record; it is not current native-agent status.
+
+Official references: [native SQL, RAG and Test](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/agent-flow-tools.html),
+[Knowledge Bases](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/knowledge-bases.html),
+[deployed sessions](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/invoke-deployed-agent.html).

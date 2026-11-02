@@ -20,8 +20,8 @@ def _json(value):
     return (json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + '\n').encode()
 
 
-def bundle_files(receipt):
-    """Only a data readiness receipt unlocks generation, never agent acceptance."""
+def validated_snapshot(receipt):
+    """Validate the shared readiness contract without asserting agent acceptance."""
     snapshot = AgentSnapshot(receipt['predictions_version'], receipt['scoring_version'])
     if (receipt.get('status') != 'AGENT DATA READY' or receipt.get('rows') != 600
             or receipt.get('model_name') != MODEL or receipt.get('model_version') != '1'
@@ -30,6 +30,12 @@ def bundle_files(receipt):
             or set(receipt.get('table_ids', {})) != {PREDICTIONS, SCORING}
             or not all(isinstance(v, str) and v for v in receipt['table_ids'].values())):
         raise ValueError('Require a complete, matching AGENT DATA READY receipt')
+    return snapshot
+
+
+def bundle_files(receipt):
+    """Only a data readiness receipt unlocks generation, never agent acceptance."""
+    snapshot = validated_snapshot(receipt)
     resource = files('aidp_lakehouse')
     defaults = {'predictions_version': snapshot.predictions_version, 'scoring_version': snapshot.scoring_version,
                 'prediction_table_id': receipt['table_ids'][PREDICTIONS], 'scoring_table_id': receipt['table_ids'][SCORING],
