@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-01",
+  "date": "2026-11-02",
   "source_handoff": "quistor-operations-agent-0.6.0.zip",
   "source_base_commit": "a27072275b437c01a4797f8ac125224593f12c5b",
   "environment": {
@@ -7,7 +7,7 @@
     "instance": "CristinaVaras-AIDPWorkbench",
     "region": "eu-frankfurt-1",
     "spark_compute": "lakehouse_demo_cpu",
-    "spark_state_latest": "STOPPED",
+    "spark_state_latest": "ACTIVE",
     "spark_idle_minutes_unchanged": 30
   },
   "package_version": "0.6.0",
@@ -67,7 +67,8 @@
       "provider": "google",
       "model_id": "google.gemini-2.5-flash",
       "region": "eu-frankfurt-1",
-      "source": "user selection independently reread"
+      "source": "user selection independently reread",
+      "runtime_access_verified": false
     },
     "full_deployment": {
       "client_submissions": 1,
@@ -81,8 +82,17 @@
       "http_status": 201,
       "variant": "native SQL probe only; complete adviser not deployed",
       "request_count": 1,
-      "chat_submitted": false,
-      "native_sql_verified": false
+      "chat_submitted": true,
+      "native_sql_verified": false,
+      "chat_result": {
+        "date": "2026-11-02",
+        "requests": 1,
+        "http_status": 400,
+        "code": "AIDP_GENAI_CLIENT_ERROR",
+        "provider_status": 404,
+        "model": "google.gemini-2.5-flash",
+        "result": "Model not found or project lacks access; SQL not executed; no retry"
+      }
     },
     "full_draft_restored_after_diagnostic": true,
     "driver_error_log_records": 0
@@ -133,11 +143,12 @@
     "ignored_by_git": true
   },
   "spark_start": {
-    "latest_state": "STOPPED",
+    "latest_state": "ACTIVE",
     "restart_lookup_rejected_before_action": true,
     "correct_start_http_status": 400,
     "message": "The request body must not be null",
     "compute_settings_changed": false,
-    "next_step": "Owner starts existing compute in console; reread ACTIVE before SQL probe"
+    "next_step": "No start repair required",
+    "resolved_by": "User started existing compute in console; independently reread 2026-11-02"
   }
 }

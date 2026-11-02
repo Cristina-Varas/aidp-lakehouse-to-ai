@@ -20,8 +20,9 @@ scope was not added from the 3.5.0 skill to this resumed project.
 
 Workspace **lakehouse_to_ai**, instance **CristinaVaras-AIDPWorkbench**, region
 **eu-frankfurt-1**, Standard catalog **lakehouse_demo**, existing Spark compute
-**lakehouse_demo_cpu** was ACTIVE for notebook 06; its latest readback is
-**STOPPED** after the unchanged 30-minute idle policy.
+**lakehouse_demo_cpu** was ACTIVE for notebook 06; it subsequently stopped under the unchanged
+30-minute idle policy. On **2026-11-02**, the user started it in the console and
+a fresh readback independently confirmed **ACTIVE**.
 
 A new isolated notebook-06 workflow executed the canonical notebook's code using
 the exact supplied project wheel on that kernel's temporary sys.path. This used
@@ -111,11 +112,11 @@ ERROR log search returned zero records.
 The **complete two-tool draft has now been restored and revalidated successfully**
 without redeploying. Its six guarded classes remain prepared, with an intentionally
 empty sql_connection. The ACTIVE deployment is the diagnostic SQL-only snapshot;
-it is not the completed operations adviser. No agent chat was submitted.
+it is not the completed operations adviser. A single subsequent diagnostic chat failed before SQL; see the dated update below.
 
 ## Gates that remain pending
 
-The selected Spark compute is STOPPED. The first start lookup accidentally
+Historical start blocker, now resolved by the owner: the selected Spark compute was STOPPED. The first start lookup accidentally
 selected restart and was rejected before changes. The corrected /actions/start
 request, explicitly carrying an empty JSON body, was also rejected with HTTP 400:
 **The request body must not be null**. Neither call started or restarted compute;
@@ -133,19 +134,38 @@ provide supported operator paths. No private endpoint was invented.
 
 A bounded signed chat transport was prepared using the actual exported diagnostic
 deployment endpoint, the same existing launcher, SDK and authentication provider.
-It has **not been invoked**. The MCP REST wrapper does not expose that chat route;
+It was invoked **once on 2026-11-02**, with the failure documented below. The MCP REST wrapper does not expose that chat route;
 preparation does not imply successful runtime authentication or a tool response.
 No credentials, endpoint credential identifiers or raw headers are published.
 
 **No KB was created or ingested, no RAG retrieval/citations were tested and none
 of the 17 live acceptance cases ran. AGENT ACCEPTANCE remains PENDING.**
 
+## Runtime update — 2026-11-02
+
+The user reported starting Spark. Fresh Ask-AIDP reads confirmed
+**lakehouse_demo_cpu ACTIVE**, the same diagnostic deployment **ACTIVE**, and
+the existing agent/model identity. One signed read-only probe was then submitted
+using the exact exported endpoint and unchanged launcher/authentication.
+
+The native backend returned **HTTP 400 / AIDP_GENAI_CLIENT_ERROR**. The provider
+returned **404 / NOT_FOUND** for **google.gemini-2.5-flash**, stating that the
+model was not found or the project lacks access in the configured region.
+This establishes a provider/model access failure, not a SQL query failure.
+No SQL result, RAG result or acceptance-case success is claimed. No retry,
+model substitution, training, scoring or data changes were performed.
+
+The owner was asked to select/save an accessible model. Native draft validation
+alone does not prove that a selected model can actually be invoked. The full
+prepared draft and existing diagnostic deployment were left unchanged.
+
 ## Exact next operator steps
 
-1. Start existing **lakehouse_demo_cpu** from the console without changing its
-   configuration. Confirm ACTIVE by readback before invoking the one-row probe
-   on the already ACTIVE SQL-only diagnostic deployment. Expect O-00030255 and
-   0.5999136971617619; these expected values must not be injected into the prompt.
+1. Select/save an accessible native model in the DEV canvas. Re-read and preserve
+   owner edits, then prepare a deployment bound to that actual selection before
+   trying the one-row SQL probe. Verify Spark is still ACTIVE. Expect O-00030255
+   and 0.5999136971617619; never inject these values into the prompt.
+
 2. Export the successful native SQL configuration and configure/test each guarded
    class, including invalid IDs/limits, valid missing orders and propagated
    native failures. Diagnose the complete draft's deployment separately; do not
