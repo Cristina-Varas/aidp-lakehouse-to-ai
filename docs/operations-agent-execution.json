@@ -22,7 +22,7 @@
     "scoring_input_delta_version": 1,
     "data_status": "AGENT DATA READY",
     "query_status": "NOTEBOOK SQL PASS",
-    "native_agent_sql_verified": false,
+    "native_agent_sql_verified": true,
     "top_order": {
       "order_id": "O-00030255",
       "customer_id": "C-000550",
@@ -64,11 +64,11 @@
     },
     "model_selected": true,
     "model": {
-      "provider": "google",
-      "model_id": "google.gemini-2.5-flash",
+      "provider": "openai",
+      "model_id": "openai.gpt-oss-120b",
       "region": "eu-frankfurt-1",
       "source": "user selection independently reread",
-      "runtime_access_verified": false
+      "runtime_access_verified": true
     },
     "full_deployment": {
       "client_submissions": 1,
@@ -80,18 +80,26 @@
     "diagnostic_deployment": {
       "state": "ACTIVE",
       "http_status": 201,
-      "variant": "native SQL probe only; complete adviser not deployed",
+      "variant": "native SQL probe only; updated through documented redeploy",
       "request_count": 1,
       "chat_submitted": true,
-      "native_sql_verified": false,
+      "native_sql_verified": true,
       "chat_result": {
         "date": "2026-11-02",
-        "requests": 1,
-        "http_status": 400,
-        "code": "AIDP_GENAI_CLIENT_ERROR",
-        "provider_status": 404,
-        "model": "google.gemini-2.5-flash",
-        "result": "Model not found or project lacks access; SQL not executed; no retry"
+        "model": "openai.gpt-oss-120b",
+        "http_status": 200,
+        "envelope_error": false,
+        "probe_invocations": 1,
+        "sql_status": "SUCCEEDED",
+        "rows_fetched": 1,
+        "columns_fetched": 2,
+        "query": "SELECT order_id, late_probability FROM lakehouse_demo.gold.late_delivery_predictions VERSION AS OF 1 ORDER BY late_probability DESC, order_id ASC LIMIT 1",
+        "agent_rendered_order": "O-00030255",
+        "agent_rendered_probability": 0.5999136971617619,
+        "matches_independently_verified_snapshot": true,
+        "trace_tool_output": "[REDACTED] by native service; do not claim unredacted raw tool payload",
+        "native_sql_status": "PASS",
+        "full_agent_acceptance": "PENDING"
       }
     },
     "full_draft_restored_after_diagnostic": true,
@@ -125,7 +133,7 @@
     "status": "NOT_EXECUTED",
     "cases": 17,
     "passed": 0,
-    "native_sql_verified": false,
+    "native_sql_verified": true,
     "rag_verified": false,
     "AGENT_ACCEPTANCE_PASS": false
   },
@@ -150,5 +158,28 @@
     "compute_settings_changed": false,
     "next_step": "No start repair required",
     "resolved_by": "User started existing compute in console; independently reread 2026-11-02"
+  },
+  "native_sql_probe": {
+    "date": "2026-11-02",
+    "model": "openai.gpt-oss-120b",
+    "http_status": 200,
+    "envelope_error": false,
+    "probe_invocations": 1,
+    "sql_status": "SUCCEEDED",
+    "rows_fetched": 1,
+    "columns_fetched": 2,
+    "query": "SELECT order_id, late_probability FROM lakehouse_demo.gold.late_delivery_predictions VERSION AS OF 1 ORDER BY late_probability DESC, order_id ASC LIMIT 1",
+    "agent_rendered_order": "O-00030255",
+    "agent_rendered_probability": 0.5999136971617619,
+    "matches_independently_verified_snapshot": true,
+    "trace_tool_output": "[REDACTED] by native service; do not claim unredacted raw tool payload",
+    "native_sql_status": "PASS",
+    "full_agent_acceptance": "PENDING"
+  },
+  "diagnostic_update": {
+    "create_request_rejected": 409,
+    "reason": "existing ACTIVE deployment",
+    "documented_redeploy_http": 201,
+    "automatic_retries": false
   }
 }

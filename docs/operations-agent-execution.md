@@ -134,7 +134,8 @@ provide supported operator paths. No private endpoint was invented.
 
 A bounded signed chat transport was prepared using the actual exported diagnostic
 deployment endpoint, the same existing launcher, SDK and authentication provider.
-It was invoked **once on 2026-11-02**, with the failure documented below. The MCP REST wrapper does not expose that chat route;
+It was invoked once with Gemini (failure) and once after the owner-selected
+OpenAI update (success), as documented below. The MCP REST wrapper does not expose that chat route;
 preparation does not imply successful runtime authentication or a tool response.
 No credentials, endpoint credential identifiers or raw headers are published.
 
@@ -159,12 +160,36 @@ The owner was asked to select/save an accessible model. Native draft validation
 alone does not prove that a selected model can actually be invoked. The full
 prepared draft and existing diagnostic deployment were left unchanged.
 
+## OpenAI follow-up — 2026-11-02
+
+The owner selected another model. Fresh reads confirmed **openai.gpt-oss-120b**,
+provider **openai**, region **eu-frankfurt-1**, with Spark still ACTIVE. As before,
+the UI save had removed edges/tools; the prepared topology was restored while
+preserving that actual model. The one-row SQL-only diagnostic passed validation.
+
+A create request returned **409**, because the existing diagnostic deployment was
+already ACTIVE; it created nothing. The documented **redeploy** operation then
+returned **201 / ACTIVE**. The complete draft was restored afterwards and again
+passed native validation. No complete Custom Code redeployment was attempted.
+
+One native chat returned **HTTP 200**, with empty envelope error code/message.
+Its trace records exactly **one native_spark_sql_probe.tool** span and
+**sql_tool.spark_sql.success: SUCCEEDED**, **one row / two columns**, with the
+version-pinned query applied. The agent rendered **O-00030255** and
+**0.5999136971617619**, matching the independently verified notebook-06 snapshot.
+The native trace redacts the raw tool payload as **[REDACTED]**; an unredacted
+payload comparison is not claimed. The prompt contained neither expected value.
+The successful native configuration and verification receipt are retained locally
+outside Git. This is **NATIVE SQL PROBE PASS**, not six-tool or RAG acceptance.
+
+The Gemini error above is historical. OpenAI access is now verified. The remaining
+Custom Code deployment blocker has not been repaired or retested, and the KB and
+17 acceptance cases remain pending. No training, scoring or data changes occurred.
+
 ## Exact next operator steps
 
-1. Select/save an accessible native model in the DEV canvas. Re-read and preserve
-   owner edits, then prepare a deployment bound to that actual selection before
-   trying the one-row SQL probe. Verify Spark is still ACTIVE. Expect O-00030255
-   and 0.5999136971617619; never inject these values into the prompt.
+1. Preserve the selected OpenAI model and the successful native SQL configuration.
+   The complete draft is saved; the ACTIVE deployment remains diagnostic-only.
 
 2. Export the successful native SQL configuration and configure/test each guarded
    class, including invalid IDs/limits, valid missing orders and propagated
