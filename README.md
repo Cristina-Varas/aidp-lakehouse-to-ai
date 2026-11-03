@@ -109,6 +109,13 @@ No inconclusive parameter request was repeated; nine outcomes remain unknown.
 [actual execution](docs/operations-agent-policy-fidelity.md) and
 [all case evidence](docs/operations-agent-acceptance.json).
 
+An authorized [planner-only comparison](docs/operations-agent-planner-comparison.md)
+tested Cohere in the isolated copy: 1/4 PASS with an explicit output budget.
+A bounded [Meta comparison](docs/operations-agent-planner-comparison-meta.md)
+produced 1 PASS / 2 FAIL / 1 PARTIAL. Neither was promoted. The original copy
+configuration was restored and SQL checked after each trial. Independent native
+RAG synthesis also added an unsupported restriction.
+
 ## Previous 0.6.3 campaign — response contract verified; acceptance pending
 
 The [role-separated response](docs/order-risk-response-contract.md) is deployed

@@ -23,6 +23,17 @@ Final canonical operational configuration SHA-256:
 It was reread before each normal case, after the campaign and before/after each
 isolated fault. Spark was verified ACTIVE through the existing Ask-AIDP launcher.
 
+A later authorized [isolated planner comparison](operations-agent-planner-comparison.md)
+produced 1/4 PASS with Cohere after a controlled output-budget adjustment. No
+promotion was made; the copy was restored and SQL checked. The canonical results
+above are unchanged. An independent RAG Test also exposed an unsupported summary
+restriction; source chunks were correct.
+
+The subsequent [Meta trial](operations-agent-planner-comparison-meta.md) yielded
+1 PASS / 2 FAIL / 1 PARTIAL; no promotion. Both planner trials were confined to
+the existing copy, restored afterwards, with actual SQL controls. The canonical
+results remain unchanged.
+
 ## Preserved configuration and scope
 
 All seven native SQL/RAG definitions and the selected `openai.gpt-oss-120b` remain

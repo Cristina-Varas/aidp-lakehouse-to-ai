@@ -591,5 +591,23 @@
     "Nine original raw-parameter outcomes remain unknown; no inconclusive request repeated; strict native validation/coercion/defaults not certified."
   ],
   "runtime_visibility": "Saved diagram, validation/deploy states, tool names/arguments, SQL events and assistant outputs observed. System prompts and chat tool-result bodies are redacted; they were not inspected. No cached-prompt or backend root cause is claimed.",
-  "previous_policy_campaign_report": "operations-agent-policy-history.json"
+  "previous_policy_campaign_report": "operations-agent-policy-history.json",
+  "isolated_planner_comparison": {
+    "report": "operations-agent-planner-comparison.json",
+    "candidate": "cohere.command-a-03-2025",
+    "default_cases": "0 PASS / 4 FAIL",
+    "explicit_output_budget_cases": "1 PASS / 3 FAIL",
+    "copy_restored": true,
+    "canonical_unchanged": true,
+    "promoted": false,
+    "second_bounded_candidate": {
+      "report": "operations-agent-planner-comparison-meta.json",
+      "model": "meta.llama-3.3-70b-instruct",
+      "passed": 1,
+      "failed": 2,
+      "partial_not_accepted": 1,
+      "copy_restored": true,
+      "promoted": false
+    }
+  }
 }

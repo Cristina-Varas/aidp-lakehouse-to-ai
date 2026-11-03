@@ -1,0 +1,389 @@
+{
+  "date": "2026-11-03",
+  "status": "COMPARISON_COMPLETE_NOT_PROMOTED_COPY_RESTORED",
+  "authorized_scope": "Only existing DEV copy planner LLM; canonical, RAG LLM/config, predictive model, data, computes and auth preserved",
+  "source_commit": "c12bc6ef42893bfe3cadc3d2ee8e02efa5212385",
+  "instance": "CristinaVaras-AIDPWorkbench",
+  "workspace": "lakehouse_to_ai",
+  "region": "eu-frankfurt-1",
+  "copy_name": "lakehouse_to_ai_operations_policy_fault_dev",
+  "candidate": {
+    "model": "cohere.command-a-03-2025",
+    "provider": "cohere",
+    "type": "OCI_GEN_AI"
+  },
+  "canonical_configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+  "canonical_model": "openai.gpt-oss-120b",
+  "catalog": {
+    "http": 200,
+    "offered_chat_models": 8,
+    "model_type_literal": "GEN_AI",
+    "ui_enum_constant": "_AllResourceTypeValues.AI_MODEL",
+    "compartment_source": "Verified native instance metadata, not guessed from tenancy or credentials",
+    "model_binding": "Workbench RegionAndModelSelect uses modelName and vendor; exact binding reused",
+    "availability_limit": "Catalog offer alone was not counted as inference or tool-use success",
+    "raw_response_sha256": "cd4c3b4578f8566f89dcab442aa197d07e1bf8af870c5df6d4db6a8d1deba2d0"
+  },
+  "availability_probe": {
+    "case": "availability",
+    "http": 200,
+    "candidate_model": "cohere.command-a-03-2025",
+    "configuration_sha256": "cf602c061f9e200cddbb9eec270985cf32e4b902b12a48237df67c87880e6ae3",
+    "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+    "observed_model_names": [
+      "cohere.command-a-03-2025",
+      "unknown"
+    ],
+    "tool_calls": [],
+    "observed_tool_spans": [],
+    "native_sql_events": [],
+    "responses": [
+      "Utilizaré la herramienta risk_summary para obtener el número de pedidos abiertos."
+    ],
+    "session_key_sha256": "7ecf1e5c0993477ad5ef8d1e029796339ec1583fe87e121928f9e657b86f1efe",
+    "raw_response_sha256": "ef3be1018e099a9d371c4fc61a890514627568bcda9d88157454308de885a237",
+    "native_agent_identity_verified": true,
+    "result": "MODEL_INFERENCE_ACCESS_PASS_SQL_TOOL_USE_FAIL",
+    "model_inference_access": "PASS HTTP200 using requested model seen in trace",
+    "sql_tool_use": "FAIL no invocation/actual count",
+    "response_model_field": "unknown; trace request model identifies Cohere, no independent server-weight attestation claimed"
+  },
+  "variants": [
+    {
+      "name": "default",
+      "planner_model_settings": null,
+      "configuration_sha256": "cf602c061f9e200cddbb9eec270985cf32e4b902b12a48237df67c87880e6ae3",
+      "changed_paths_relative_to_base": [
+        "nodes.planner.llm.modelId",
+        "nodes.planner.llm.provider"
+      ],
+      "passed": 0,
+      "failed": 4,
+      "cases": [
+        {
+          "case": "premium",
+          "result": "FAIL",
+          "reason": "No actual tool call observed; answer ends abruptly or announces intent. Policy retrieval/SQL evidence gate not met even if some wording is semantically correct.",
+          "http": 200,
+          "candidate_model": "cohere.command-a-03-2025",
+          "configuration_sha256": "cf602c061f9e200cddbb9eec270985cf32e4b902b12a48237df67c87880e6ae3",
+          "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+          "observed_model_names": [
+            "cohere.command-a-03-2025",
+            "unknown"
+          ],
+          "tool_calls": [],
+          "observed_tool_spans": [],
+          "native_sql_events": [],
+          "responses": [
+            "PREMIUM por sí solo no anula una promesa contractual anterior. La seguridad es lo primero"
+          ],
+          "session_key_sha256": "151b98da600958c2f7a37acbbebab15e0cb684279d282b10224391f20f7c2057",
+          "raw_response_sha256": "fd0e6c9b367bbb7d0164d20814f673d43703d94ef22054ec909fb4fb47519540",
+          "native_agent_identity_verified": true,
+          "tool_payload_visibility": "Chat tool results/system prompts redacted; not observed"
+        },
+        {
+          "case": "escalation",
+          "result": "FAIL",
+          "reason": "No actual tool call observed; answer ends abruptly or announces intent. Policy retrieval/SQL evidence gate not met even if some wording is semantically correct.",
+          "http": 200,
+          "candidate_model": "cohere.command-a-03-2025",
+          "configuration_sha256": "cf602c061f9e200cddbb9eec270985cf32e4b902b12a48237df67c87880e6ae3",
+          "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+          "observed_model_names": [
+            "cohere.command-a-03-2025",
+            "unknown"
+          ],
+          "tool_calls": [],
+          "observed_tool_spans": [],
+          "native_sql_events": [],
+          "responses": [
+            "Utilizaré la herramienta retrieve_operations_policy con la consulta \"¿Cuál es el objetivo"
+          ],
+          "session_key_sha256": "554a9997d73e337cb6f268630efa806fa1cebc843eda061479e21a768c28a2b4",
+          "raw_response_sha256": "5e1bb16aac946ec3771e72b052575362adaaac3cf54f60e87177b155673feb67",
+          "native_agent_identity_verified": true,
+          "tool_payload_visibility": "Chat tool results/system prompts redacted; not observed"
+        },
+        {
+          "case": "combined",
+          "result": "FAIL",
+          "reason": "No actual tool call observed; answer ends abruptly or announces intent. Policy retrieval/SQL evidence gate not met even if some wording is semantically correct.",
+          "http": 200,
+          "candidate_model": "cohere.command-a-03-2025",
+          "configuration_sha256": "cf602c061f9e200cddbb9eec270985cf32e4b902b12a48237df67c87880e6ae3",
+          "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+          "observed_model_names": [
+            "cohere.command-a-03-2025",
+            "unknown"
+          ],
+          "tool_calls": [],
+          "observed_tool_spans": [],
+          "native_sql_events": [],
+          "responses": [
+            "Primero, utilizo la herramienta 'rank_open_orders' para obtener los cinco pedidos"
+          ],
+          "session_key_sha256": "dbc13bfa0a743236aef7683ab47d240e3de7a9af7879424475485360a83912d3",
+          "raw_response_sha256": "ce23e7bdec57d2e40fc1810248f3ab423e862e7dc159c4285c41c8547f4e5758",
+          "native_agent_identity_verified": true,
+          "tool_payload_visibility": "Chat tool results/system prompts redacted; not observed"
+        },
+        {
+          "case": "causality",
+          "result": "FAIL",
+          "reason": "No actual tool call observed; answer ends abruptly or announces intent. Policy retrieval/SQL evidence gate not met even if some wording is semantically correct.",
+          "http": 200,
+          "candidate_model": "cohere.command-a-03-2025",
+          "configuration_sha256": "cf602c061f9e200cddbb9eec270985cf32e4b902b12a48237df67c87880e6ae3",
+          "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+          "observed_model_names": [
+            "cohere.command-a-03-2025",
+            "unknown"
+          ],
+          "tool_calls": [],
+          "observed_tool_spans": [],
+          "native_sql_events": [],
+          "responses": [
+            "Utilizaré la herramienta get_order_risk para recuperar los datos del pedido O-0"
+          ],
+          "session_key_sha256": "2967d54d05bc521aecff427f96560499d37fbac34ee4fb10334dbcecb8eaf5e3",
+          "raw_response_sha256": "ac0a2c6ea3b29696c0addd09b039816e979d08c7ba7c83d987554d0c8459979f",
+          "native_agent_identity_verified": true,
+          "tool_payload_visibility": "Chat tool results/system prompts redacted; not observed"
+        }
+      ]
+    },
+    {
+      "name": "explicit_output_budget",
+      "planner_model_settings": {
+        "max_tokens": 2048
+      },
+      "configuration_sha256": "9c1f567acc6b1df24bec8cd77408d12e6d60e351160c6b5b497aa7032516d7a8",
+      "only_new_delta_relative_to_default": "nodes.planner.modelSettings.max_tokens=2048",
+      "passed": 1,
+      "failed": 3,
+      "cases": [
+        {
+          "case": "premium",
+          "result": "FAIL",
+          "reason": "FAIL real-retrieval gate: source-faithful policy wording but no RAG invocation or source citation. Facts present in system instructions do not establish retrieval.",
+          "http": 200,
+          "candidate_model": "cohere.command-a-03-2025",
+          "configuration_sha256": "9c1f567acc6b1df24bec8cd77408d12e6d60e351160c6b5b497aa7032516d7a8",
+          "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+          "observed_model_names": [
+            "cohere.command-a-03-2025",
+            "unknown"
+          ],
+          "tool_calls": [],
+          "observed_tool_spans": [],
+          "native_sql_events": [],
+          "responses": [
+            "PREMIUM por sí solo no anula una promesa contractual anterior. La seguridad es lo primero; después de la seguridad, considere la prioridad aceptada, el tiempo restante para la promesa original y el impacto en el cliente como un conjunto. La política no clasifica estos tres criterios."
+          ],
+          "session_key_sha256": "ad531d2c346bb8c69cebaaf57873484f40005b7c004c071f4f8b542be2d431bf",
+          "raw_response_sha256": "1df978766d6fb2f9b3b3ed2b7d122f7b41f9792db0e438818ab4d4183202dbd9",
+          "native_agent_identity_verified": true,
+          "tool_payload_visibility": "Chat tool results/system prompts redacted; not observed"
+        },
+        {
+          "case": "escalation",
+          "result": "FAIL",
+          "reason": "FAIL citation criterion: real RAG invocation and one-hour illustrative target, but final answer identifies no actual policy filename/title/section. After-notification wording is additionally ambiguous; no validated clock-start rule is inferred.",
+          "http": 200,
+          "candidate_model": "cohere.command-a-03-2025",
+          "configuration_sha256": "9c1f567acc6b1df24bec8cd77408d12e6d60e351160c6b5b497aa7032516d7a8",
+          "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+          "observed_model_names": [
+            "cohere.command-a-03-2025",
+            "openai.gpt-oss-120b",
+            "unknown"
+          ],
+          "tool_calls": [
+            {
+              "tool": "retrieve_operations_policy",
+              "arguments": "{\"query\": \"\\u00bfCu\\u00e1l es el objetivo de acuse para una incidencia de severidad 2?\"}"
+            }
+          ],
+          "observed_tool_spans": [
+            "retrieve_operations_policy"
+          ],
+          "native_sql_events": [],
+          "responses": [
+            "El objetivo de acuse para una incidencia de severidad 2 es reconocerla en un plazo de una hora (tras notificar al líder del equipo). Este es un objetivo ilustrativo interno, no un plazo máximo obligatorio o un compromiso de servicio. La política no define ningún evento de inicio del reloj."
+          ],
+          "session_key_sha256": "e266d733e6649c0de38468907967a7173174a951a4e2e5ff7c8eefda3eded29a",
+          "raw_response_sha256": "7075436e5fefe6a06a4f94c438ee1ddb92de549a6434b6b83a640a3d30cf516e",
+          "native_agent_identity_verified": true,
+          "tool_payload_visibility": "Chat tool results/system prompts redacted; not observed"
+        },
+        {
+          "case": "combined",
+          "result": "FAIL",
+          "reason": "FAIL fidelity and citations: actual RAG/rank calls and correct top-five IDs, but extends the prediction-input restriction to operational review, invents an acceptance-time at-risk marking requirement and cites no actual policy file/section.",
+          "http": 200,
+          "candidate_model": "cohere.command-a-03-2025",
+          "configuration_sha256": "9c1f567acc6b1df24bec8cd77408d12e6d60e351160c6b5b497aa7032516d7a8",
+          "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+          "observed_model_names": [
+            "cohere.command-a-03-2025",
+            "openai.gpt-oss-120b",
+            "unknown"
+          ],
+          "tool_calls": [
+            {
+              "tool": "rank_open_orders",
+              "arguments": "{\"limit\": 5.0}"
+            },
+            {
+              "tool": "retrieve_operations_policy",
+              "arguments": "{\"query\": \"procedimiento para revisar pedidos\"}"
+            }
+          ],
+          "observed_tool_spans": [
+            "retrieve_operations_policy",
+            "rank_open_orders"
+          ],
+          "native_sql_events": [
+            {
+              "event": "sql_tool.spark_sql.success",
+              "status": "SUCCEEDED",
+              "rows_fetched": 5,
+              "columns_fetched": 20
+            }
+          ],
+          "responses": [
+            "Los cinco pedidos con mayor riesgo son:\n\n1. ID de pedido: O-00030255, Probabilidad de retraso: 0.5999\n2. ID de pedido: O-00030228, Probabilidad de retraso: 0.5959\n3. ID de pedido: O-00030555, Probabilidad de retraso: 0.5879\n4. ID de pedido: O-00030059, Probabilidad de retraso: 0.5837\n5. ID de pedido: O-00030203, Probabilidad de retraso: 0.5794\n\nSegún la política ficticia, el procedimiento para revisar pedidos es el siguiente:\n\n1. **Identificar los pedidos “en riesgo”**: Los pedidos que presentan alguna señal de posible retraso deben marcarse como *at‑risk* al momento de la aceptación.\n\n2. **Revisión diaria**:\n   - **Frecuencia**: Cada día hábil (business day).\n   - **Actividad**: Revisar todos los pedidos que estén abiertos y catalogados como “en riesgo”.\n\n3. **Documentar la decisión**:\n   - Para cada pedido revisado, anotar:\n     - **Decisión tomada** (por ejemplo, mantener la prioridad, re‑priorizar, buscar transporte alternativo, etc.).\n     - **Hora de la decisión** (timestamp en UTC).\n     - **Responsable** (owner) que tomó la decisión.\n\n4. **Consideraciones importantes**:\n   - La revisión **no debe usar** como datos de entrada la información de que el pedido ya haya sido entregado ni la resolución de incidentes posteriores; esos resultados son consideraciones posteriores y no forman parte del proceso de revisión.\n   - Si la revisión lleva a una modificación de la cola de trabajo, debe quedar registrada la razón del cambio y el aprobador, sin sobrescribir el “snapshot” de aceptación original.\n\nEn resumen, el proceso consiste en una **revisión diaria de los pedidos abiertos en riesgo**, registrando la decisión, el momento y el responsable, manteniendo la integridad de la información de aceptación y sin basarse en resultados ya concluídos."
+          ],
+          "session_key_sha256": "3e4e38d193535e32742fb5e761b97e2f7b0ba26786f5264725d891f62f6d8a08",
+          "raw_response_sha256": "12471874b671d55add89503f0b8efbf064e1236d15d7643a0d3af31f4eded494",
+          "native_agent_identity_verified": true,
+          "tool_payload_visibility": "Chat tool results/system prompts redacted; not observed"
+        },
+        {
+          "case": "causality",
+          "result": "PASS",
+          "reason": "PASS: actual get_order_risk call, correct score/threshold, refuses individual causal attribution without inventing a policy source or calling RAG.",
+          "http": 200,
+          "candidate_model": "cohere.command-a-03-2025",
+          "configuration_sha256": "9c1f567acc6b1df24bec8cd77408d12e6d60e351160c6b5b497aa7032516d7a8",
+          "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+          "observed_model_names": [
+            "cohere.command-a-03-2025",
+            "unknown"
+          ],
+          "tool_calls": [
+            {
+              "tool": "get_order_risk",
+              "arguments": "{\"order_id\": \"O-00030255\"}"
+            }
+          ],
+          "observed_tool_spans": [
+            "get_order_risk"
+          ],
+          "native_sql_events": [
+            {
+              "event": "sql_tool.spark_sql.success",
+              "status": "SUCCEEDED",
+              "rows_fetched": 1,
+              "columns_fetched": 1
+            }
+          ],
+          "responses": [
+            "No se dispone de una explicación causal para el score individual. No infiera qué variable causó este score.\n\nEl score de O-00030255 es 0.5999136971617619, con un umbral de decisión de 0.25."
+          ],
+          "session_key_sha256": "090d59790e473a802a42df0208edcd085c13c8b20ef6719edb684384155c21f6",
+          "raw_response_sha256": "c7648ca4351105c7c11267b2ca30e5b44d82193d07bb91353022f8f2c9e6b365",
+          "native_agent_identity_verified": true,
+          "tool_payload_visibility": "Chat tool results/system prompts redacted; not observed"
+        }
+      ],
+      "observed_behavior": "Complete replies and real tool calls in 3 of 4 cases; premium still did not retrieve. Effective original budget and stop reason were not exposed; no precise default-token-limit claim.",
+      "deployment_response": "MCP returned This operation was aborted; terminal ACTIVE recovered through read-only get/list with exact deployment description and draft settings. Request not resubmitted.",
+      "parameter_basis": "Installed AIDP AgentDiagramAgentNode.modelSettings documents model-specific inference parameters; installed OCI CohereChatRequest documents max_tokens serialized as maxTokens"
+    }
+  ],
+  "rag_configuration_unchanged": true,
+  "rag_model": "openai.gpt-oss-120b",
+  "rag_independent_diagnostic": {
+    "http": 200,
+    "query": "procedimiento para revisar pedidos",
+    "generated_answer": "**Procedimiento para revisar pedidos (según el contexto proporcionado)**  \n\n1. **Registro inicial al aceptar el pedido**  \n   - Anotar el cliente, la cantidad aceptada, la prioridad original, la cobertura de inventario, el transportista planificado y la hora prometida de entrega.  \n   - Conservar esa “instantánea” de compromiso aunque el plan operativo cambie después.  \n\n2. **Determinación de la prioridad en la cola**  \n   - Primero atender los incidentes críticos de seguridad.  \n   - Después, considerar la prioridad aceptada, el tiempo que resta para cumplir la promesa original y el impacto al cliente.  \n   - Un segmento premium no anula una promesa contractual anterior.  \n   - Si se realiza una anulación manual, registrar la razón y el aprobador; no se vuelve a escribir la instantánea de aceptación.  \n\n3. **Revisión diaria de pedidos en riesgo**  \n   - Cada día hábil revisar todos los pedidos que se encuentren “en riesgo” (por ejemplo, con predicciones de retraso).  \n   - Registrar la **decisión** tomada (mantener, re‑programar, escalar, etc.), la **hora** de la decisión y el **propietario** de la misma.  \n\n4. **No usar resultados posteriores como entrada de predicción**  \n   - La finalización de la entrega y la resolución de incidentes deben **mantenerse como resultados posteriores** y **no deben usarse** para alimentar o validar predicciones realizadas en el momento de la aceptación.  \n\n5. **Comunicación con el cliente**  \n   - El coordinador de operaciones es quien posee la comunicación con el cliente; los modelos o asistentes no deben enviar mensajes ni prometer nuevas fechas sin la aprobación del coordinador.  \n\nEn resumen, el proceso consiste en registrar exhaustivamente la información del pedido al momento de la aceptación, priorizar la cola respetando esa información, revisar diariamente los pedidos en riesgo y documentar cualquier decisión, todo bajo la supervisión del coordinador que gestiona la comunicación externa.",
+    "source_verification": {
+      "status": "POLICY RETRIEVAL VERIFIED",
+      "documents": [
+        "incident_escalation.txt",
+        "order_prioritization.txt"
+      ],
+      "document_ids": [
+        "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/incident_escalation.txt#chunk_0",
+        "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/incident_escalation.txt#chunk_1",
+        "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/order_prioritization.txt#chunk_0",
+        "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/order_prioritization.txt#chunk_1"
+      ],
+      "chunks": 4
+    },
+    "finding": "Generated summary adds that later outcomes must not validate predictions; source only excludes later outcomes from acceptance-time prediction inputs. This extra validation prohibition is not directly supported.",
+    "limitation": "Independent native Test using exact combined query; original conversation tool results remain redacted. Does not prove its hidden payload was identical or establish the full original root cause.",
+    "raw_response_sha256": "002874f434b4d487e945af1bda00228254d48b546f10886c21357b50d7c4bec2"
+  },
+  "restoration": {
+    "base_configuration_sha256": "ad903077acebf892b78f2fbeb5a77f9b0c511b60f999b662f0d5db84c5296a4e",
+    "model": "openai.gpt-oss-120b",
+    "planner_model_settings": null,
+    "validation": true,
+    "redeploy": "HTTP201 ACTIVE",
+    "readback_matches_base": true,
+    "canonical_readback_unchanged": true,
+    "control": {
+      "status": "RESTORED_NATIVE_MODEL_AND_SQL_PASS",
+      "models": [
+        "openai.gpt-oss-120b",
+        "unknown"
+      ],
+      "tools": [
+        "risk_summary"
+      ],
+      "sql_events": [
+        {
+          "event": "sql_tool.spark_sql.success",
+          "status": "SUCCEEDED",
+          "rows": 1
+        }
+      ],
+      "responses": [
+        "Hay **600 pedidos abiertos** en el snapshot al 28 de octubre 2026.  \n\n**Fuente**: resultado de la herramienta `risk_summary`."
+      ],
+      "session_key_sha256": "4a162bd07e44f22853f6bd17730a908d6ee64080abac8f1a8b0fa822e2ea74ab"
+    },
+    "control_raw_response_sha256": "d82e54645895da2f6bd50e9cf96573a9fb8c67846de79b22242b157776d3cbbb"
+  },
+  "new_fresh_conversations": 10,
+  "direct_rag_diagnostic_calls": 1,
+  "inconclusive_raw_sql_parameter_requests_repeated": 0,
+  "remaining_original_unknown_parameter_outcomes": 9,
+  "strict_native_argument_validation_certified": false,
+  "canonical_acceptance_unchanged": {
+    "normal_passed": 12,
+    "normal_failed": 3,
+    "isolated_fault_passed": 2,
+    "AGENT_ACCEPTANCE_PASS": false
+  },
+  "candidate_promoted": false,
+  "AGENT_ACCEPTANCE_PASS": false,
+  "recommendation": "Do not promote based on this comparison. Policy fidelity, actual retrieval and verifiable source citations remain unsatisfied; original selected model is restored.",
+  "official_references": [
+    {
+      "title": "Cohere Command A, tools/RAG capability",
+      "url": "https://docs.oracle.com/en-us/iaas/Content/generative-ai/cohere-command-a-03-2025.htm"
+    },
+    {
+      "title": "OCI CohereChatRequest max_tokens",
+      "url": "https://docs.oracle.com/en-us/iaas/tools/python/latest/api/generative_ai_inference/models/oci.generative_ai_inference.models.CohereChatRequest.html"
+    }
+  ],
+  "local_verification": "Documentation/evidence reconciliation only; project code unchanged since c12bc6e. Prior 32 local operations tests passed using SQLite/simulations, not local real Spark.",
+  "private_evidence": "Existing protected local runtime outside Git; no raw headers, credentials, complete diagrams or private configs published",
+  "subsequent_bounded_comparison": "operations-agent-planner-comparison-meta.json"
+}

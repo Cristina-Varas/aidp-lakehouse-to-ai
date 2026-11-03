@@ -1,5 +1,15 @@
 # Operations agent execution — 2–3 November 2026
 
+The subsequent [planner-only comparison](operations-agent-planner-comparison.md)
+completed without promotion: Cohere 1/4 PASS after the output-budget adjustment;
+copy restored, actual SQL control PASS, canonical unchanged. This is separate
+from the canonical acceptance results below.
+
+The subsequent [Meta trial](operations-agent-planner-comparison-meta.md) yielded
+1 PASS / 2 FAIL / 1 PARTIAL; no promotion. Both planner trials were confined to
+the existing copy, restored afterwards, with actual SQL controls. The canonical
+results remain unchanged.
+
 ## Latest policy-fidelity execution — 3 November 2026
 
 Final r3 native verification completed: **12/15 normal PASS; 2/2 isolated faults

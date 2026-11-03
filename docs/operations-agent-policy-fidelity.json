@@ -386,5 +386,23 @@
     "sql_failure_events": 3,
     "inconclusive_parameter_cases_repeated": false,
     "interpretation": "Observed internal calls, not three controller submissions. Fault query deliberately ignores limit to raise an error; do not infer original-tool schema/default behavior from these arguments."
+  },
+  "isolated_planner_comparison": {
+    "report": "operations-agent-planner-comparison.json",
+    "candidate": "cohere.command-a-03-2025",
+    "default_cases": "0 PASS / 4 FAIL",
+    "explicit_output_budget_cases": "1 PASS / 3 FAIL",
+    "copy_restored": true,
+    "canonical_unchanged": true,
+    "promoted": false,
+    "second_bounded_candidate": {
+      "report": "operations-agent-planner-comparison-meta.json",
+      "model": "meta.llama-3.3-70b-instruct",
+      "passed": 1,
+      "failed": 2,
+      "partial_not_accepted": 1,
+      "copy_restored": true,
+      "promoted": false
+    }
   }
 }
