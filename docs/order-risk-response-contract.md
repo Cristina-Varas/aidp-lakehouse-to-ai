@@ -1,19 +1,36 @@
-# Order-risk response contract — 0.6.3 candidate
+# Order-risk response contract — 0.6.3
 
-## Verification status
+## Verification status — 3 November 2026
 
-The correction is implemented and locally verified. **It has not been deployed
-or verified in AIDP.** The last read of `lakehouse_demo_cpu` was STOPPED. One start
-request using the documented native route and explicit `{}` body returned HTTP
-400, `InvalidParameter: The request body must not be null`; it was not retried.
-The existing working agent, its six SQL tools, RAG binding, KB contents, selected
-LLM, model version 1, data and compute configuration have been preserved.
+The focused **0.6.3** response contract is deployed and verified in AIDP. The
+visible native lookup separates prediction, ten fitted inputs, original UTC
+date derivation sources and metadata using the actual saved training artifact.
+The fresh **causality case passed**: the agent no longer describes
+`late_probability`, `predicted_late` or `decision_threshold` as predictors and
+does not claim validated individual attribution. The model and KB are preserved.
 
-Direct native parameter tests and the new 17-case acceptance campaign remain
-**NOT RUN / PENDING**. Earlier 0.6.2 outcomes are historical evidence, not results
-for this candidate. Start the existing `lakehouse_demo_cpu` in
-**CristinaVaras-AIDPWorkbench → lakehouse_to_ai → Compute**, without changing its
-size or 30-minute inactivity policy, and verify ACTIVE before live SQL tests.
+All **17 prompts ran in new sessions on one frozen configuration**: **13 PASS,
+2 FAIL, 2 PENDING**. Premium-policy wording invented a strict queue hierarchy;
+escalation wording invented a detection-time deadline. Both failures remain
+recorded. SQL and RAG were healthy in the two unavailable-service cases, so their
+failure preconditions were **not exercised**, not passed. **AGENT ACCEPTANCE PASS
+remains false; PR #1 remains a draft.**
+
+The **21 direct native parameter attempts** bypassed the LLM: 11 HTTP responses
+and 10 inconclusive outcomes (five timeouts, five transport errors). Two omitted
+arguments were rejected with HTTP400; numeric string `"10"` returned the numeric
+baseline with the configured SQL cast; three extra arguments had no observed
+result effect. None of these observations certifies compiled-tool schema coercion.
+See [raw-parameter observations](operations-agent-native-parameters.json) and
+[all case evidence](operations-agent-acceptance.json).
+
+The user-started project Spark was reread ACTIVE. Native SQL verified the JSON
+response before the focused change was applied. Native validation passed;
+deployment returned HTTP201 ACTIVE. Other six tools, selected LLM, KB, model,
+data, authentication and resource settings were preserved. The frozen operational
+hash is `f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef`.
+The final readback after all 17 cases matched. The previous compute-start failure
+is historical, not an outstanding request for the user.
 
 ## Saved training contract is the source of truth
 
@@ -99,7 +116,8 @@ agent_acceptance_pass=false.
 independently verified business keys. They cover valid/absent orders, malformed,
 numeric, null, omitted and quoted IDs, customer format, numeric/string/fractional/
 excess/zero/boolean/null/omitted limits and extra arguments on both parameterized
-and parameter-free tools. The prepared requests have not been executed in AIDP.
+and parameter-free tools. All 21 requests were attempted in AIDP; the report
+retains the original JSON types and separates HTTP results from unknown outcomes.
 
 Use the existing native Test endpoint (the same supported path used by Workbench),
 passing the exact final SQL config and raw `paramValues.values`. No LLM call is
@@ -125,9 +143,10 @@ Its results therefore do not certify compiled-tool schema coercion or defaults.
 `classify_native_result` enforces these distinctions. Local classifier fixtures
 are not observations of native behavior.
 
-## One final configuration and fresh sessions
+## Reproducible procedure for one final configuration
 
-After Spark is ACTIVE:
+The following sequence was executed after Spark became ACTIVE. Retain it for a
+future bounded campaign; do not automatically resubmit requests with unknown outcomes:
 
 1. Execute the focused native lookup and verify the visible structured response
    against the downloaded artifact before replacing the working lookup.

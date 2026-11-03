@@ -1,12 +1,28 @@
 # Operations adviser — native SQL and policy RAG
 
-## Current follow-up: role-separated order-risk response
+## Current 0.6.3 response contract and acceptance
 
-Candidate **0.6.3** reads the saved training feature artifact and separates model
-outputs, fitted feature values, date derivation sources and metadata. It is
-locally verified, **not yet deployed or verified live**; project Spark is STOPPED.
-Acceptance is pending. See [contract, direct parameter tests and single-configuration campaign](order-risk-response-contract.md).
-The working native 0.6.2 agent, KB and model remain preserved.
+The focused **0.6.3** response contract is deployed and verified in AIDP. The
+visible native lookup separates prediction, ten fitted inputs, original UTC
+date derivation sources and metadata using the actual saved training artifact.
+The fresh **causality case passed**: the agent no longer describes
+`late_probability`, `predicted_late` or `decision_threshold` as predictors and
+does not claim validated individual attribution. The model and KB are preserved.
+
+All **17 prompts ran in new sessions on one frozen configuration**: **13 PASS,
+2 FAIL, 2 PENDING**. Premium-policy wording invented a strict queue hierarchy;
+escalation wording invented a detection-time deadline. Both failures remain
+recorded. SQL and RAG were healthy in the two unavailable-service cases, so their
+failure preconditions were **not exercised**, not passed. **AGENT ACCEPTANCE PASS
+remains false; PR #1 remains a draft.**
+
+The **21 direct native parameter attempts** bypassed the LLM: 11 HTTP responses
+and 10 inconclusive outcomes (five timeouts, five transport errors). Two omitted
+arguments were rejected with HTTP400; numeric string `"10"` returned the numeric
+baseline with the configured SQL cast; three extra arguments had no observed
+result effect. None of these observations certifies compiled-tool schema coercion.
+See [raw-parameter observations](operations-agent-native-parameters.json) and
+[all case evidence](operations-agent-acceptance.json).
 
 ## Verified 0.6.2 baseline and scope
 

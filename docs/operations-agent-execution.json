@@ -3,7 +3,7 @@
   "package_version": "0.6.3",
   "source_base_commit": "39044a5c6fa5c0cd7a24b067b5f3ab3c3f8c9dd5",
   "branch": "feat/operations-agent-0.6.0",
-  "status": "PREPARED_WAITING_FOR_SPARK",
+  "status": "DEV_DEPLOYED_RESPONSE_CONTRACT_VERIFIED_ACCEPTANCE_PENDING",
   "AGENT_ACCEPTANCE_PASS": false,
   "environment": {
     "instance": "CristinaVaras-AIDPWorkbench",
@@ -15,12 +15,14 @@
     "authentication": "Existing ask-aidp launcher/profile unchanged"
   },
   "working_agent": {
-    "unchanged": true,
-    "configuration_evaluated_previously": "0.6.2",
+    "unchanged": false,
+    "configuration_evaluated_previously": "0.6.2 retained as history",
     "kb_changed": false,
     "model_changed": false,
     "selected_model": "openai.gpt-oss-120b",
-    "other_six_tool_definitions_preserved_in_candidate": true
+    "other_six_tool_definitions_preserved_in_candidate": true,
+    "focused_change": "Only get_order_risk query/description and role instructions changed; validated and deployed once",
+    "other_six_tool_definitions_preserved_after_deployment": true
   },
   "saved_training_contract": {
     "model": "lakehouse_demo.gold.late_delivery_acceptance",
@@ -35,14 +37,14 @@
     "date_usage": "UTC accepted/promise timestamps only derive promised_lead_days"
   },
   "candidate_063": {
-    "status": "PREPARED_WAITING_FOR_SPARK",
+    "status": "DEPLOYED_ACTIVE_TESTED",
     "source_contract": "Downloaded from verified exact registered run; hash d56d52239c6801fe1a695b90e2ff50e2db3a4383d7bcd983cf62494b57a487eb",
-    "working_agent_changed": false,
+    "working_agent_changed": true,
     "kb_changed": false,
     "model_changed": false,
-    "direct_parameter_calls_executed": 0,
+    "direct_parameter_calls_executed": 21,
     "planned_direct_parameter_cases": 21,
-    "new_acceptance_cases_executed": 0,
+    "new_acceptance_cases_executed": 17,
     "planned_acceptance_cases": 17,
     "local_tests": {
       "total": 135,
@@ -55,16 +57,39 @@
       "sha256": "2fdd87ec8962d977381a1a6fda3af647561f8ab820b5b8a715edb58d2cc2699d",
       "location": "Ignored dist/ on local Mac; not installed into AIDP"
     },
-    "blocker": "Project Spark STOPPED; start API HTTP400 The request body must not be null; manual start required",
-    "AGENT_ACCEPTANCE_PASS": false
+    "blocker": "Acceptance remains pending: two policy-fidelity failures, two unavailable-service preconditions not exercised, and ten inconclusive raw-parameter attempts. Prior stopped-Spark blocker resolved by user.",
+    "AGENT_ACCEPTANCE_PASS": false,
+    "configuration_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+    "native_response_proof": {
+      "status": "ORDER RISK CONTRACT VERIFIED",
+      "feature_names": [
+        "customer_region_at_acceptance",
+        "customer_segment_at_acceptance",
+        "inventory_fill_rate_at_acceptance",
+        "line_count",
+        "planned_carrier_at_acceptance",
+        "priority_at_acceptance",
+        "promised_lead_days",
+        "transit_distance_km",
+        "units",
+        "warehouse_load_at_acceptance"
+      ],
+      "feature_contract_sha256": "d56d52239c6801fe1a695b90e2ff50e2db3a4383d7bcd983cf62494b57a487eb",
+      "promised_lead_days": 4.774305555555555
+    },
+    "spark_start": "User manually started existing compute; ACTIVE reread before tests. No compute configuration/inactivity changes."
   },
   "acceptance": {
-    "status": "PENDING",
-    "new_cases_executed": 0,
-    "planned_cases": 17,
-    "single_final_configuration_required": true,
-    "direct_parameter_calls_executed": 0,
-    "planned_direct_parameter_calls": 21,
+    "status": "PENDING_WITH_OBSERVED_FAILURES",
+    "new_cases_executed": 17,
+    "passed": 13,
+    "failed": 2,
+    "pending_preconditions": 2,
+    "single_final_configuration_verified": true,
+    "configuration_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+    "direct_parameter_calls_executed": 21,
+    "direct_parameter_http_responses": 11,
+    "direct_parameter_unknown_outcomes": 10,
     "AGENT_ACCEPTANCE_PASS": false
   },
   "previous_execution_062": {
@@ -493,5 +518,18 @@
         }
       }
     }
-  }
+  },
+  "tested_source_commit": "2c5a879c18aea044720c244f966c337d00b9c597",
+  "native_parameter_evidence": "operations-agent-native-parameters.json",
+  "scope_preserved": [
+    "Existing KB identity, source, embeddings and chunk settings",
+    "Owner-selected openai.gpt-oss-120b and other six tool definitions",
+    "Exact ML model version 1 and original training run",
+    "Data, scoring, native authentication, computes and inactivity policies"
+  ],
+  "remaining_work": [
+    "Correct unsupported policy hierarchy and deadline wording without changing policy semantics, then repeat acceptance on a newly frozen configuration.",
+    "Obtain an authenticated native Test outcome for ten inconclusive raw cases through a bounded diagnosed test path; do not label timeouts/transport errors as rejects.",
+    "Exercise genuine/session-scoped SQL and RAG failures without changing the final graph; no verified fault mechanism was available in this campaign."
+  ]
 }

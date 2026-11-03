@@ -1,19 +1,69 @@
 # Operations agent execution — 2–3 November 2026
 
-## Current follow-up: 0.6.3 response contract — PENDING
+## Current 0.6.3 execution — 3 November 2026
 
-The focused correction is implemented and locally verified against the actual
-saved training feature artifact. **It has not been deployed or tested in AIDP.**
-The working 0.6.2 native agent/KB/model remain unchanged. Project Spark is STOPPED;
-one explicit-body start request returned HTTP400, `The request body must not be null`,
-and was not repeated. Manual start of the existing compute is required.
+The focused **0.6.3** response contract is deployed and verified in AIDP. The
+visible native lookup separates prediction, ten fitted inputs, original UTC
+date derivation sources and metadata using the actual saved training artifact.
+The fresh **causality case passed**: the agent no longer describes
+`late_probability`, `predicted_late` or `decision_threshold` as predictors and
+does not claim validated individual attribution. The model and KB are preserved.
 
-The **21 direct native parameter calls** and **17 new acceptance sessions on one
-final configuration** are prepared but **NOT RUN**. No earlier result is reused
-as current acceptance. See [focused response contract and execution steps](order-risk-response-contract.md).
-Current local checks: **135 tests, 111 passed / 24 optional skipped**, plus 32 tests
-from the built 0.6.3 wheel. No shared AIDP package, business data or model changed.
+All **17 prompts ran in new sessions on one frozen configuration**: **13 PASS,
+2 FAIL, 2 PENDING**. Premium-policy wording invented a strict queue hierarchy;
+escalation wording invented a detection-time deadline. Both failures remain
+recorded. SQL and RAG were healthy in the two unavailable-service cases, so their
+failure preconditions were **not exercised**, not passed. **AGENT ACCEPTANCE PASS
+remains false; PR #1 remains a draft.**
 
+The **21 direct native parameter attempts** bypassed the LLM: 11 HTTP responses
+and 10 inconclusive outcomes (five timeouts, five transport errors). Two omitted
+arguments were rejected with HTTP400; numeric string `"10"` returned the numeric
+baseline with the configured SQL cast; three extra arguments had no observed
+result effect. None of these observations certifies compiled-tool schema coercion.
+See [raw-parameter observations](operations-agent-native-parameters.json) and
+[all case evidence](operations-agent-acceptance.json).
+
+Operational configuration SHA-256:
+`f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef`.
+It was checked before each case and after the campaign. Source commit tested:
+`2c5a879c18aea044720c244f966c337d00b9c597`. Only the lookup query/description and
+focused role instructions changed. The other six tool definitions and selected
+LLM were compared exactly after deployment; validation passed and redeploy
+returned HTTP201 ACTIVE. Full configuration exports and raw HTTP evidence remain
+private outside Git. No Custom Code or diagnostic tool was added.
+
+The user resolved the prior STOPPED compute blocker by manually starting the
+existing compute; ACTIVE was reread through Ask-AIDP before testing. No restart
+API retries, authentication/dependency changes, compute sizing or inactivity
+changes were used. Training, scoring, data and KB ingestion were not rerun.
+
+Visible native Test output independently verified the structured lookup and
+`promised_lead_days=4.774305555555555`. Chat traces expose tool names, arguments
+and SQL row/column counts but redact tool-result bodies. The record distinguishes
+assistant assertions from visible Test rows and approved policy source checks;
+it does not claim hidden chat payloads were inspected. The unchanged KB's prior
+independent native retrieval verified both policy documents; no reingestion was
+needed. RAG citation references in this campaign were compared with that source.
+
+Timeout and transport failures have unknown backend outcomes and were not retried.
+The Test request accepts config plus raw values, not the saved LLM input schema.
+Its nominal local deadline was 150 seconds; two observed timeout elapsed times
+exceeded it. Actual timings are retained without claiming a server deadline or
+root cause. Five later requests failed locally with TypeError and no HTTP response.
+The existing authenticated MCP workspace check then succeeded; this does not
+explain those transport errors.
+
+Next acceptance work is the policy wording repair, a diagnosed bounded path for
+the ten inconclusive parameter cases, and genuine/session-scoped failure tests
+that preserve a single final graph. No unavailable-service PASS was manufactured
+by changing SQL, KB, authentication or compute state. The supplemental healthy
+RAG answer also repeats unsupported queue/severity advice and is retained.
+
+Local results remain **135 tests: 111 passed / 24 optional skipped**, plus **32
+operations tests from the built wheel**. These previously executed local checks
+used SQLite adaptations, not real local Spark; current native SQL and agent
+observations are separate cloud verification. See [response contract](order-risk-response-contract.md).
 
 ## Verified 0.6.2 baseline (previous campaign)
 

@@ -96,17 +96,23 @@ this diagnosis run only configuration and section 1a, not Run All. See
 [native binding evidence and exact platform prerequisite](docs/aidp-native-mlflow-binding.md).
 
 
-## Operations adviser 0.6.3 candidate — response contract verification pending
+## Operations adviser 0.6.3 — response contract verified; acceptance pending
 
-The focused [order-risk response contract](docs/order-risk-response-contract.md)
-uses the actual saved training feature artifact to distinguish prediction outputs,
-fitted inputs, original date derivation sources and metadata. Local tests pass.
-The correction has **not** been deployed or verified live: project Spark is STOPPED.
-21 direct native parameter calls and all 17 acceptance cases on one final graph
-remain NOT RUN. The working 0.6.2 agent, KB and selected model are preserved;
-acceptance remains pending and the PR is a draft.
+The [role-separated response](docs/order-risk-response-contract.md) is deployed
+and verified in AIDP against the saved training artifact. The causality case now
+passes: prediction outputs are not presented as predictors and no individual
+attribution is invented. Model, KB and other tools are preserved.
 
-## Operations adviser 0.6.2 — native SQL and RAG; acceptance incomplete
+All 17 fresh-session prompts used one frozen configuration: **13 PASS, 2 FAIL,
+2 PENDING**. The failures add policy hierarchy/deadline rules unsupported by the
+source. Unavailable-service preconditions were not exercised while SQL/RAG were
+healthy. Of 21 direct raw-parameter attempts, 11 returned HTTP responses and ten
+had unknown outcomes. **AGENT ACCEPTANCE PASS is false; the PR remains a draft.**
+See [actual execution](docs/operations-agent-execution.md),
+[case evidence](docs/operations-agent-acceptance.json) and
+[direct parameter observations](docs/operations-agent-native-parameters.json).
+
+## Historical operations adviser 0.6.2 — native SQL and RAG
 
 The dedicated DEV agent now runs six bounded native Spark SQL tools and policy
 RAG with the existing model. The corrected KB ingested both TXT files successfully;
