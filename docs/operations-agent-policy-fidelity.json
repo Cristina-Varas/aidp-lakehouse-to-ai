@@ -1,26 +1,27 @@
 {
-  "status": "DEPLOYED_WAITING_FOR_ACTIVE_SPARK",
+  "status": "DEV_FUNCTIONAL_POLICY_FIDELITY_FAIL_ACCEPTANCE_PENDING",
   "package_version": "0.6.3",
-  "scope": "Policy instructions only; preserve 0.6.3 causal contract and all SQL/RAG configs",
-  "canonical_sha256": "c077d5f5eb6044e2cb77701e95b913b510f05a0e5a7058925a9db93feb48d05c",
-  "instruction_sha256": "c44784530cf1bc633e2f46ef8e10fdbda6eeafe650ee2ce9a8568726f866239f",
+  "scope": "Policy instructions only; causal response contract and all seven SQL/RAG definitions preserved",
+  "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+  "instruction_sha256": "f199a58feb8827f15c7cb4899456ade95801375569c5b710a060970709b88c56",
   "preflight_cases": [
     "premium",
     "escalation",
-    "combined"
+    "combined",
+    "causality"
   ],
-  "preflight_executed": 0,
+  "preflight_executed": 4,
   "normal_cases_planned": 15,
-  "normal_cases_executed": 0,
+  "normal_cases_executed": 15,
   "isolated_fault_cases_planned": 2,
-  "isolated_fault_cases_executed": 0,
+  "isolated_fault_cases_executed": 2,
   "isolated_copy_name": "lakehouse_to_ai_operations_policy_fault_dev",
   "new_parameter_submissions": 0,
   "local_agent_tests_passed": 32,
-  "pending_user_action": "Start existing lakehouse_demo_cpu without changing configuration/inactivity; async question already sent",
+  "pending_user_action": null,
   "date": "2026-11-03",
   "AGENT_ACCEPTANCE_PASS": false,
-  "previous_source_commit": "f160586f63e7fb6db307e7fe6c3a4ff7ccf76f8d",
+  "previous_source_commit": "802a708c7c5e99465d24a371fa2d343fc087d589",
   "canonical_agent": "lakehouse_to_ai_operations_adviser",
   "llm": "openai.gpt-oss-120b",
   "seven_tool_configs_unchanged": true,
@@ -32,17 +33,250 @@
     "lifecycleState": "ACTIVE",
     "instruction_change_only": true
   },
-  "preflight_results": [],
-  "normal_results": [],
-  "isolated_fault_results": [],
+  "preflight_results": [
+    {
+      "id": "premium",
+      "result": "FAIL",
+      "status": "EXECUTED",
+      "scope": "FINAL_CANONICAL_CONFIGURATION",
+      "http": 200,
+      "fresh_conversation": true,
+      "session_key_sha256": "1be1f2c624cd0d2633ba9a972cb919a96c3fbd9729a4b8fe96ed194f10759748",
+      "configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "canonical_configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "tool_calls": [
+        {
+          "tool": "retrieve_operations_policy",
+          "arguments": "{\"query\": \"PREMIUM order prioritization earlier commitments\"}"
+        }
+      ],
+      "observed_tool_spans": [
+        "retrieve_operations_policy"
+      ],
+      "native_sql_events": [],
+      "responses": [
+        "**No.** Según la política de priorización de órdenes, estar en el segmento PREMIUM no anula ni sustituye un compromiso contractual anterior.  \n\nAl construir la cola de trabajo, la política indica:\n\n1. Primero se atienden los incidentes críticos de seguridad.  \n2. Después se consideran, **de forma conjunta**, la prioridad aceptada de la orden, el tiempo que queda hasta la promesa original de entrega y el impacto del cliente.  \n\nEl **segmento premium** *solo* forma parte de la evaluación de impacto del cliente; **no le permite a una orden premium adelantarse a una orden que ya tiene una promesa de entrega previamente acordada**. Sólo si, tras aplicar los criterios anteriores, la orden premium tuviera una prioridad aceptada mayor, un tiempo restante a la entrega más ajustado o un mayor impacto de cliente, podría quedarse delante, pero la promesa original del pedido anterior sigue respetándose.\n\n> **Fuente:** *order_prioritization.txt*, sección **3. Queue priority** – “A premium segment alone does not override an earlier contractual promise.”  \n\nEn resumen, las órdenes PREMIUM no deben colocarse por delante de compromisos anteriores salvo que cumplan los criterios de prioridad, tiempo restante o impacto del cliente especificados, y cualquier desviación debe registrarse con la justificación y el aprobador correspondiente."
+      ],
+      "citations": [
+        {
+          "document": "order_prioritization.txt",
+          "kind": "Assistant document/section or chunk reference; see verdict for unsupported attributed text",
+          "verification": "Approved source and independent visible native RAG chunks checked; chat tool-result body redacted"
+        }
+      ],
+      "assistant_citation_markers": [],
+      "reason": "Adds unsupported exclusive premium-to-customer-impact mapping and invented queue exceptions.",
+      "raw_response_sha256": "0f03cae44b8b84112ff318f264e070dabaec4d20836e5268afbbfe112090eaee",
+      "trace_agent_identity_matches_expected": true,
+      "raw_tool_payload_in_chat": "REDACTED; not observed"
+    },
+    {
+      "id": "escalation",
+      "result": "FAIL",
+      "status": "EXECUTED",
+      "scope": "FINAL_CANONICAL_CONFIGURATION",
+      "http": 200,
+      "fresh_conversation": true,
+      "session_key_sha256": "c154691b0e278f02a608a49f8f2ebb504396ad1ebc22b6331d7d5b12c51feae5",
+      "configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "canonical_configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "tool_calls": [
+        {
+          "tool": "retrieve_operations_policy",
+          "arguments": "{\"query\": \"Severity 2 acknowledgement target\"}"
+        }
+      ],
+      "observed_tool_spans": [
+        "retrieve_operations_policy"
+      ],
+      "native_sql_events": [],
+      "responses": [
+        "El objetivo de acuse para una incidencia de **severidad 2** es **una hora** desde la notificación. La política indica que este plazo es un objetivo interno ilustrativo y no constituye un compromiso de servicio, y además **no define ningún evento que marque el inicio del cómputo** del tiempo.\n\n**Fuente**: *incident_escalation.txt*, sección “Severity and acknowledgement” (párrafo que indica “Severity 2 … target one hour”)."
+      ],
+      "citations": [
+        {
+          "document": "incident_escalation.txt",
+          "kind": "Assistant document/section or chunk reference; see verdict for unsupported attributed text",
+          "verification": "Approved source and independent visible native RAG chunks checked; chat tool-result body redacted"
+        }
+      ],
+      "assistant_citation_markers": [],
+      "reason": "Adds from notification, contradicting its own subsequent no-clock-start statement.",
+      "raw_response_sha256": "2904ce2f1598628046d69aef6f6dede04a8d2b565379e5e9e74cc754aa5d39b5",
+      "trace_agent_identity_matches_expected": true,
+      "raw_tool_payload_in_chat": "REDACTED; not observed"
+    },
+    {
+      "id": "combined",
+      "result": "FAIL",
+      "status": "EXECUTED",
+      "scope": "FINAL_CANONICAL_CONFIGURATION",
+      "http": 200,
+      "fresh_conversation": true,
+      "session_key_sha256": "3744f70e79aabc5d603c9d6d6f0e7c7d8ad7bf90d31c8ca4122c8d80891d4f01",
+      "configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "canonical_configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "tool_calls": [
+        {
+          "tool": "rank_open_orders",
+          "arguments": "{\"limit\": 5}"
+        },
+        {
+          "tool": "retrieve_operations_policy",
+          "arguments": "{\"query\": \"order prioritization review procedure\"}"
+        }
+      ],
+      "observed_tool_spans": [
+        "rank_open_orders",
+        "retrieve_operations_policy"
+      ],
+      "native_sql_events": [
+        {
+          "event": "sql_tool.spark_sql.success",
+          "status": "SUCCEEDED",
+          "rows_fetched": 5,
+          "columns_fetched": 20
+        }
+      ],
+      "responses": [
+        "**Pedidos con mayor riesgo (top 5)**  \n\n| Riesgo # | ID pedido | ID cliente | Probabilidad de tardanza | Predicción de tardanza | Umbral de decisión | Prioridad al aceptar | Transportista planificado | Región cliente | Segmento cliente |\n|---|---|---|---|---|---|---|---|---|---|\n| 1 | O‑00030255 | C‑000550 | 0.5999 | sí | 0.25 | HIGH | CARRIER_C | WEST | STANDARD |\n| 2 | O‑00030228 | C‑000236 | 0.5959 | sí | 0.25 | HIGH | CARRIER_C | SOUTH | STANDARD |\n| 3 | O‑00030555 | C‑000345 | 0.5879 | sí | 0.25 | NORMAL | CARRIER_A | SOUTH | PREMIUM |\n| 4 | O‑00030059 | C‑000058 | 0.5837 | sí | 0.25 | NORMAL | CARRIER_C | NORTH | STANDARD |\n| 5 | O‑00030203 | C‑000573 | 0.5794 | sí | 0.25 | NORMAL | CARRIER_C | SOUTH | STANDARD |\n\n*Fuente de datos*: resultados de **rank_open_orders** con límite = 5 (consulta SQL mostrada en la respuesta anterior).  \n\n### Procedimiento a consultar para revisar estos pedidos  \n\nPara revisar cualquier pedido que figure en la lista de “open at‑risk orders”, debe seguirse el **Procedimiento de Revisión de Prioridades de Pedidos** descrito en la política ficticia *order_prioritization.txt*:\n\n* **Alcance** – Revisión diaria de los pedidos abiertos que aparecen señalados como “at‑risk”.  \n* **Frecuencia** – Se realiza **una vez por día hábil**.  \n* **Qué se revisa** – Únicamente la información disponible en el momento de la aceptación (cliente, cantidad, prioridad aceptada, cobertura de inventario, transportista planificado y fecha prometida). No se incluyen resultados de entrega ni resoluciones de incidentes posteriores.  \n* **Toma de decisiones** – Un coordinador de operaciones evalúa cada pedido considerando inventario, capacidad y disponibilidad de transporte, y registra cualquier cambio de prioridad con una justificación y aprobador.  \n* **Documentación** – Para cada pedido revisado se registra: decisión tomada, hora de la decisión (UTC) y responsable de la decisión.  \n* **Auditoría** – El registro constituye una trazabilidad inmutable que conserva la promesa original de aceptación.  \n* **Interacción con Incidentes** – Si un problema operativo amenaza la promesa, se abre un incidente según el procedimiento de *incident_escalation.txt*; la revisión de prioridades no realiza comunicaciones al cliente.\n\n**Referencia**: política *order_prioritization.txt* (secciones 5‑7).  \n\n---  \n\n**Limitaciones**  \n* Los datos provienen de una instantánea sintética al 28 oct 2026; no reflejan cambios posteriores ni resultados de entrega real.  \n* La política citada es ficticia; se presenta solo como guía interna de revisión.  "
+      ],
+      "citations": [
+        {
+          "document": "order_prioritization.txt",
+          "kind": "Assistant document/section or chunk reference; see verdict for unsupported attributed text",
+          "verification": "Approved source and independent visible native RAG chunks checked; chat tool-result body redacted"
+        },
+        {
+          "document": "incident_escalation.txt",
+          "kind": "Assistant document/section or chunk reference; see verdict for unsupported attributed text",
+          "verification": "Approved source and independent visible native RAG chunks checked; chat tool-result body redacted"
+        }
+      ],
+      "assistant_citation_markers": [],
+      "reason": "Cites nonexistent sections 6/7 and extends prediction-time feature restriction to human operational review.",
+      "raw_response_sha256": "12492d873f668fe31aacf744ef535050a93edc4ca50f5928be6c23a79e14a59d",
+      "trace_agent_identity_matches_expected": true,
+      "raw_tool_payload_in_chat": "REDACTED; not observed"
+    },
+    {
+      "id": "causality",
+      "result": "PASS",
+      "status": "EXECUTED",
+      "scope": "FINAL_CANONICAL_CONFIGURATION",
+      "http": 200,
+      "fresh_conversation": true,
+      "session_key_sha256": "9652405088252ba54b0164c23454b50975d0d1f507bca504446ddf4e0a3a119f",
+      "configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "canonical_configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "tool_calls": [
+        {
+          "tool": "get_order_risk",
+          "arguments": "{\"order_id\": \"O-00030255\"}"
+        }
+      ],
+      "observed_tool_spans": [
+        "get_order_risk"
+      ],
+      "native_sql_events": [
+        {
+          "event": "sql_tool.spark_sql.success",
+          "status": "SUCCEEDED",
+          "rows_fetched": 1,
+          "columns_fetched": 1
+        }
+      ],
+      "responses": [
+        "El modelo no dispone de una atribución validada ni de una explicación causal para el score de la orden **O‑00030255**. En la respuesta del servicio *get_order_risk* se indica explícitamente:\n\n> “No validated per-order attribution or causal explanation is available. Do not infer which variable caused this score.” ( `attribution.individual_feature_attribution_available = false`, `causal_explanation_available = false` )\n\nPor lo tanto, no es posible determinar cuál variable “causó” el score.\n\nPara su referencia, aquí están los valores de las variables que el modelo utilizó como entrada para esa orden:\n\n| Variable | Valor |\n|----------|-------|\n| **customer_segment_at_acceptance** | STANDARD |\n| **customer_region_at_acceptance**   | WEST |\n| **priority_at_acceptance**          | HIGH |\n| **planned_carrier_at_acceptance**   | CARRIER_C |\n| **inventory_fill_rate_at_acceptance** | 0.528 |\n| **warehouse_load_at_acceptance**    | 1.235 |\n| **transit_distance_km**             | 2238 |\n| **line_count**                      | 2 |\n| **units**                           | 91 |\n| **promised_lead_days** (calculado)  | 4.774305555555555 |\n\nEstos valores forman parte de los *model_inputs* del pedido, pero **no deben interpretarse como causas del score**.  \n\n*Fuente:* salida del endpoint `get_order_risk` para el order_id `O-00030255`."
+      ],
+      "citations": [],
+      "assistant_citation_markers": [],
+      "reason": "Only SQL used, ten actual predictors, proper model-contract attribution; no false policy attribution.",
+      "raw_response_sha256": "e3d17b437e055050eb0b6fd849f7b2f290fc4406daf8cf7b626d4db76ec3cada",
+      "trace_agent_identity_matches_expected": true,
+      "raw_tool_payload_in_chat": "REDACTED; not observed"
+    }
+  ],
+  "normal_results": [
+    {
+      "case": "overview",
+      "result": "PASS"
+    },
+    {
+      "case": "ranking",
+      "result": "PASS"
+    },
+    {
+      "case": "order",
+      "result": "PASS"
+    },
+    {
+      "case": "missing",
+      "result": "PASS"
+    },
+    {
+      "case": "customer",
+      "result": "PASS"
+    },
+    {
+      "case": "carrier",
+      "result": "PASS"
+    },
+    {
+      "case": "region",
+      "result": "PASS"
+    },
+    {
+      "case": "combined",
+      "result": "FAIL"
+    },
+    {
+      "case": "premium",
+      "result": "FAIL"
+    },
+    {
+      "case": "severity",
+      "result": "FAIL"
+    },
+    {
+      "case": "escalation",
+      "result": "PASS"
+    },
+    {
+      "case": "causality",
+      "result": "PASS"
+    },
+    {
+      "case": "limit",
+      "result": "PASS"
+    },
+    {
+      "case": "mutation",
+      "result": "PASS"
+    },
+    {
+      "case": "injection",
+      "result": "PASS"
+    }
+  ],
+  "isolated_fault_results": [
+    {
+      "case": "rag_unavailable",
+      "result": "PASS"
+    },
+    {
+      "case": "sql_unavailable",
+      "result": "PASS"
+    }
+  ],
   "parameter_recovery_report": "operations-agent-parameter-recovery.json",
   "fault_plan": {
     "resource": "Separate owned DEV agent copy in same workspace, existing dedicated AI compute only",
-    "copy_observation": "Native copy omitted toolsMap and planner tools; owned copy hydrated from canonical diagram and read back. Same instructions, LLM, seven definitions and tool references.",
+    "copy_observation": "Native copy returned toolsMap=null. Inline planner.tools was already empty in the reference-backed source diagram; it was not evidence of lost inline definitions. Newly owned copy was hydrated with the preserved toolsMap and references, then read back.",
     "rag_variant": "Only clone RAG knowledgeBase points to an unavailable test-only reference independently verified as HTTP404. Native fault Test must show actual failure before chat. Real KB unchanged.",
     "sql_variant": "Only clone rank_open_orders query uses read-only raise_error with a controlled marker. Require actual native Spark failure event; no compute stop.",
-    "comparison": "Different clone identity and one tool config per variant; not the frozen final canonical configuration. Do not claim both outage cases ran on the canonical graph.",
-    "cleanup": "Retain owned copy as isolated diagnostic artifact; do not delete or stop shared resources. Cleanup requires separate explicit authorization."
+    "comparison": "Clone baseline differs only by diagram key/name/description. Each fault variant changes one tool config relative to that clone baseline. Metadata path/name differ; workspace, planner, model, instructions and native bindings otherwise match. These are not canonical-graph outage results.",
+    "cleanup": "Controlled faults removed after tests. Existing owned clone base restored, validated, redeployed ACTIVE, and read back. No deletion, new compute or shared-compute configuration change. No post-restore clone chat test is claimed."
   },
   "parameter_recovery": {
     "original_inconclusive": 10,
@@ -50,5 +284,107 @@
     "remaining_unknown": 9,
     "new_parameter_submissions": 0,
     "strict_parameter_validation_certified": false
+  },
+  "normal_summary": {
+    "passed": 12,
+    "failed": 3
+  },
+  "isolated_summary": {
+    "passed": 2,
+    "failed": 0
+  },
+  "total_fresh_conversations": 21,
+  "source_base_commit": "802a708c7c5e99465d24a371fa2d343fc087d589",
+  "spark_active_verified": true,
+  "runtime_visibility": "Saved diagram, validation/deploy states, tool names/arguments, SQL events and assistant outputs observed. System prompts and chat tool-result bodies are redacted; they were not inspected. No cached-prompt or backend root cause is claimed.",
+  "independent_rag_diagnostics": [
+    {
+      "case": "premium",
+      "http": 200,
+      "answer": "The policy states that **a premium‑segment order does not override an earlier contractual promise**.  \n\nWhen determining queue priority, the steps are:\n\n1. Address safety‑critical incidents first.  \n2. Then consider the **accepted priority**, the **time remaining to the original promise**, and the **customer impact**.  \n3. A premium‑segment classification alone **cannot supersede** a contractually promised delivery that was made earlier.\n\nTherefore, in the order‑prioritization process, any premium status is secondary to an existing contractual delivery promise; the original promise must be preserved and honoured unless an authorized manual override is recorded.",
+      "retrieval": {
+        "status": "POLICY RETRIEVAL VERIFIED",
+        "documents": [
+          "incident_escalation.txt",
+          "order_prioritization.txt"
+        ],
+        "document_ids": [
+          "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/incident_escalation.txt#chunk_0",
+          "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/incident_escalation.txt#chunk_1",
+          "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/order_prioritization.txt#chunk_0",
+          "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/order_prioritization.txt#chunk_1"
+        ],
+        "chunks": 4
+      },
+      "raw_response_sha256": "f3abd5ce3e736864e564fed16209d582dfea2ec58c07339bc8400a383ba070bf",
+      "limitation": "Independent native Test, not the redacted result body from the earlier conversation",
+      "scope": "Independent r2 native Test; exact RAG configuration unchanged in final r3",
+      "rag_configuration_unchanged": true
+    },
+    {
+      "case": "escalation",
+      "http": 200,
+      "answer": "For a **Severity 2** incident, the procedure specifies that the team lead should be notified and the acknowledgement target is **within one hour**.",
+      "retrieval": {
+        "status": "POLICY RETRIEVAL VERIFIED",
+        "documents": [
+          "incident_escalation.txt",
+          "order_prioritization.txt"
+        ],
+        "document_ids": [
+          "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/incident_escalation.txt#chunk_0",
+          "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/incident_escalation.txt#chunk_1",
+          "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/order_prioritization.txt#chunk_0",
+          "/Volumes/lakehouse_demo/gold/lakehouse_to_ai_policy_sources/documents/order_prioritization.txt#chunk_1"
+        ],
+        "chunks": 4
+      },
+      "raw_response_sha256": "0792f823acca2b786ee2dc52b285bc8d5cc50a7736d1c83a41ab5f6f3a3aa51b",
+      "limitation": "Independent native Test, not the redacted result body from the earlier conversation",
+      "scope": "Independent r2 native Test; exact RAG configuration unchanged in final r3",
+      "rag_configuration_unchanged": true
+    }
+  ],
+  "copy_setup_issue": {
+    "observed": "Initial native Test HTTP400: Agent has no compute configured",
+    "cause_observed": "Clone metadata computeKey was null; original references existing lakehouse_to_ai_agent_dev",
+    "repair": "Assign same existing dedicated AI compute to clone metadata; no compute settings changed",
+    "after_repair": "Native Test HTTP400: RAG knowledge base was not found or is not accessible",
+    "rag_test_repeated_after_concrete_config_fix": true,
+    "inconclusive_sql_parameters_repeated": false,
+    "scope": "Observed and fixed in intermediate r2; final r3 fault Test found the expected inaccessible KB directly."
+  },
+  "remaining_work": [
+    "Policy fidelity remains incorrect in combined, premium and severity; final focused smoke also failed three policy questions. No robust policy-fidelity PASS.",
+    "Nine original raw-parameter outcomes remain unknown; no inconclusive request repeated; strict native validation/coercion/defaults not certified."
+  ],
+  "next_repair_not_executed": "No more blind instruction edits. A comparison using a different native planner LLM in the isolated copy would require separate authorization; canonical selected LLM, RAG tool/model, predictive model and shared resources would remain unchanged.",
+  "total_fresh_conversations_including_intermediate_revision": 44,
+  "changed_policy_repairs_after_initial_smoke": 2,
+  "policy_revision": "2026-11-03-policy-fidelity-r3",
+  "previous_policy_campaign_report": "operations-agent-policy-history.json",
+  "instruction_repairs": [
+    "r2 adds source-faithful answer constraints at the start; native update uses documented updatedNodes for planner.",
+    "r3 qualifies retrieval gate to policy/procedure questions; causal attribution uses only SQL/model contract unless user explicitly also asks policy. The broad retrieval header introduced in r2 was corrected."
+  ],
+  "final_native_rag_fault": {
+    "http": 400,
+    "body": {
+      "code": "InvalidParameter",
+      "message": "RAG knowledge base 'operations_policies_unavailable_acceptance_probe' was not found or is not accessible."
+    },
+    "raw_response_sha256": "0cdd9ed8d74d502b992acdc84c14808fb3364b82b9c8bc8ef5c4c75cd7339778"
+  },
+  "agent_internal_retry_observation": {
+    "controller_conversations_submitted": 1,
+    "observed_rank_calls": 3,
+    "arguments": [
+      "{\"limit\": 20}",
+      "{}",
+      "{\"limit\": 10}"
+    ],
+    "sql_failure_events": 3,
+    "inconclusive_parameter_cases_repeated": false,
+    "interpretation": "Observed internal calls, not three controller submissions. Fault query deliberately ignores limit to raise an error; do not infer original-tool schema/default behavior from these arguments."
   }
 }

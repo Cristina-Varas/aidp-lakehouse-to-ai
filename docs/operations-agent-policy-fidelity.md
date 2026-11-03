@@ -1,130 +1,155 @@
-# Policy fidelity follow-up — 3 November 2026
+# Policy fidelity verification — 3 November 2026
 
-## Current status
+The existing DEV agent remains functional for native SQL and policy retrieval.
+The response contract still separates prediction, ten fitted inputs, original
+UTC date derivation sources and metadata. **Policy fidelity has not passed.**
 
-The policy-only instructions are **deployed ACTIVE and validated** in the existing
-DEV agent. Native readback confirms all seven SQL/RAG tool configurations and the
-selected `openai.gpt-oss-120b` are identical to the prior working configuration.
-The 0.6.3 saved-feature/causality correction remains intact. No policy source,
-KB content, embeddings, model, data, compute configuration or inactivity setting
-was changed.
+The final frozen revision **r3** produced:
 
-**Response verification is PENDING**, not PASS. `lakehouse_demo_cpu` was reread
-STOPPED. The user has been asked to start that existing compute in
-**CristinaVaras-AIDPWorkbench → lakehouse_to_ai → Compute**, preserving its
-configuration and inactivity policy. No new policy response, normal case or
-controlled-fault conversation has been submitted in this follow-up.
+| Scope | Executed | PASS | FAIL |
+| --- | ---: | ---: | ---: |
+| Normal cases, one canonical configuration | 15 | 12 | 3 |
+| Controlled failures, isolated DEV copy | 2 | 2 | 0 |
+| Additional focused smoke on final revision | 4 | 1 | 3 |
 
-Operational configuration SHA-256:
-`c077d5f5eb6044e2cb77701e95b913b510f05a0e5a7058925a9db93feb48d05c`.
-This is a policy-instruction revision of source package **0.6.3**, not a new model
-or data release. The previously built 0.6.3 wheel predates this instruction-only
-revision; it is not represented as containing the new text. Native deployment
-reads the versioned instructions and does not require a shared-library update.
+**AGENT ACCEPTANCE PASS remains false. PR #1 stays a draft.** The 17 acceptance
+cases are not a mixture of successful answers selected from different revisions.
+Intermediate r2 and its failed responses are [archived separately](operations-agent-policy-history.json).
+There were **44 fresh conversations overall**, including both revisions and their
+focused smoke tests; **21** belong to final r3 (4 focused + 15 normal + 2 isolated).
 
-## Exact policy correction
+Final canonical operational configuration SHA-256:
+`277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c`.
+It was reread before each normal case, after the campaign and before/after each
+isolated fault. Spark was verified ACTIVE through the existing Ask-AIDP launcher.
 
-The versioned `src/aidp_lakehouse/agent_resources/instructions.txt` now states:
+## Preserved configuration and scope
 
-- Safety-critical incidents first. Then consider accepted priority, remaining
-  time to the original promise and customer impact together. The policy defines
-  no hierarchy or tie-break among those three considerations. PREMIUM alone
-  does not override an earlier contractual promise.
-- Severity 2 means notifying the team lead and an illustrative one-hour
-  acknowledgement target. It is not a mandatory maximum deadline or commitment.
-  No detection/notification/opening time origin is supplied by the policy.
-- Score or `predicted_late` alone establishes neither an operational incident
-  nor its severity. Actual exception and impact evidence are needed first.
+All seven native SQL/RAG definitions and the selected `openai.gpt-oss-120b` remain
+identical to the working baseline. Only planner instruction text changed. The
+actual ML model remains `lakehouse_demo.gold.late_delivery_acceptance/1`, training
+run `fc64485e353c41168cb90ee0f0bc5f71`. No training, scoring, source upload,
+business-data write, Autonomous operation, KB reingestion, dependency/auth change,
+compute creation/resizing/restart or inactivity change was performed.
 
-The causality, prediction/input/metadata and date-derivation instructions are
-unchanged. The wording repair does not add a new business policy or edit the
-retrieved source documents.
+The two policy source documents were not edited. The instructions correctly
+state safety first followed by three unordered considerations; illustrative
+one-hour severity-2 acknowledgement without a clock-start; and no inference of
+an incident or severity from score alone. These instructions are not a
+deterministic response validator, and observed runtime answers violate them.
 
-## Required execution sequence
+## Changes and observed failures
 
-1. Verify existing Spark ACTIVE through Ask-AIDP. Preserve the current canonical
-   diagram export and model/tool bindings outside Git.
-2. Execute **premium, escalation, combined**, in that order, in fresh sessions.
-   Manually compare every policy assertion/citation with the two approved source
-   documents. Do not start the full campaign unless all three pass; retain any
-   failed response without blind retries.
-3. Freeze/read back the final diagram digest. Run **15 normal cases** in unique
-   new sessions, checking that digest before each case and after the campaign.
-   Preserve the causal-regression case; do not reintroduce score-as-predictor or
-   per-order attribution claims. Record SQL/RAG names, arguments, observable SQL
-   events, assistant responses and actual citation references.
-4. Test the two unavailable-service cases using the isolated DEV copy below.
-   Do not change the final canonical agent or shared dependencies to cause faults.
-5. Record normal/fault verdicts separately. Healthy-tool responses cannot verify
-   an outage, and isolated-copy results are not same-canonical-config results.
+Initial focused r1 tests failed. The r2 repair put source-faithful final-answer
+constraints at the front and used the documented `updatedNodes` planner update.
+It improved some answers but introduced an overly broad retrieval instruction.
+The r3 correction limits that gate to policy/procedure questions and requires
+causal-attribution statements to come from `get_order_risk`/the saved model
+contract. The final causality test uses SQL alone, lists only the ten fitted
+inputs, and invents no individual attribution or policy source.
 
-Prepared execution helpers and full private exports are in the existing
-`/private/tmp/aidp-existing-mcp/` runtime. The guarded runner refuses duplicate
-submissions or unexpected configuration changes and requires a reviewed three-case
-PASS before the 15-case phase. No helper silently restarts compute or changes auth.
+The normal r3 failures are:
 
-## Isolated controlled-fault copy
+- **combined:** prohibits using later information for operational prioritization.
+  The policy excludes later outcomes from acceptance-time prediction inputs; it
+  does not prohibit later evidence in human operational review.
+- **premium:** treats PREMIUM as an accepted priority. It is a customer segment,
+  distinct from accepted priority NORMAL/HIGH/URGENT in the generator/contracts.
+  The core no-automatic-premium-override answer is correct, but the added mapping
+  is unsupported.
+- **severity:** correctly denies that score establishes severity 1, but cites
+  `incidente_escalation.txt`, which is not an approved source. Its generic
+  `retrieved_policy` marker is unverified, not a demonstrated retrieved citation.
 
-A new owned agent **lakehouse_to_ai_operations_policy_fault_dev** was created in
-`lakehouse_to_ai`. The native copy operation returned `toolsMap=null` and empty
-planner tools. Its newly owned diagram was hydrated from the preserved final
-canonical diagram and read back; model, planner instructions, seven tools and
-tool references match. The original agent was not altered by this operation.
-The copy is **not deployed** yet and has no tested fault behavior.
+Final focused smoke also failed: PREMIUM was mapped exclusively to customer
+impact; escalation added “from notification” while contradictorily saying no
+clock-start is defined; combined cited nonexistent sections 6–7 and restricted
+operational review to acceptance-time information. Those failures remain visible
+alongside the later normal answers. An occasional correct answer does not certify
+stable policy fidelity.
 
-The copy uses the **existing dedicated** `lakehouse_to_ai_agent_dev` AI compute;
-no compute was created, resized, restarted or reconfigured. Metadata-only agent
-creation and later deployment do not imply creation of another compute.
+## Native retrieval evidence and visibility limits
 
-Prepared variants differ from the final canonical graph by clone identity and:
+Two independent native RAG Tests used the actual failed premium/escalation queries.
+Both returned HTTP200 and four chunks covering the two approved TXT documents.
+`verify_policy_chunks` matched normalized chunk content and exact source identities
+against the original policy text. The visible synthesized answers in those Tests
+were faithful. RAG configuration is byte-identical in final r3.
 
-| Scenario | Only behavioral change in the isolated copy | Required failure evidence |
-| --- | --- | --- |
-| RAG unavailable | `retrieve_operations_policy` points to a unavailable test-only KB reference | Independent GET returned HTTP404 `NotAuthorizedOrNotFound`; additionally require actual native RAG Test failure and attempted RAG call in the conversation |
-| SQL unavailable | `rank_open_orders` uses a read-only `raise_error` query with a controlled marker | Actual `sql_tool.spark_sql.failure` event and no fabricated ranking |
+This is **independent Test evidence**, not inspection of the corresponding hidden
+chat result. Chat exposes tool names/arguments, SQL success/failure events and
+assistant output; tool-result bodies and system prompts are redacted. We do not
+claim to have seen them or proven a cache, deployment/compiler or LLM root cause.
+Some replies also say SQL was “shown”; actual SQL-text visibility is unverified.
 
-The real `lakehouse_demo.gold.operations_policies`, its two TXT files and vectors
-are untouched. The SQL variant writes no tables and stops no compute. The two
-clone variant digests and their exact one-tool differences are preserved privately.
-Check the canonical graph before and after each isolated scenario. Retain the copy
-as an isolated diagnostic artifact; no cleanup/deletion is authorized here.
+## Isolated, verified failure scenarios
 
-## Inconclusive raw parameters
+The owned copy **lakehouse_to_ai_operations_policy_fault_dev** uses the same
+workspace and existing dedicated AI compute. Its baseline differs from the final
+canonical diagram only by key, display name and description. Each test changes
+one tool configuration relative to that clone baseline:
 
-The ten earlier inconclusive parameter attempts were **not resubmitted**. The
-[recovery investigation](operations-agent-parameter-recovery.json) distinguishes
-request rejections, numeric-string acceptance, extra arguments with no result
-effect, and unknown outcomes.
+| Case | Controlled difference | Actual failure evidence | Result |
+| --- | --- | --- | --- |
+| RAG unavailable | Only RAG points to an unavailable test-only KB reference | Native Test HTTP400: KB not found/not accessible; actual attempted RAG retrieval in fresh chat | Available order data shown; missing verified procedure stated; no invented policy citation |
+| SQL unavailable | Only rank query becomes read-only `raise_error` | Actual `sql_tool.spark_sql.failure` events | `AIDP_SQL_TOOL_QUERY_EXECUTION_ERROR`; no cached/invented ranking |
 
-Inspection of the installed SDK result contract and Workbench caller found a
-synchronous native Test response containing SQL rows, without a status/statement
-handle. Actual timeout/transport receipts contain no returned server request or
-operation ID; body hashes are not server lookup handles. The inspected MCP/SDK
-reference exposed no Test-status lookup. This does not rule out platform-internal
-capabilities.
+The real KB, its two TXT documents/vectors, Object Storage, business tables and
+shared compute configurations remain untouched. These are **isolated-copy error
+handling tests**, not outages of the shared services or tests on the canonical
+graph. Healthy-tool responses were not used as evidence of outage handling.
 
-Authenticated `cluster search-logs` queries for the exact timeout window and
-`INVALID_ORDER_ID` / `INVALID_CUSTOMER_ID` each returned HTTP200 with zero results.
-The broader response was truncated, but one complete log record was recovered.
-Its entire bound SQL matches `order_id="O-123"`, its event time is inside that
-attempt window, and Spark reports `java.lang.RuntimeException: INVALID_ORDER_ID`.
-This recovers one **SQL guard failure**, not an HTTP rejection or request-schema
-validation result; the original HTTP timeout is retained.
+Native copy initially returned `toolsMap=null` and omitted `computeKey`. Inline
+`planner.tools` was already empty in the reference-backed source diagram, so it
+is not evidence of lost inline definitions. The map and references were hydrated
+from the preserved canonical diagram. In r2 the first native Test
+returned the explicit missing-compute configuration error; assigning the same
+existing dedicated AI compute to clone metadata fixed that prerequisite. The
+subsequent Test returned the intended inaccessible-KB error. This concrete repair
+was not a retry of any inconclusive SQL parameter request.
 
-Further narrow-window searches returned some records outside their requested
-intervals. Combined with the zero message-filter results despite the recovered
-error, this leaves filtering/clock behavior unresolved. Do not interpret zero
-results as absence or claim exhaustive log coverage. The other **four timeouts
-and five transport errors remain UNKNOWN**. No parameter request was repeated.
-Compiled native-tool coercion/defaults and strict validation are not certified.
+In the final SQL-failure conversation there were **three internal rank calls**
+with arguments `{"limit":20}`, `{}`, and `{"limit":10}`, and three failure events.
+The controller submitted the conversation once. We do not claim the native agent
+made no retries. The controlled query ignores the limit argument to raise an
+error, so these calls do not certify original-tool argument/default behavior.
 
-## Local checks
+After both tests, controlled faults were removed from the copy. Its base was
+restored, validated, redeployed ACTIVE and reread; the canonical hash was unchanged.
+No post-restore clone chat test, deletion or shared-compute change is claimed.
 
-**32 operations-agent tests passed** in the existing project environment after
-this instruction revision. Query fixtures use SQLite adaptations/simulations,
-not real local Spark. They do not prove policy-answer fidelity in AIDP.
+## Raw parameters and local verification
 
-Machine-readable current state: [policy follow-up](operations-agent-policy-fidelity.json).
-Historical 0.6.3 campaign: 13 PASS / 2 FAIL / 2 unexercised outage preconditions;
-those observations are not results for this newly deployed instruction revision.
-**AGENT ACCEPTANCE PASS remains false; PR #1 remains a draft.**
+No inconclusive raw SQL parameter request was resubmitted. The original matrix
+and [recovery investigation](operations-agent-parameter-recovery.json) keep these
+categories separate:
+
+- Two HTTP400 request rejections; validation stage not established.
+- Numeric string `"10"` accepted with the configured SQL cast and baseline rows;
+  hidden intermediate coercion not observed.
+- Three extra arguments with no observed result effect, not strict rejection.
+- One original HTTP timeout correlated to a real Spark `INVALID_ORDER_ID` guard
+  error using the entire bound SQL and log event time; original timeout retained.
+- **Nine UNKNOWN outcomes** (four other timeouts and five transport errors).
+
+Log filtering/time behavior was inconsistent; zero results are not proof of
+absence. Native strict validation, compiled schema coercion/defaults and safe
+agent retry behavior remain uncertified.
+
+**32 local operations-agent tests passed** after the final instruction revision.
+Query fixtures use SQLite adaptations/simulations, not real local Spark. Actual
+native Spark SQL/RAG execution and the isolated failures above are separate cloud
+evidence. Source package version remains 0.6.3; the existing ignored wheel
+predates these instruction revisions and is not claimed to contain them. Native
+canvas deployment uses the versioned instruction text and private diagram exports;
+no shared-library installation was required.
+
+Current [machine-readable execution](operations-agent-policy-fidelity.json) and
+[all final case records](operations-agent-acceptance.json) contain responses,
+arguments, verdict reasons, configuration/session/evidence hashes and limitations.
+Raw traces, complete configurations and credentials remain outside Git.
+
+No additional prompt repair or model change is included. A diagnostic comparison
+with a different native planner LLM **only in the isolated copy** would need
+separate authorization; the selected canonical LLM, RAG tool/model, ML model,
+data and computes would remain unchanged.

@@ -1,15 +1,20 @@
 # Operations adviser — native SQL and policy RAG
 
-## Latest policy-fidelity follow-up
+## Latest policy-fidelity execution — 3 November 2026
 
-Policy-only instructions are deployed and validated; all seven tool configs,
-causality correction, model and KB are preserved. **New response verification is
-pending existing Spark ACTIVE**, not PASS. The three focused cases, 15 normal
-cases and two isolated-copy fault scenarios have not run for this revision.
-See [current state and exact continuation](operations-agent-policy-fidelity.md)
-and [parameter recovery investigation](operations-agent-parameter-recovery.json).
-The ten inconclusive parameter attempts were not repeated.
+Final r3 native verification completed: **12/15 normal PASS; 2/2 isolated faults
+PASS**. One frozen canonical configuration was used for all normal cases;
+controlled faults used a separate DEV copy, then its base was restored. The
+causal feature-role/model-contract correction is preserved. Policy fidelity
+still fails in combined, premium and severity responses; **AGENT ACCEPTANCE PASS
+is false**. Nine raw-parameter outcomes remain unknown and were not repeated.
+See [actual results and limitations](operations-agent-policy-fidelity.md),
+[final case records](operations-agent-acceptance.json),
+[intermediate history](operations-agent-policy-history.json), and
+[parameter recovery](operations-agent-parameter-recovery.json).
 
+32 local operations tests passed; fixtures use SQLite/simulations. Native Spark
+SQL, RAG, isolated error handling and local checks are distinct evidence.
 The dated results below describe the earlier 0.6.3 instruction configuration.
 
 ## Current 0.6.3 response contract and acceptance

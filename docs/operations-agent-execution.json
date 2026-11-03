@@ -1,10 +1,10 @@
 {
   "date": "2026-11-03",
   "package_version": "0.6.3",
-  "policy_revision": "2026-11-03-policy-fidelity",
+  "policy_revision": "2026-11-03-policy-fidelity-r3",
   "branch": "feat/operations-agent-0.6.0",
-  "source_base_commit": "f160586f63e7fb6db307e7fe6c3a4ff7ccf76f8d",
-  "status": "DEPLOYED_WAITING_FOR_ACTIVE_SPARK",
+  "source_base_commit": "802a708c7c5e99465d24a371fa2d343fc087d589",
+  "status": "DEV_FUNCTIONAL_POLICY_FIDELITY_FAIL_ACCEPTANCE_PENDING",
   "AGENT_ACCEPTANCE_PASS": false,
   "environment": {
     "instance": "CristinaVaras-AIDPWorkbench",
@@ -24,19 +24,23 @@
     "lifecycleState": "ACTIVE",
     "instruction_change_only": true
   },
-  "configuration_sha256": "c077d5f5eb6044e2cb77701e95b913b510f05a0e5a7058925a9db93feb48d05c",
+  "configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
   "local_checks": {
     "operations_tests": 32,
     "passed": 32,
     "real_local_spark": false,
-    "live_policy_responses_executed": 0
+    "live_policy_responses_executed": 21,
+    "total_live_conversations_including_intermediate": 44
   },
   "current_acceptance": {
-    "preflight_executed": 0,
-    "normal_executed": 0,
-    "normal_planned": 15,
-    "isolated_fault_executed": 0,
-    "isolated_fault_planned": 2,
+    "preflight_executed": 4,
+    "normal_executed": 15,
+    "normal_passed": 12,
+    "normal_failed": 3,
+    "isolated_fault_executed": 2,
+    "isolated_fault_passed": 2,
+    "final_revision_fresh_conversations": 21,
+    "including_intermediate_revision": 44,
     "AGENT_ACCEPTANCE_PASS": false
   },
   "parameter_recovery": {
@@ -46,7 +50,7 @@
     "new_parameter_submissions": 0,
     "strict_parameter_validation_certified": false
   },
-  "blocker": "Existing lakehouse_demo_cpu reread STOPPED; user asked to start it without changing configuration/inactivity. No new response tests submitted.",
+  "blocker": null,
   "previous_execution_063": {
     "date": "2026-11-03",
     "package_version": "0.6.3",
@@ -581,5 +585,11 @@
       "Obtain an authenticated native Test outcome for ten inconclusive raw cases through a bounded diagnosed test path; do not label timeouts/transport errors as rejects.",
       "Exercise genuine/session-scoped SQL and RAG failures without changing the final graph; no verified fault mechanism was available in this campaign."
     ]
-  }
+  },
+  "remaining_work": [
+    "Policy fidelity remains incorrect in combined, premium and severity; final focused smoke also failed three policy questions. No robust policy-fidelity PASS.",
+    "Nine original raw-parameter outcomes remain unknown; no inconclusive request repeated; strict native validation/coercion/defaults not certified."
+  ],
+  "runtime_visibility": "Saved diagram, validation/deploy states, tool names/arguments, SQL events and assistant outputs observed. System prompts and chat tool-result bodies are redacted; they were not inspected. No cached-prompt or backend root cause is claimed.",
+  "previous_policy_campaign_report": "operations-agent-policy-history.json"
 }

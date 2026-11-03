@@ -96,13 +96,18 @@ this diagnosis run only configuration and section 1a, not Run All. See
 [native binding evidence and exact platform prerequisite](docs/aidp-native-mlflow-binding.md).
 
 
-## Policy-fidelity follow-up — verification pending
+## Policy fidelity — real execution completed, acceptance pending
 
-A policy-only instruction correction is deployed and validated, preserving the
-working SQL/RAG definitions, causal contract, model and KB. The required new
-response tests await the existing Spark compute becoming ACTIVE. An isolated DEV
-copy is prepared for controlled outages; shared resources are unchanged. No
-inconclusive parameter attempts were repeated. See [current execution state](docs/operations-agent-policy-fidelity.md).
+The final frozen revision produced **12/15 normal PASS and 2/2 isolated-fault
+PASS**. Causal feature roles remain correct. Policy answers still introduce an
+unsupported prioritization restriction, confuse PREMIUM with accepted priority,
+and cite an incorrect source filename. SQL/RAG bindings, selected model, KB,
+data and computes are preserved; the fault-test copy was restored afterwards.
+
+No inconclusive parameter request was repeated; nine outcomes remain unknown.
+**AGENT ACCEPTANCE PASS is false; PR #1 stays a draft.** See
+[actual execution](docs/operations-agent-policy-fidelity.md) and
+[all case evidence](docs/operations-agent-acceptance.json).
 
 ## Previous 0.6.3 campaign — response contract verified; acceptance pending
 
