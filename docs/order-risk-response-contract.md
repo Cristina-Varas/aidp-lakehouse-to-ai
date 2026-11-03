@@ -1,5 +1,17 @@
 # Order-risk response contract — 0.6.3
 
+## Latest policy-fidelity follow-up
+
+Policy-only instructions are deployed and validated; all seven tool configs,
+causality correction, model and KB are preserved. **New response verification is
+pending existing Spark ACTIVE**, not PASS. The three focused cases, 15 normal
+cases and two isolated-copy fault scenarios have not run for this revision.
+See [current state and exact continuation](operations-agent-policy-fidelity.md)
+and [parameter recovery investigation](operations-agent-parameter-recovery.json).
+The ten inconclusive parameter attempts were not repeated.
+
+The dated results below describe the earlier 0.6.3 instruction configuration.
+
 ## Verification status — 3 November 2026
 
 The focused **0.6.3** response contract is deployed and verified in AIDP. The

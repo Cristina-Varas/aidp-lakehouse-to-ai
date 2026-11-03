@@ -96,7 +96,15 @@ this diagnosis run only configuration and section 1a, not Run All. See
 [native binding evidence and exact platform prerequisite](docs/aidp-native-mlflow-binding.md).
 
 
-## Operations adviser 0.6.3 — response contract verified; acceptance pending
+## Policy-fidelity follow-up — verification pending
+
+A policy-only instruction correction is deployed and validated, preserving the
+working SQL/RAG definitions, causal contract, model and KB. The required new
+response tests await the existing Spark compute becoming ACTIVE. An isolated DEV
+copy is prepared for controlled outages; shared resources are unchanged. No
+inconclusive parameter attempts were repeated. See [current execution state](docs/operations-agent-policy-fidelity.md).
+
+## Previous 0.6.3 campaign — response contract verified; acceptance pending
 
 The [role-separated response](docs/order-risk-response-contract.md) is deployed
 and verified in AIDP against the saved training artifact. The causality case now

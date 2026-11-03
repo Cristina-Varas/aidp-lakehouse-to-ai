@@ -1,0 +1,54 @@
+{
+  "status": "DEPLOYED_WAITING_FOR_ACTIVE_SPARK",
+  "package_version": "0.6.3",
+  "scope": "Policy instructions only; preserve 0.6.3 causal contract and all SQL/RAG configs",
+  "canonical_sha256": "c077d5f5eb6044e2cb77701e95b913b510f05a0e5a7058925a9db93feb48d05c",
+  "instruction_sha256": "c44784530cf1bc633e2f46ef8e10fdbda6eeafe650ee2ce9a8568726f866239f",
+  "preflight_cases": [
+    "premium",
+    "escalation",
+    "combined"
+  ],
+  "preflight_executed": 0,
+  "normal_cases_planned": 15,
+  "normal_cases_executed": 0,
+  "isolated_fault_cases_planned": 2,
+  "isolated_fault_cases_executed": 0,
+  "isolated_copy_name": "lakehouse_to_ai_operations_policy_fault_dev",
+  "new_parameter_submissions": 0,
+  "local_agent_tests_passed": 32,
+  "pending_user_action": "Start existing lakehouse_demo_cpu without changing configuration/inactivity; async question already sent",
+  "date": "2026-11-03",
+  "AGENT_ACCEPTANCE_PASS": false,
+  "previous_source_commit": "f160586f63e7fb6db307e7fe6c3a4ff7ccf76f8d",
+  "canonical_agent": "lakehouse_to_ai_operations_adviser",
+  "llm": "openai.gpt-oss-120b",
+  "seven_tool_configs_unchanged": true,
+  "kb_unchanged": true,
+  "model_data_compute_unchanged": true,
+  "deployment": {
+    "validation": true,
+    "http": 201,
+    "lifecycleState": "ACTIVE",
+    "instruction_change_only": true
+  },
+  "preflight_results": [],
+  "normal_results": [],
+  "isolated_fault_results": [],
+  "parameter_recovery_report": "operations-agent-parameter-recovery.json",
+  "fault_plan": {
+    "resource": "Separate owned DEV agent copy in same workspace, existing dedicated AI compute only",
+    "copy_observation": "Native copy omitted toolsMap and planner tools; owned copy hydrated from canonical diagram and read back. Same instructions, LLM, seven definitions and tool references.",
+    "rag_variant": "Only clone RAG knowledgeBase points to an unavailable test-only reference independently verified as HTTP404. Native fault Test must show actual failure before chat. Real KB unchanged.",
+    "sql_variant": "Only clone rank_open_orders query uses read-only raise_error with a controlled marker. Require actual native Spark failure event; no compute stop.",
+    "comparison": "Different clone identity and one tool config per variant; not the frozen final canonical configuration. Do not claim both outage cases ran on the canonical graph.",
+    "cleanup": "Retain owned copy as isolated diagnostic artifact; do not delete or stop shared resources. Cleanup requires separate explicit authorization."
+  },
+  "parameter_recovery": {
+    "original_inconclusive": 10,
+    "correlated_sql_guard_errors_recovered": 1,
+    "remaining_unknown": 9,
+    "new_parameter_submissions": 0,
+    "strict_parameter_validation_certified": false
+  }
+}

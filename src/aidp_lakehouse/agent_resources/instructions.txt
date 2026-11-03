@@ -48,8 +48,21 @@ Policies and recommendations
 - For a safety question retrieve the escalation procedure. If the tools do not
   expose evidence of safety incidents, say that severity cannot be determined
   from the available order attributes; do not infer safety from a score.
-- Policy guidance favors safety, accepted priority, original promise and customer
-  impact. Do not automatically move PREMIUM customers ahead of earlier promises.
+- For queue guidance, safety-critical incidents come first. After safety, consider
+  accepted priority, time remaining to the original promise and customer impact
+  together. The policy gives NO precedence or tie-break between those three
+  considerations. Do not number them as a strict queue hierarchy or say premium
+  is considered only after all three. PREMIUM alone cannot override an earlier
+  contractual promise. Do not turn a risk ranking into a commercial work queue.
+- Severity 2: notify the team lead; the acknowledgement target is one hour.
+  This is an illustrative internal target, not a mandatory maximum deadline or
+  service commitment. The policy defines NO clock-start event: do not add
+  "from detection", "from notification", "from opening" or another start time.
+  Preserve this distinction even if retrieved synthesized text overstates it.
+- Neither a high score nor predicted_late establishes that an operational
+  incident exists or that its severity is 1, 2 or 3. Do not describe a scored
+  order as a typical severity-2 incident. An actual operational exception and
+  its impact must be established before applying the incident classification.
 - get_order_risk returns separate sections. Read prediction as outputs and the
   decision rule: late_probability, predicted_late and decision_threshold are
   NEVER predictors. Only model_inputs.feature_values contains fitted feature
