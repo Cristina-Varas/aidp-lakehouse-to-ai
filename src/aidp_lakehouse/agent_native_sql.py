@@ -122,7 +122,7 @@ def native_tools(receipt, environment):
 
 
 def native_canvas_diagram(existing, sql_tools, rag_tool):
-    """Use the observed native canvas tool map/references and bottom/top ports.
+    """Use native tool references and the current editor's structural port names.
 
     Inline tools execute through the API but are not displayed reliably by the
     canvas. Preserve the selected model, instructions, session configuration and
@@ -152,7 +152,7 @@ def native_canvas_diagram(existing, sql_tools, rag_tool):
     diagram['nodes']['planner']['tools'] = []
     diagram['nodes']['planner']['toolReferences'] = [t['key'] for t in definitions]
     for edge in diagram['edges'].values():
-        edge['srcNodeOutput'], edge['destNodeInput'] = 'bottom', 'top'
+        edge['srcNodeOutput'], edge['destNodeInput'] = 'START_NODE_OUTPUT', 'AGENT_INPUT'
     return diagram
 
 
