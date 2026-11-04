@@ -1,0 +1,252 @@
+{
+  "date": "2026-11-03",
+  "status": "SECOND_BOUNDED_COMPARISON_COMPLETE_NOT_PROMOTED_COPY_RESTORED",
+  "scope": "Same authorized existing DEV copy, planner only; no catalog sweep",
+  "candidate": {
+    "model": "meta.llama-3.3-70b-instruct",
+    "provider": "meta",
+    "region": "eu-frankfurt-1"
+  },
+  "catalog_offer_verified": true,
+  "catalog_reference": "operations-agent-planner-comparison.json",
+  "planner_model_settings": {
+    "max_tokens": 2048
+  },
+  "parameter_basis": "Installed OCI GenericChatRequest documents max_tokens, serialized as maxTokens; same bounded output setting for a provider-native comparison.",
+  "configuration_sha256": "09c0ba19a4d98c68234ed759b2a84f6ca81c30fe433a6d6bb60307e968312eb9",
+  "changed_paths": [
+    "nodes.planner.llm.modelId",
+    "nodes.planner.llm.provider",
+    "nodes.planner.modelSettings.max_tokens"
+  ],
+  "canonical_configuration_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+  "canonical_model": "openai.gpt-oss-120b",
+  "rag_model_unchanged": "openai.gpt-oss-120b",
+  "native_tool_definitions_unchanged": true,
+  "model_availability": {
+    "result": "NATIVE_INFERENCE_AND_SQL_PASS",
+    "observation": {
+      "case": "availability",
+      "http": 200,
+      "candidate_model": "meta.llama-3.3-70b-instruct",
+      "configuration_sha256": "09c0ba19a4d98c68234ed759b2a84f6ca81c30fe433a6d6bb60307e968312eb9",
+      "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "observed_model_names": [
+        "meta.llama-3.3-70b-instruct",
+        "unknown"
+      ],
+      "tool_calls": [
+        {
+          "tool": "risk_summary",
+          "arguments": "{}"
+        }
+      ],
+      "observed_tool_spans": [
+        "risk_summary"
+      ],
+      "native_sql_events": [
+        {
+          "event": "sql_tool.spark_sql.success",
+          "status": "SUCCEEDED",
+          "rows_fetched": 1,
+          "columns_fetched": 12
+        }
+      ],
+      "responses": [
+        "Hay 600 pedidos abiertos."
+      ],
+      "session_key_sha256": "25faad45f1540f35c452f9bfd10b6dbc76b401b36867bacc88727488043b3251",
+      "raw_response_sha256": "8c6b053965a657eeae8c0afd65342c94f2a149e8e4f09f0b3dc671541eddf438",
+      "native_agent_identity_verified": true,
+      "result": "PENDING_MANUAL_REVIEW"
+    },
+    "limit": "Request trace identifies Meta; response model unknown, no server-weight attestation claimed."
+  },
+  "passed": 1,
+  "failed": 2,
+  "partial_not_accepted": 1,
+  "cases": [
+    {
+      "case": "premium",
+      "http": 200,
+      "candidate_model": "meta.llama-3.3-70b-instruct",
+      "configuration_sha256": "09c0ba19a4d98c68234ed759b2a84f6ca81c30fe433a6d6bb60307e968312eb9",
+      "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "observed_model_names": [
+        "meta.llama-3.3-70b-instruct",
+        "openai.gpt-oss-120b",
+        "unknown"
+      ],
+      "tool_calls": [
+        {
+          "tool": "retrieve_operations_policy",
+          "arguments": "{\"query\": \"PREMIUM vs compromisos anteriores\"}"
+        }
+      ],
+      "observed_tool_spans": [
+        "retrieve_operations_policy"
+      ],
+      "native_sql_events": [],
+      "responses": [
+        "La política de priorización de pedidos establece que un cliente de segmento premium no puede anular ni sobrepasar una promesa contractual hecha con anterioridad. La prioridad de la cola de trabajo se determina primero por incidentes críticos de seguridad, luego por la prioridad aceptada del pedido, el tiempo que queda para cumplir la promesa original y el impacto al cliente. Por tanto, aunque el cliente pertenezca al segmento premium, su pedido no recibirá un trato preferente que rompa un compromiso ya aceptado; cualquier cambio que pueda afectar la promesa original debe ser registrado y justificado, y no se puede reescribir la “instantánea de aceptación”. En síntesis, los pedidos premium no tienen prioridad suficiente para desplazar una obligación contractual ya establecida."
+      ],
+      "session_key_sha256": "399e07f5b75242863e286b7569c8309677038953b624973c6f20e3e18a895aef",
+      "raw_response_sha256": "d662f4488e305fbc00044ccecfd3badd15d0247bf394f9d96e09661eaa81a6c0",
+      "native_agent_identity_verified": true,
+      "result": "PARTIAL",
+      "reason": "Meaning and actual retrieval pass: premium segment is not accepted priority, no automatic override, safety first then the three considerations. Only a generic translated policy title is referenced, without explicit filename/numbered section; full source-citation criterion is not certified, so not counted as overall PASS.",
+      "raw_tool_payload_visibility": "Redacted, not observed"
+    },
+    {
+      "case": "escalation",
+      "http": 200,
+      "candidate_model": "meta.llama-3.3-70b-instruct",
+      "configuration_sha256": "09c0ba19a4d98c68234ed759b2a84f6ca81c30fe433a6d6bb60307e968312eb9",
+      "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "observed_model_names": [
+        "meta.llama-3.3-70b-instruct",
+        "openai.gpt-oss-120b",
+        "unknown"
+      ],
+      "tool_calls": [
+        {
+          "tool": "retrieve_operations_policy",
+          "arguments": "{\"query\": \"severity 2 acknowledgement target\"}"
+        }
+      ],
+      "observed_tool_spans": [
+        "retrieve_operations_policy"
+      ],
+      "native_sql_events": [],
+      "responses": [
+        "For a **Severity 2** incident, the target acknowledgement time is **one hour** after notification."
+      ],
+      "session_key_sha256": "3d2358eeee4e894772fda66b63fa0e173ce21b798744526e8639009e9c2ef972",
+      "raw_response_sha256": "9f7e97415e67ad0ab47be25441143319e47505c0b9c4b172dc8acc154e2b9fdf",
+      "native_agent_identity_verified": true,
+      "result": "FAIL",
+      "reason": "Adds one hour after notification, an unsupported clock-start. Also no actual policy identity/section reference in final answer.",
+      "raw_tool_payload_visibility": "Redacted, not observed"
+    },
+    {
+      "case": "combined",
+      "http": 200,
+      "candidate_model": "meta.llama-3.3-70b-instruct",
+      "configuration_sha256": "09c0ba19a4d98c68234ed759b2a84f6ca81c30fe433a6d6bb60307e968312eb9",
+      "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "observed_model_names": [
+        "meta.llama-3.3-70b-instruct",
+        "openai.gpt-oss-120b",
+        "unknown"
+      ],
+      "tool_calls": [
+        {
+          "tool": "rank_open_orders",
+          "arguments": "{\"limit\": \"5\"}"
+        },
+        {
+          "tool": "retrieve_operations_policy",
+          "arguments": "{\"query\": \"order review procedure\"}"
+        }
+      ],
+      "observed_tool_spans": [
+        "rank_open_orders",
+        "retrieve_operations_policy"
+      ],
+      "native_sql_events": [
+        {
+          "event": "sql_tool.spark_sql.success",
+          "status": "SUCCEEDED",
+          "rows_fetched": 5,
+          "columns_fetched": 20
+        }
+      ],
+      "responses": [
+        "Los cinco pedidos con mayor riesgo son:\n\n1. O-00030255\n2. O-00030228\n3. O-00030555\n4. O-00030059\n5. O-00030203\n\nPara revisar estos pedidos, se debe seguir el procedimiento de revisión de pedidos definido en la política de priorización de pedidos, que incluye:\n\n1. Revisar todos los pedidos que han sido marcados como \"en riesgo\" cada día hábil.\n2. Registrar la decisión, la hora de la decisión y el propietario de la decisión para cada pedido.\n3. Utilizar solo la información que existía en el momento de la aceptación del pedido para tomar la decisión de revisión.\n4. No utilizar información que se haya vuelto disponible más tarde, como la conclusión real de la entrega, los resultados de la resolución de incidentes o los detalles de la entrega.\n5. Un coordinador de operaciones debe revisar la señal de riesgo, verificar el stock, la capacidad y la disponibilidad de transporte, y decidir si ajustar la cola de trabajo.\n6. El coordinador debe registrar cualquier anulación manual, incluyendo el motivo y el aprobador; el registro de aceptación original debe permanecer sin cambios.\n7. La prioridad de la cola se determina considerando la seguridad, la prioridad aceptada, el tiempo restante hasta la entrega prometida original y el impacto en el cliente.\n8. Un etiquetado de segmento premium no anula una promesa contractual anterior.\n9. Todos los pasos tomados durante la revisión se registran en el sistema y se convierten en parte del historial de auditoría del pedido.\n\nEs importante seguir este procedimiento para garantizar que los pedidos se revisen de manera efectiva y que se tomen decisiones informadas para gestionar los riesgos y cumplir con las promesas contractuales."
+      ],
+      "session_key_sha256": "91715e59604cedcc1a7e7d9ca1b1893afd6028719a1034e7e4c57632840b4246",
+      "raw_response_sha256": "6e182c898e39b101b3f00c183a12624e0ecd97144f594e53cae026c9b0565455",
+      "native_agent_identity_verified": true,
+      "result": "FAIL",
+      "reason": "Both tools run and five IDs are correct, but answer restricts human review to acceptance-time information, forbids later operational information, and omits a verified section reference. Policy only restricts inputs to an acceptance-time prediction.",
+      "raw_tool_payload_visibility": "Redacted, not observed"
+    },
+    {
+      "case": "causality",
+      "http": 200,
+      "candidate_model": "meta.llama-3.3-70b-instruct",
+      "configuration_sha256": "09c0ba19a4d98c68234ed759b2a84f6ca81c30fe433a6d6bb60307e968312eb9",
+      "canonical_sha256": "277c4e8c7ca8c26a2a32691c9d238f042c16be5cc07fdb8cda0714d2dd06fb3c",
+      "observed_model_names": [
+        "meta.llama-3.3-70b-instruct",
+        "unknown"
+      ],
+      "tool_calls": [
+        {
+          "tool": "get_order_risk",
+          "arguments": "{\"order_id\": \"O-00030255\"}"
+        }
+      ],
+      "observed_tool_spans": [
+        "get_order_risk"
+      ],
+      "native_sql_events": [
+        {
+          "event": "sql_tool.spark_sql.success",
+          "status": "SUCCEEDED",
+          "rows_fetched": 1,
+          "columns_fetched": 1
+        }
+      ],
+      "responses": [
+        "No validated per-order attribution or causal explanation is available. Do not infer which variable caused this score."
+      ],
+      "session_key_sha256": "4ce7c2f73587de7b8f995b596e51051c2dc5fbe26038686ebb1a097542782ec8",
+      "raw_response_sha256": "7d62063c968c0bcf599652accfedbc6b333b4c366302f325f8c6c87c0339bda5",
+      "native_agent_identity_verified": true,
+      "result": "PASS",
+      "reason": "Actual SQL call; correct refusal of individual causal attribution, no invented policy source. Reply quotes the contract in English; locale compliance is not claimed.",
+      "raw_tool_payload_visibility": "Redacted, not observed"
+    }
+  ],
+  "strict_all_four_pass": false,
+  "restoration": {
+    "original_model": "openai.gpt-oss-120b",
+    "original_model_settings": null,
+    "baseline_readback_verified": true,
+    "validation": true,
+    "redeploy": "HTTP201 ACTIVE",
+    "canonical_unchanged": true,
+    "post_restore_control": {
+      "status": "RESTORED_NATIVE_MODEL_AND_SQL_PASS",
+      "models": [
+        "openai.gpt-oss-120b",
+        "unknown"
+      ],
+      "tools": [
+        "risk_summary"
+      ],
+      "sql_events": [
+        {
+          "event": "sql_tool.spark_sql.success",
+          "status": "SUCCEEDED",
+          "rows": 1
+        }
+      ],
+      "responses": [
+        "Hay **600 pedidos abiertos** en el conjunto de datos al 28 de octubre 2026.  \n\n**Fuente**: resultado de la herramienta **risk_summary**, que muestra `open_orders`: 600."
+      ],
+      "session_key_sha256": "14d080cf2dcb615d27b4caa85dbef15f2fe2f2218341fe685b194087232f8a15"
+    },
+    "raw_response_sha256": "1022a7e370c010ddf04f6a9784aaac070f48886bc0f97cbf1b3a48186bd855c5"
+  },
+  "new_fresh_conversations": 6,
+  "total_planner_comparison_conversations": 16,
+  "candidate_promoted": false,
+  "inconclusive_raw_sql_parameter_attempts_repeated": 0,
+  "AGENT_ACCEPTANCE_PASS": false,
+  "conclusion": "No promotion: unsupported clock and operational-review rules persist. Premium has useful retrieval/meaning evidence but incomplete explicit citation. No broader model-quality ranking is inferred from four cases.",
+  "official_reference": "https://docs.oracle.com/en-us/iaas/Content/generative-ai/meta-llama-3-3-70b.htm",
+  "private_evidence": "Full native diagrams/configs, headers and traces remain outside Git in existing protected local runtime",
+  "predictive_model_data_compute_auth_unchanged": true
+}

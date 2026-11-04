@@ -1,0 +1,10 @@
+{
+  "workspace_key": "<VERIFIED_PROJECT_WORKSPACE_KEY>",
+  "sql_connection": {
+    "queryType": "SPARK",
+    "catalogKey": "lakehouse_demo",
+    "schemaKey": "gold",
+    "sparkComputeKey": "<VERIFIED_PROJECT_SPARK_COMPUTE_KEY>"
+  },
+  "policy_kb_key": "<VERIFIED_NEW_POLICY_KB_KEY>"
+}

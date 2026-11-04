@@ -1,0 +1,206 @@
+{
+  "date": "2026-11-03",
+  "status": "ONE_BACKEND_SQL_VALIDATION_ERROR_RECOVERED_NINE_UNKNOWN",
+  "previous_attempts_report": "operations-agent-native-parameters.json",
+  "new_parameter_submissions": 0,
+  "automatic_parameter_retries": 0,
+  "test_api_contract": {
+    "source": "Installed AIDP SDK 5.1.1: TestToolDetails, TestToolResult, SqlTestToolResult, SqlResult; current Workbench testTool caller; Ask-AIDP REST reference",
+    "observed_behavior": "Synchronous request/response; Workbench invokes testTool with retry:0",
+    "result_model": "SQL rows only; no job, statement or operation status identifier in this result contract",
+    "actual_receipts": "Five timed-out attempts and five transport-error attempts have no HTTP response, server request ID, statement ID or operation ID. Request-body hashes are evidence, not server lookup handles.",
+    "scope_limit": "No public Test-status operation was found in the inspected SDK/MCP reference. This is not a claim that platform-internal logs or APIs do not exist."
+  },
+  "log_searches": [
+    {
+      "operation": "cluster search-logs",
+      "log_content_type": "driver",
+      "log_level": "ERROR",
+      "message_contains": "INVALID_ORDER_ID",
+      "time_begin": "2026-11-03T09:54:44.948445+00:00",
+      "time_end": "2026-11-03T10:04:49.917669+00:00",
+      "http": 200,
+      "results": 0,
+      "raw_evidence_sha256": "0d5c3cb9897b190bd6b21a9fb9befca04ba24051e71b00e1dbff9ceb48b4ff22"
+    },
+    {
+      "operation": "cluster search-logs",
+      "log_content_type": "driver",
+      "log_level": "ERROR",
+      "message_contains": "INVALID_CUSTOMER_ID",
+      "time_begin": "2026-11-03T09:54:44.948445+00:00",
+      "time_end": "2026-11-03T10:04:49.917669+00:00",
+      "http": 200,
+      "results": 0,
+      "raw_evidence_sha256": "89b0316c4f7faa7709fb4703bcf94c628dd02f1be49ccdc4f3b30a0840ecf59d"
+    }
+  ],
+  "broad_log_search": {
+    "status": "TRUNCATED_OUTPUT_NOT_EXHAUSTIVE",
+    "observation": "The response was truncated. A complete individual log record was recovered and matched exactly to order_invalid_format by the full bound SQL and event time. Other complete records are not attributed without correlation.",
+    "private_evidence": "064-previous-timeouts-driver-errors.json",
+    "raw_evidence_sha256": "c81839d3914841e79c8157e1af3fd54e58a7d62261d36df4ddeeb0d720460aa1"
+  },
+  "per_attempt": [
+    {
+      "case": "order_invalid_format",
+      "previous_observation": "TIMEOUT",
+      "current_outcome": "BACKEND_SQL_VALIDATION_ERROR_RECOVERED",
+      "recovery": "Full bound SQL matches the logged command; event time lies within this attempt window; Spark reports INVALID_ORDER_ID. Original HTTP timeout remains unchanged.",
+      "original_receipt_sha256": "67f345ddf6108c867fb1ff431017203ab89c79557bdb6813cc94163010b53290",
+      "native_error": "java.lang.RuntimeException: INVALID_ORDER_ID",
+      "log_event_time": "2026-11-03T09:55:26.567Z",
+      "bound_query_sha256": "70cc5cc3a5e9a3cd9f2ff22f97f5336aa96d357c2035ac84e5ac70e1733b8ab4",
+      "raw_log_record_sha256": "e8c7462a00e38ce0304d5a0f80c1dcee0b7b2c2aad576a3dd36d265559a7247f",
+      "http_outcome": "TIMEOUT_UNKNOWN_HTTP_RESPONSE",
+      "scope": "SQL guard failure, not native request-schema validation"
+    },
+    {
+      "case": "order_numeric",
+      "previous_observation": "TIMEOUT",
+      "current_outcome": "UNKNOWN",
+      "recovery": "No correlated server result/identifier recovered; original typed input and raw receipt preserved",
+      "original_receipt_sha256": "6d0bb61bfdd6b85ac769365511dbb45b7767442f0abebf4901db8392bc52f6e8"
+    },
+    {
+      "case": "order_null",
+      "previous_observation": "TIMEOUT",
+      "current_outcome": "UNKNOWN",
+      "recovery": "No correlated server result/identifier recovered; original typed input and raw receipt preserved",
+      "original_receipt_sha256": "1241899c9a3cf6523350fe71767dfe8aff9a4271fa94f8b9c5ada5a03e9937dd"
+    },
+    {
+      "case": "order_quote",
+      "previous_observation": "TIMEOUT",
+      "current_outcome": "UNKNOWN",
+      "recovery": "No correlated server result/identifier recovered; original typed input and raw receipt preserved",
+      "original_receipt_sha256": "aae501cdc915c5266c396f8e4a8968e62844d77ec33c88e4c6f1bc33f22474f8"
+    },
+    {
+      "case": "customer_invalid_format",
+      "previous_observation": "TIMEOUT",
+      "current_outcome": "UNKNOWN",
+      "recovery": "No correlated server result/identifier recovered; original typed input and raw receipt preserved",
+      "original_receipt_sha256": "9e2db027e0395d260876245c369f54655e6a272e5e10fbf10e5d7d095bd7ec8b"
+    },
+    {
+      "case": "rank_fractional",
+      "previous_observation": "TRANSPORT_ERROR",
+      "current_outcome": "UNKNOWN",
+      "recovery": "No correlated server result/identifier recovered; original typed input and raw receipt preserved",
+      "original_receipt_sha256": "05f5d54e76678cb58ded9f138bc7268a082bf3d9e73893bf2f55c8318653d023"
+    },
+    {
+      "case": "rank_excess",
+      "previous_observation": "TRANSPORT_ERROR",
+      "current_outcome": "UNKNOWN",
+      "recovery": "No correlated server result/identifier recovered; original typed input and raw receipt preserved",
+      "original_receipt_sha256": "734b1fb274d2b5221f26f8d151c56955b2e4c1e4867a061870dbc3f768c60737"
+    },
+    {
+      "case": "rank_zero",
+      "previous_observation": "TRANSPORT_ERROR",
+      "current_outcome": "UNKNOWN",
+      "recovery": "No correlated server result/identifier recovered; original typed input and raw receipt preserved",
+      "original_receipt_sha256": "7cbaff19b08667e2010fedec57096fc007f2d149697fdca573e45f3ed042bbf1"
+    },
+    {
+      "case": "rank_boolean",
+      "previous_observation": "TRANSPORT_ERROR",
+      "current_outcome": "UNKNOWN",
+      "recovery": "No correlated server result/identifier recovered; original typed input and raw receipt preserved",
+      "original_receipt_sha256": "66c1d4d2b33afb605b1d35d56aeb96de5a752834750b54d85e5214ae91cb2ca0"
+    },
+    {
+      "case": "rank_null",
+      "previous_observation": "TRANSPORT_ERROR",
+      "current_outcome": "UNKNOWN",
+      "recovery": "No correlated server result/identifier recovered; original typed input and raw receipt preserved",
+      "original_receipt_sha256": "0ac294c81a5bee82401a8476fa3d3bdc6f021388b6914d57c4ebb86dc0456943"
+    }
+  ],
+  "observed_categories_kept_separate": {
+    "request_rejections": {
+      "count": 2,
+      "evidence": "HTTP400 InvalidParameter on omitted order/limit; rejection stage unknown"
+    },
+    "numeric_string_acceptance": {
+      "count": 1,
+      "evidence": "String 10 matches numeric baseline with configured SQL TRY_CAST; intermediate native conversion not observed"
+    },
+    "extra_argument_no_result_effect": {
+      "count": 3,
+      "evidence": "HTTP200 rows identical to baseline; no strict rejection or hidden processing inferred"
+    },
+    "unknown": {
+      "count": 9,
+      "remaining_timeouts": 4,
+      "transport_errors": 5
+    },
+    "backend_sql_validation_error_recovered": {
+      "count": 1,
+      "case": "order_invalid_format",
+      "original_http_outcome": "TIMEOUT",
+      "native_error": "INVALID_ORDER_ID"
+    }
+  },
+  "strict_parameter_validation_certified": false,
+  "conclusion": "One original timeout now has a correlated Spark SQL guard error; nine remain UNKNOWN. No original parameter request was repeated. This does not certify native request-schema validation or hidden intermediate coercion.",
+  "original_inconclusive_attempts": 10,
+  "remaining_unknown_outcomes": 9,
+  "targeted_filter_caveat": "Two message-filter searches returned zero results despite the recovered error. Additional narrow-window searches returned records with event/ingestion times outside their requested windows. Filter/clock behavior is unresolved; zero results are not evidence of absence and these searches cannot certify completeness.",
+  "additional_readonly_log_queries": [
+    {
+      "intended_case": "order_numeric",
+      "requested_filter": {
+        "timeBegin": "2026-11-03T09:55:30.918413+00:00",
+        "timeEnd": "2026-11-03T09:57:04.918413+00:00",
+        "logContentTypeContains": "driver",
+        "logLevel": "ERROR"
+      },
+      "http": 200,
+      "records_returned": 12,
+      "correlated_terminal_outcome_recovered": false,
+      "raw_evidence_sha256": "9894f84a460ca34fd8180c293fbe73e88b96e507f62494f85c9bbe29ea03bb60"
+    },
+    {
+      "intended_case": "order_null",
+      "requested_filter": {
+        "timeBegin": "2026-11-03T09:57:23.334615+00:00",
+        "timeEnd": "2026-11-03T09:58:57.334615+00:00",
+        "logContentTypeContains": "driver",
+        "logLevel": "ERROR"
+      },
+      "http": 200,
+      "records_returned": 0,
+      "correlated_terminal_outcome_recovered": false,
+      "raw_evidence_sha256": "5d394eade0190c9c38ab28d71ec4bacd713c49a1d3eb58bc760e374ecc2d8b48"
+    },
+    {
+      "intended_case": "order_quote",
+      "requested_filter": {
+        "timeBegin": "2026-11-03T09:58:01.477724+00:00",
+        "timeEnd": "2026-11-03T09:59:35.477724+00:00",
+        "logContentTypeContains": "driver",
+        "logLevel": "ERROR"
+      },
+      "http": 200,
+      "records_returned": 0,
+      "correlated_terminal_outcome_recovered": false,
+      "raw_evidence_sha256": "6bc6d2869afcd1f8f29334aa55a25317ec34076a8538b66c4ede11e1abcf315c"
+    },
+    {
+      "intended_case": "customer_invalid_format",
+      "requested_filter": {
+        "timeBegin": "2026-11-03T09:59:53.966669+00:00",
+        "timeEnd": "2026-11-03T10:01:27.966669+00:00",
+        "logContentTypeContains": "driver",
+        "logLevel": "ERROR"
+      },
+      "http": 200,
+      "records_returned": 3,
+      "correlated_terminal_outcome_recovered": false,
+      "raw_evidence_sha256": "6b9e073df895763587203538111d8bf040d002134655b9af0e6d92db8bd6d41f"
+    }
+  ]
+}

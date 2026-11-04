@@ -94,3 +94,58 @@ verifies experiment 1, the FINISHED training run and READY model version 1.
 Native workflow authorization is still blocked; no scoring was executed. During
 this diagnosis run only configuration and section 1a, not Run All. See
 [native binding evidence and exact platform prerequisite](docs/aidp-native-mlflow-binding.md).
+
+
+## Policy fidelity — real execution completed, acceptance pending
+
+The final frozen revision produced **12/15 normal PASS and 2/2 isolated-fault
+PASS**. Causal feature roles remain correct. Policy answers still introduce an
+unsupported prioritization restriction, confuse PREMIUM with accepted priority,
+and cite an incorrect source filename. SQL/RAG bindings, selected model, KB,
+data and computes are preserved; the fault-test copy was restored afterwards.
+
+No inconclusive parameter request was repeated; nine outcomes remain unknown.
+**AGENT ACCEPTANCE PASS is false; PR #1 stays a draft.** See
+[actual execution](docs/operations-agent-policy-fidelity.md) and
+[all case evidence](docs/operations-agent-acceptance.json).
+
+An authorized [planner-only comparison](docs/operations-agent-planner-comparison.md)
+tested Cohere in the isolated copy: 1/4 PASS with an explicit output budget.
+A bounded [Meta comparison](docs/operations-agent-planner-comparison-meta.md)
+produced 1 PASS / 2 FAIL / 1 PARTIAL. Neither was promoted. The original copy
+configuration was restored and SQL checked after each trial. Independent native
+RAG synthesis also added an unsupported restriction.
+
+## Previous 0.6.3 campaign — response contract verified; acceptance pending
+
+The [role-separated response](docs/order-risk-response-contract.md) is deployed
+and verified in AIDP against the saved training artifact. The causality case now
+passes: prediction outputs are not presented as predictors and no individual
+attribution is invented. Model, KB and other tools are preserved.
+
+All 17 fresh-session prompts used one frozen configuration: **13 PASS, 2 FAIL,
+2 PENDING**. The failures add policy hierarchy/deadline rules unsupported by the
+source. Unavailable-service preconditions were not exercised while SQL/RAG were
+healthy. Of 21 direct raw-parameter attempts, 11 returned HTTP responses and ten
+had unknown outcomes. **AGENT ACCEPTANCE PASS is false; the PR remains a draft.**
+See [actual execution](docs/operations-agent-execution.md),
+[case evidence](docs/operations-agent-acceptance.json) and
+[direct parameter observations](docs/operations-agent-native-parameters.json).
+
+## Historical operations adviser 0.6.2 — native SQL and RAG
+
+The dedicated DEV agent now runs six bounded native Spark SQL tools and policy
+RAG with the existing model. The corrected KB ingested both TXT files successfully;
+real native Tests verified four chunks against the source policies. The final
+Workbench canvas shows all seven tools and a combined SQL/RAG conversation passed.
+
+All **17 acceptance cases executed: 16 PASS, 1 FAIL**. Causality still confuses
+model outputs/metadata with predictors after a targeted repair. Native unexpected
+argument/type-coercion boundaries also remain uncertified. **AGENT ACCEPTANCE PASS
+is false** and the PR stays a draft. The original Custom Code loader failure is
+historical; Custom Code is not exposed by the current native agent.
+
+See [setup](docs/operations-agent.md), [actual execution](docs/operations-agent-execution.md)
+and [case responses](docs/operations-agent-acceptance.json). The 0.6.2 wheel is in
+ignored `dist/` on the local Mac. No business data, model, training, scoring,
+Autonomous publication, authentication or compute policy was changed.

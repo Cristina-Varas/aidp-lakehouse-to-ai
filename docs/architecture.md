@@ -27,8 +27,9 @@ rerun; see [Silver evidence](aidp-silver-execution.md). Distributed initial Gold
 is implemented in release 0.3.0; its live AIDP success is user-reported and the four counts were independently
 corroborated. Model
 training is implemented in release 0.4.0 with availability-aware temporal evaluation
-and native MLflow integration; see [training](late-delivery-training.md). Inference,
-Autonomous business tables/loading, retrieval indexing and agents remain future milestones. See [Gold setup](aidp-gold-setup.md),
+and native MLflow integration; see [training](late-delivery-training.md). Initial inference and its repeat are now user-confirmed in AIDP (600 predictions,
+450 alerts). Autonomous publication, retrieval indexing and a deployed agent
+remain pending; the 0.6.0 candidate prepares a read-only SQL/RAG integration kit. See [Gold setup](aidp-gold-setup.md),
 [AIDP Bronze setup](aidp-bronze-setup.md) and [Silver setup](aidp-silver-setup.md).
 
 ## 2. Code organization
@@ -112,3 +113,19 @@ publishes managed Delta `gold.late_delivery_predictions` with insert-only guards
 Inference is bounded on the driver for the sklearn model; input validation and
 full-row publication/repeat checks use Spark. No source layer is overwritten.
 See [scoring design](late-delivery-scoring.md).
+
+
+## Operations adviser candidate
+
+Notebook 06 reconciles existing predictions against their fixed Gold input and
+prepares six bounded SELECT query families. User identifiers are validated before
+query construction. A separate Custom Code adapter delegates the fixed query to
+the native SQL toolkit; that adapter has only simulated local tests until it is
+exercised on the target AI compute. Policies are byte-preserved as TXT for a
+dedicated KB. The detailed runbook is [operations-agent.md](operations-agent.md).
+
+Current Oracle instructions describe a direct Spark SQL standard-catalog path,
+but introductory notes still restrict SQL tools to external catalogs. Check the
+actual instance capability first. Use direct Spark only after native query tests
+pass. If unavailable, Autonomous publication remains a separate prerequisite;
+this candidate does not create Autonomous business data or silently switch routes.

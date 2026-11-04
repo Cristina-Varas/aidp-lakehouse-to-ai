@@ -104,3 +104,19 @@ Delta version/table ID, recovered decision metadata, source fingerprint, alert
 count and complete two-execution summary as the next live execution evidence.
 Only report live SCORING PASS after those checks actually finish in AIDP. Agents
 and Autonomous publication remain future work.
+
+
+## User update — 1 November 2026
+
+The user supplied live output showing 600 predictions: 450 true and 150 false,
+threshold 0.25, model version 1 and input_delta_version 1. The first ranked order
+was O-00030255, customer C-000550, score 0.5999136971617619. After being asked to
+check the final SCORING PASS cell, the user confirmed it was correct. This is
+user-confirmed execution/repeat evidence, not an independently queried kernel
+receipt. The prediction-table Delta version and exact successful connection
+initialization output were not supplied. Do not infer the prediction-table
+version from input_delta_version. Notebook 06 resolves it separately.
+
+This update supersedes pending live scoring statements earlier in this record.
+It does not establish that a separate workflow's native authorization was fixed,
+or that an agent/KB has been created or tested.

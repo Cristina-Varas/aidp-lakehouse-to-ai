@@ -6,7 +6,7 @@ import re
 from .gold import GoldConfig, CONTRACTS_GOLD, PREDICTORS
 from .training_contract import feature_contract, instant
 
-VERSION = '0.5.1'
+VERSION = '0.6.3'
 MODEL_NAME = 'lakehouse_demo.gold.late_delivery_acceptance'
 MODEL_VERSION = '1'
 TRAINING_RUN = 'fc64485e353c41168cb90ee0f0bc5f71'

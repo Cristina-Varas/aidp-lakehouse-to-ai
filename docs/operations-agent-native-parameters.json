@@ -1,0 +1,450 @@
+{
+  "date": "2026-11-03",
+  "package_version": "0.6.3",
+  "status": "ATTEMPTS_RECORDED_WITH_UNKNOWN_OUTCOMES",
+  "planned": 21,
+  "observed": 21,
+  "configuration_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+  "llm_involved": false,
+  "endpoint_kind": "Native SQL Test: exact config plus raw JSON paramValues.values",
+  "input_schema_boundary": "The Test request omits the saved LLM-facing inputSchema. Compiled schema coercion/defaults are not certified.",
+  "counts": {
+    "RETURNED_ROWS": 4,
+    "EMPTY_RESULT": 1,
+    "TIMEOUT": 5,
+    "REJECTED_REQUEST": 2,
+    "EXTRA_ARGUMENT_NO_RESULT_EFFECT": 3,
+    "NUMERIC_STRING_ACCEPTED_WITH_CONFIGURED_SQL_CAST": 1,
+    "TRANSPORT_ERROR": 5
+  },
+  "observations": [
+    {
+      "case": "order_valid",
+      "tool": "get_order_risk",
+      "input_json_types": {
+        "order_id": "string"
+      },
+      "http_status": 200,
+      "native_intermediate_types_observed": false,
+      "observation": "RETURNED_ROWS",
+      "outcome": "RETURNED",
+      "rows": 1,
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 94.514,
+      "request_values": {
+        "order_id": "O-00030255"
+      },
+      "raw_response_sha256": "b6000d30a542c0792388efe70c8f8a89060921253082b3bed9550298e2f58d97",
+      "wire_request_body_sha256": "f6beffece6ef5abd223141ab432256a58ae2f2da496bd0a06320cd231e82f083",
+      "automatic_retries": 0
+    },
+    {
+      "case": "order_missing_record",
+      "tool": "get_order_risk",
+      "input_json_types": {
+        "order_id": "string"
+      },
+      "http_status": 200,
+      "native_intermediate_types_observed": false,
+      "observation": "EMPTY_RESULT",
+      "outcome": "RETURNED",
+      "rows": 0,
+      "reason": "Zero rows are not proof of parameter rejection.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 37.624,
+      "request_values": {
+        "order_id": "O-99999999"
+      },
+      "raw_response_sha256": "8fbab201f68cdcb82a69e156eea81901d1be527fa31134c8d871fb10fe2f5f52",
+      "wire_request_body_sha256": "38b1d70ad54aac7271b303bc58698da04577f357e98d04d6a04eebf7430009aa",
+      "automatic_retries": 0
+    },
+    {
+      "case": "order_invalid_format",
+      "tool": "get_order_risk",
+      "input_json_types": {
+        "order_id": "string"
+      },
+      "http_status": null,
+      "native_intermediate_types_observed": false,
+      "observation": "TIMEOUT",
+      "outcome": "UNKNOWN",
+      "timeout_seconds": 150,
+      "reason": "Client deadline reached; no validation rejection inferred.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 150.013,
+      "request_values": {
+        "order_id": "O-123"
+      },
+      "raw_response_sha256": "67f345ddf6108c867fb1ff431017203ab89c79557bdb6813cc94163010b53290",
+      "wire_request_body_sha256": "023427dfedd45f6e59343524c1cf34c328acc663cc375fc6bbb5bf979a82a2f7",
+      "automatic_retries": 0
+    },
+    {
+      "case": "order_numeric",
+      "tool": "get_order_risk",
+      "input_json_types": {
+        "order_id": "number"
+      },
+      "http_status": null,
+      "native_intermediate_types_observed": false,
+      "observation": "TIMEOUT",
+      "outcome": "UNKNOWN",
+      "timeout_seconds": 150,
+      "reason": "Client deadline reached; no validation rejection inferred.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 150.014,
+      "request_values": {
+        "order_id": 123
+      },
+      "raw_response_sha256": "6d0bb61bfdd6b85ac769365511dbb45b7767442f0abebf4901db8392bc52f6e8",
+      "wire_request_body_sha256": "78da28dba1f49725532f55f57460d3f5c79e88566edc1ec0d164091818760bca",
+      "automatic_retries": 0
+    },
+    {
+      "case": "order_null",
+      "tool": "get_order_risk",
+      "input_json_types": {
+        "order_id": "null"
+      },
+      "http_status": null,
+      "native_intermediate_types_observed": false,
+      "observation": "TIMEOUT",
+      "outcome": "UNKNOWN",
+      "timeout_seconds": 150,
+      "reason": "Client deadline reached; no validation rejection inferred.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 150.027,
+      "request_values": {
+        "order_id": null
+      },
+      "raw_response_sha256": "1241899c9a3cf6523350fe71767dfe8aff9a4271fa94f8b9c5ada5a03e9937dd",
+      "wire_request_body_sha256": "03a993f23d00e29f877c8501d77ea30d059e91cf97963f6c070cf8f43990ded0",
+      "automatic_retries": 0
+    },
+    {
+      "case": "order_omitted",
+      "tool": "get_order_risk",
+      "input_json_types": {},
+      "http_status": 400,
+      "native_intermediate_types_observed": false,
+      "observation": "REJECTED_REQUEST",
+      "outcome": "REJECTED",
+      "error_code": "InvalidParameter",
+      "reason": "Native endpoint rejected the request; validation stage is not inferred from HTTP status alone.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 13.019,
+      "request_values": {},
+      "raw_response_sha256": "aca87149a42b7fa92ae6a75994383dee333e4df3b097be318c9449364b9d8327",
+      "wire_request_body_sha256": "c6e697a9b03439b1e3a535fe4c6eb5376676fae8aa3736b1f4a5a778dbad4bb2",
+      "automatic_retries": 0
+    },
+    {
+      "case": "order_quote",
+      "tool": "get_order_risk",
+      "input_json_types": {
+        "order_id": "string"
+      },
+      "http_status": null,
+      "native_intermediate_types_observed": false,
+      "observation": "TIMEOUT",
+      "outcome": "UNKNOWN",
+      "timeout_seconds": 150,
+      "reason": "Client deadline reached; no validation rejection inferred.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 396.438,
+      "request_values": {
+        "order_id": "O-00030255' OR 1=1 --"
+      },
+      "raw_response_sha256": "aae501cdc915c5266c396f8e4a8968e62844d77ec33c88e4c6f1bc33f22474f8",
+      "wire_request_body_sha256": "f980e6cfb9b0d9547a0990ace54cf1c6d22ca0c06886ae8ccd609f55dd05610d",
+      "automatic_retries": 0
+    },
+    {
+      "case": "order_extra",
+      "tool": "get_order_risk",
+      "input_json_types": {
+        "order_id": "string",
+        "unexpected": "string"
+      },
+      "http_status": 200,
+      "native_intermediate_types_observed": false,
+      "observation": "EXTRA_ARGUMENT_NO_RESULT_EFFECT",
+      "outcome": "RETURNED",
+      "rows": 1,
+      "ignored_argument": "unexpected",
+      "reason": "The extra argument was accepted and produced identical visible rows; it was not rejected.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 26.894,
+      "request_values": {
+        "order_id": "O-00030255",
+        "unexpected": "fixture-only"
+      },
+      "raw_response_sha256": "3d9ce99272cd7218e592718dc2fa69cb3d7a375e72429b42c17a006c4fb1d556",
+      "wire_request_body_sha256": "0692aeef2a345f3fcc746c6580fedeaa91cd3b73846295e1d3257c84f75854a6",
+      "automatic_retries": 0
+    },
+    {
+      "case": "customer_valid",
+      "tool": "get_customer_orders",
+      "input_json_types": {
+        "customer_id": "string"
+      },
+      "http_status": 200,
+      "native_intermediate_types_observed": false,
+      "observation": "RETURNED_ROWS",
+      "outcome": "RETURNED",
+      "rows": 2,
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 28.855,
+      "request_values": {
+        "customer_id": "C-000550"
+      },
+      "raw_response_sha256": "454a93bac6798817970f33c8cc289e3d1e0ab64664933594d8241e3ab76a95da",
+      "wire_request_body_sha256": "49b5f0a1ab1004e00022536cb72900f2d440a03bbe19b8c1ac58617af1f0c663",
+      "automatic_retries": 0
+    },
+    {
+      "case": "customer_invalid_format",
+      "tool": "get_customer_orders",
+      "input_json_types": {
+        "customer_id": "string"
+      },
+      "http_status": null,
+      "native_intermediate_types_observed": false,
+      "observation": "TIMEOUT",
+      "outcome": "UNKNOWN",
+      "timeout_seconds": 150,
+      "reason": "Client deadline reached; no validation rejection inferred.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 283.951,
+      "request_values": {
+        "customer_id": "C-123"
+      },
+      "raw_response_sha256": "9e2db027e0395d260876245c369f54655e6a272e5e10fbf10e5d7d095bd7ec8b",
+      "wire_request_body_sha256": "9cd9afeb4ae00ba5e738be2c31dbfbfde0d511a200ae962e7de77da1a29148f0",
+      "automatic_retries": 0
+    },
+    {
+      "case": "rank_valid",
+      "tool": "rank_open_orders",
+      "input_json_types": {
+        "limit": "number"
+      },
+      "http_status": 200,
+      "native_intermediate_types_observed": false,
+      "observation": "RETURNED_ROWS",
+      "outcome": "RETURNED",
+      "rows": 10,
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 25.617,
+      "request_values": {
+        "limit": 10
+      },
+      "raw_response_sha256": "372075e4ddd79c08a02273726a970aceedf153223f812ebb800858d672ea7895",
+      "wire_request_body_sha256": "09879da92a20cf355c7940846469219fffe290c596632593b49fab0c2b9a8676",
+      "automatic_retries": 0
+    },
+    {
+      "case": "rank_numeric_string",
+      "tool": "rank_open_orders",
+      "input_json_types": {
+        "limit": "string"
+      },
+      "http_status": 200,
+      "native_intermediate_types_observed": false,
+      "observation": "NUMERIC_STRING_ACCEPTED_WITH_CONFIGURED_SQL_CAST",
+      "outcome": "RETURNED",
+      "rows": 10,
+      "reason": "String input produced the same rows as the numeric baseline. SQL contains explicit TRY_CAST; native intermediate coercion is not visible.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 26.099,
+      "request_values": {
+        "limit": "10"
+      },
+      "raw_response_sha256": "898757ddeb04e823ae2d1cf494ba2005bfb0ba1e1cb120b18a60ba14c5f0fcff",
+      "wire_request_body_sha256": "85f51ed1c1a5894b81693510ef9943bc692224a2813d7c0c2c0bab2276d431d5",
+      "automatic_retries": 0
+    },
+    {
+      "case": "rank_fractional",
+      "tool": "rank_open_orders",
+      "input_json_types": {
+        "limit": "number"
+      },
+      "http_status": null,
+      "native_intermediate_types_observed": false,
+      "observation": "TRANSPORT_ERROR",
+      "outcome": "UNKNOWN",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 0.085,
+      "request_values": {
+        "limit": 10.5
+      },
+      "raw_response_sha256": "05f5d54e76678cb58ded9f138bc7268a082bf3d9e73893bf2f55c8318653d023",
+      "wire_request_body_sha256": "ce559e4b2a193deb98d2dd2d6ffc5941955d76c7380b47b4a76402d3def910f5",
+      "automatic_retries": 0
+    },
+    {
+      "case": "rank_excess",
+      "tool": "rank_open_orders",
+      "input_json_types": {
+        "limit": "number"
+      },
+      "http_status": null,
+      "native_intermediate_types_observed": false,
+      "observation": "TRANSPORT_ERROR",
+      "outcome": "UNKNOWN",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 0.084,
+      "request_values": {
+        "limit": 21
+      },
+      "raw_response_sha256": "734b1fb274d2b5221f26f8d151c56955b2e4c1e4867a061870dbc3f768c60737",
+      "wire_request_body_sha256": "1c05a2e5c3cf52becefacebe804300df2230304a78600212a4d55468e0b3b156",
+      "automatic_retries": 0
+    },
+    {
+      "case": "rank_zero",
+      "tool": "rank_open_orders",
+      "input_json_types": {
+        "limit": "number"
+      },
+      "http_status": null,
+      "native_intermediate_types_observed": false,
+      "observation": "TRANSPORT_ERROR",
+      "outcome": "UNKNOWN",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 0.049,
+      "request_values": {
+        "limit": 0
+      },
+      "raw_response_sha256": "7cbaff19b08667e2010fedec57096fc007f2d149697fdca573e45f3ed042bbf1",
+      "wire_request_body_sha256": "bc7b7179e502796fe2960b8d3a8fb344dbfa8e4a71bc4990a6492b7101236efc",
+      "automatic_retries": 0
+    },
+    {
+      "case": "rank_boolean",
+      "tool": "rank_open_orders",
+      "input_json_types": {
+        "limit": "boolean"
+      },
+      "http_status": null,
+      "native_intermediate_types_observed": false,
+      "observation": "TRANSPORT_ERROR",
+      "outcome": "UNKNOWN",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 0.05,
+      "request_values": {
+        "limit": true
+      },
+      "raw_response_sha256": "66c1d4d2b33afb605b1d35d56aeb96de5a752834750b54d85e5214ae91cb2ca0",
+      "wire_request_body_sha256": "a1c3c5c16710c5f9b7a9104c29a43354eb89ca40ab727758369cad1b76cd2028",
+      "automatic_retries": 0
+    },
+    {
+      "case": "rank_null",
+      "tool": "rank_open_orders",
+      "input_json_types": {
+        "limit": "null"
+      },
+      "http_status": null,
+      "native_intermediate_types_observed": false,
+      "observation": "TRANSPORT_ERROR",
+      "outcome": "UNKNOWN",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 0.041,
+      "request_values": {
+        "limit": null
+      },
+      "raw_response_sha256": "0ac294c81a5bee82401a8476fa3d3bdc6f021388b6914d57c4ebb86dc0456943",
+      "wire_request_body_sha256": "bb08791a450b0a1bf1a85da4d92832967160b0b2f0dc0f8e5e0637b645ce34c5",
+      "automatic_retries": 0
+    },
+    {
+      "case": "rank_omitted",
+      "tool": "rank_open_orders",
+      "input_json_types": {},
+      "http_status": 400,
+      "native_intermediate_types_observed": false,
+      "observation": "REJECTED_REQUEST",
+      "outcome": "REJECTED",
+      "error_code": "InvalidParameter",
+      "reason": "Native endpoint rejected the request; validation stage is not inferred from HTTP status alone.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 12.7,
+      "request_values": {},
+      "raw_response_sha256": "28ca998ea16f0427f16f6f0ab95eebbdbd09dbfec01a973f97907e1cacc8d9aa",
+      "wire_request_body_sha256": "140c2b9abdec64abaa316a52ce8b41cc8c60dd773eac64e6e343d03dafbaee98",
+      "automatic_retries": 0
+    },
+    {
+      "case": "rank_extra",
+      "tool": "rank_open_orders",
+      "input_json_types": {
+        "limit": "number",
+        "unexpected": "string"
+      },
+      "http_status": 200,
+      "native_intermediate_types_observed": false,
+      "observation": "EXTRA_ARGUMENT_NO_RESULT_EFFECT",
+      "outcome": "RETURNED",
+      "rows": 10,
+      "ignored_argument": "unexpected",
+      "reason": "The extra argument was accepted and produced identical visible rows; it was not rejected.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 26.384,
+      "request_values": {
+        "limit": 10,
+        "unexpected": "fixture-only"
+      },
+      "raw_response_sha256": "d99401ad285cc6f7261b8c9a53d8c77e747c1ea39793926eb88d72fb4785fec5",
+      "wire_request_body_sha256": "4360e6b61246b50c252c4cb6ccc90d5bbc87aff0a78447880721d7998dc119d7",
+      "automatic_retries": 0
+    },
+    {
+      "case": "summary_valid",
+      "tool": "risk_summary",
+      "input_json_types": {},
+      "http_status": 200,
+      "native_intermediate_types_observed": false,
+      "observation": "RETURNED_ROWS",
+      "outcome": "RETURNED",
+      "rows": 1,
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 25.904,
+      "request_values": {},
+      "raw_response_sha256": "bd69c1d5392e61feebb390a2e9d2ac58ed927d29246a4c9c9602a9d279c33483",
+      "wire_request_body_sha256": "539ee5c24df7bd14cfb0dca0ee66b0ba5750bb933f508cdfa5d0565e63dcbb7c",
+      "automatic_retries": 0
+    },
+    {
+      "case": "summary_extra",
+      "tool": "risk_summary",
+      "input_json_types": {
+        "unexpected": "string"
+      },
+      "http_status": 200,
+      "native_intermediate_types_observed": false,
+      "observation": "EXTRA_ARGUMENT_NO_RESULT_EFFECT",
+      "outcome": "RETURNED",
+      "rows": 1,
+      "ignored_argument": "unexpected",
+      "reason": "The extra argument was accepted and produced identical visible rows; it was not rejected.",
+      "graph_sha256": "f5a1ccdf07bb97f3e70e8475dcc6d5ed74b9f818b42eea9798fb77a23e3f86ef",
+      "elapsed_seconds": 27.444,
+      "request_values": {
+        "unexpected": "fixture-only"
+      },
+      "raw_response_sha256": "680548e892874abaef598310e1b1f587dac396c2bddcde231f5f6dc632be2e70",
+      "wire_request_body_sha256": "188b7e16c3704ec80efabeeccd7e1179a5a257a241f7b9903be2731cf374ae80",
+      "automatic_retries": 0
+    }
+  ],
+  "interpretation": "Timeout and transport/service error mean UNKNOWN. HTTP4xx proves request rejection, not its validation stage. Empty rows are not rejection. Identical baseline rows establish only observed result equivalence. Native intermediate types were not observed.",
+  "strict_parameter_validation_certified": false,
+  "AGENT_ACCEPTANCE_PASS": false,
+  "raw_evidence": "Protected existing local runtime outside Git; no headers, tokens, principal IDs or native configurations published",
+  "http_responses": 11,
+  "unknown_outcomes": 10
+}

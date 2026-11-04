@@ -1,0 +1,77 @@
+"""Native AIDP Custom Code adapter; integration must pass in the target workspace."""
+import json
+from aidputils.agents.tools.custom_tools.base import CustomToolBase
+from aidputils.agents.toolkit.configs import AIDPToolConf
+from aidputils.agents.toolkit.tool_helper import create_langgraph_tool
+from agent_queries import AgentSnapshot, TOOLS, native_sql_config
+
+
+def _version(value):
+    # Native static config values may arrive as strings after UI substitution.
+    if isinstance(value, str) and value.isascii() and value.isdigit():
+        return int(value)
+    if type(value) in (int, float) and value >= 0 and int(value) == value:
+        return int(value)
+    raise ValueError('Invalid pinned Delta version in native tool configuration')
+
+
+class _OperationsSql(CustomToolBase):
+    @classmethod
+    def _execute_tool(cls, conf, runtime_params, **context_vars):
+        config = conf.get('conf', conf)
+        snapshot = AgentSnapshot(_version(config['predictions_version']), _version(config['scoring_version']))
+        if any(not isinstance(config.get(k), str) or not config[k] for k in ('prediction_table_id', 'scoring_table_id')):
+            raise ValueError('Missing verified Delta table identity')
+        # All inputs are checked by native_sql_config before a tool/client exists.
+        sql = native_sql_config(config['sql_connection'], cls.operation, runtime_params, snapshot)
+        tool_conf = AIDPToolConf(name=cls.operation, description=TOOLS[cls.operation][0],
+                                tool_class='SQLTool', conf=sql, params=[])
+        result = create_langgraph_tool(tool_conf.model_dump()).invoke({})
+        # The native SQL tool also returns JSON-encoded error envelopes. A text
+        # representation must receive the same failure checks as a dictionary.
+        if isinstance(result, str):
+            try:
+                result = json.loads(result)
+            except ValueError:
+                pass
+        # Native failures must remain failures, never successful business answers.
+        if result is None or (isinstance(result, dict) and (
+                result.get('success') is False or result.get('isError') is True or result.get('error'))):
+            raise RuntimeError('Native SQL tool failed; no business answer is available')
+        return {'query_name': cls.operation, 'data': result,
+                'predictions_version': snapshot.predictions_version,
+                'scoring_version': snapshot.scoring_version,
+                'prediction_table': 'lakehouse_demo.gold.late_delivery_predictions',
+                'prediction_table_id': config['prediction_table_id'],
+                'scoring_table_id': config['scoring_table_id'],
+                'interpretation': 'Estimated acceptance-time risk; advisory, not business priority or observed outcome.'}
+
+
+@CustomToolBase.register
+class RiskSummary(_OperationsSql):
+    operation = 'risk_summary'
+
+
+@CustomToolBase.register
+class RankOpenOrders(_OperationsSql):
+    operation = 'rank_open_orders'
+
+
+@CustomToolBase.register
+class GetOrderRisk(_OperationsSql):
+    operation = 'get_order_risk'
+
+
+@CustomToolBase.register
+class GetCustomerOrders(_OperationsSql):
+    operation = 'get_customer_orders'
+
+
+@CustomToolBase.register
+class RiskByCarrier(_OperationsSql):
+    operation = 'risk_by_carrier'
+
+
+@CustomToolBase.register
+class RiskByRegion(_OperationsSql):
+    operation = 'risk_by_region'
